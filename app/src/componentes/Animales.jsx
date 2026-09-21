@@ -21,21 +21,30 @@ const PALETA = {
     gato:   { cuerpo: '#f2a65a', claro: '#ffd9a8', oscuro: '#c97f39' },
     perro:  { cuerpo: '#c88b5e', claro: '#f0cba6', oscuro: '#9c6540' },
     ciervo: { cuerpo: '#c58a5a', claro: '#f3d3a8', oscuro: '#96603a' },
-    conejo: { cuerpo: '#f5ece0', claro: '#ffffff', oscuro: '#d4c2ad' },
+    conejo:  { cuerpo: '#f5ece0', claro: '#ffffff', oscuro: '#d4c2ad' },
+    ardilla: { cuerpo: '#d9763f', claro: '#ffd7ae', oscuro: '#a9531f' },
+    erizo:   { cuerpo: '#a8754e', claro: '#f0cfa8', oscuro: '#6e4527' },
+    pajaro:  { cuerpo: '#5fa3d4', claro: '#ffe08a', oscuro: '#36709c' },
     trazo:  '#6b4327',
   },
   atardecer: {
     gato:   { cuerpo: '#e08a4a', claro: '#ffc98c', oscuro: '#a85f2c' },
     perro:  { cuerpo: '#b0714a', claro: '#e0ad82', oscuro: '#824f31' },
     ciervo: { cuerpo: '#b0714a', claro: '#e5bd91', oscuro: '#7d4c2c' },
-    conejo: { cuerpo: '#efd9c4', claro: '#fff0e0', oscuro: '#c2a288' },
+    conejo:  { cuerpo: '#efd9c4', claro: '#fff0e0', oscuro: '#c2a288' },
+    ardilla: { cuerpo: '#c2673a', claro: '#f0bf94', oscuro: '#8e441b' },
+    erizo:   { cuerpo: '#956544', claro: '#dbb68f', oscuro: '#5e3a21' },
+    pajaro:  { cuerpo: '#548fb8', claro: '#f2cb7e', oscuro: '#2f6084' },
     trazo:  '#5b3520',
   },
   noche: {
     gato:   { cuerpo: '#6a5f7e', claro: '#a294bd', oscuro: '#463e57' },
     perro:  { cuerpo: '#5f5570', claro: '#948aa8', oscuro: '#3f3850' },
     ciervo: { cuerpo: '#655a76', claro: '#9c8fb5', oscuro: '#433b52' },
-    conejo: { cuerpo: '#b9b2c9', claro: '#ded8e8', oscuro: '#8b83a0' },
+    conejo:  { cuerpo: '#b9b2c9', claro: '#ded8e8', oscuro: '#8b83a0' },
+    ardilla: { cuerpo: '#6d5a72', claro: '#a794ad', oscuro: '#4a3c50' },
+    erizo:   { cuerpo: '#5d5165', claro: '#968aa0', oscuro: '#3d3443' },
+    pajaro:  { cuerpo: '#4d5a84', claro: '#9aa4c4', oscuro: '#333d5e' },
     trazo:  '#2a2438',
   },
 }
@@ -190,6 +199,91 @@ function Conejo({ c, trazo }) {
   )
 }
 
+
+/* ------------------------------------------------------------------
+   Ardilla — sentada, con la cola levantada
+------------------------------------------------------------------ */
+function Ardilla({ c, trazo }) {
+  return (
+    <svg viewBox="0 0 54 56" style={{ width: '100%', height: '100%', overflow: 'visible' }}>
+      <ellipse cx="28" cy="53" rx="15" ry="2.8" fill="#000" opacity=".15" />
+
+      {/* La cola es casi tan grande como ella: es lo que la hace ardilla */}
+      <g style={{ animation: 'colaArdilla 3.2s ease-in-out infinite', transformOrigin: '18px 48px', transformBox: 'view-box' }}>
+        <path d="M18 48C6 46 2 30 12 18C18 11 26 12 27 18C22 19 15 26 16 36C16.6 42 18 45 18 48Z" fill={c.cuerpo} />
+        <path d="M17 44C10 38 10 27 17 20C21 16 25 16 25.6 19C20 22 15 29 16 38C16.3 41 16.7 43 17 44Z" fill={c.claro} opacity=".6" />
+      </g>
+
+      <g style={{ animation: 'respiraAnimal 2.8s ease-in-out infinite', transformOrigin: '30px 50px', transformBox: 'view-box' }}>
+        <ellipse cx="31" cy="42" rx="11" ry="10" fill={c.cuerpo} />
+        <ellipse cx="32" cy="45" rx="7" ry="6" fill={c.claro} opacity=".75" />
+        <g style={{ animation: 'ardillaRoe 4.2s ease-in-out infinite', transformOrigin: '33px 36px', transformBox: 'view-box' }}>
+          <circle cx="34" cy="28" r="9" fill={c.cuerpo} />
+          <ellipse cx="38" cy="31" rx="5" ry="4" fill={c.claro} />
+          <path d="M28 21L26.5 14L33 18Z" fill={c.oscuro} />
+          <path d="M39 20L42 14L44 21Z" fill={c.oscuro} />
+          <circle cx="37" cy="26" r="1.6" fill={trazo} />
+          <circle cx="30.5" cy="26" r="1.4" fill={trazo} />
+          <ellipse cx="41" cy="30" rx="1.5" ry="1.2" fill={trazo} />
+          {/* La bellota que sostiene entre las patas */}
+          <ellipse cx="37" cy="37" rx="3.4" ry="3" fill="#b5813f" />
+          <path d="M33.8 35.6C34.6 34 39.4 34 40.2 35.6Z" fill="#7d5526" />
+        </g>
+      </g>
+    </svg>
+  )
+}
+
+/* ------------------------------------------------------------------
+   Erizo — husmeando entre la hierba
+------------------------------------------------------------------ */
+function Erizo({ c, trazo }) {
+  // Las púas se generan por ángulo para que salgan parejas del lomo.
+  const puas = Array.from({ length: 13 }, (_, i) => {
+    const a = Math.PI * (0.06 + (i / 12) * 0.88)
+    const cx = 26, cy = 34, r = 15
+    const x1 = cx - Math.cos(a) * r, y1 = cy - Math.sin(a) * r
+    const x2 = cx - Math.cos(a) * (r + 7), y2 = cy - Math.sin(a) * (r + 7)
+    return `M${x1.toFixed(1)} ${y1.toFixed(1)}L${x2.toFixed(1)} ${y2.toFixed(1)}`
+  })
+
+  return (
+    <svg viewBox="0 0 56 46" style={{ width: '100%', height: '100%', overflow: 'visible' }}>
+      <ellipse cx="27" cy="43" rx="16" ry="2.6" fill="#000" opacity=".15" />
+      <g style={{ animation: 'erizoHusmea 5.4s ease-in-out infinite', transformOrigin: '27px 42px', transformBox: 'view-box' }}>
+        {puas.map((d, i) => (
+          <path key={i} d={d} stroke={c.oscuro} strokeWidth="2.6" strokeLinecap="round" fill="none" />
+        ))}
+        <ellipse cx="26" cy="35" rx="16" ry="12" fill={c.cuerpo} />
+        <ellipse cx="26" cy="38" rx="12" ry="7" fill={c.claro} opacity=".55" />
+        <path d="M40 33C48 33 52 37 52 40C52 42 48 43 43 42C40 41.4 39 38 40 33Z" fill={c.claro} />
+        <circle cx="51" cy="39.5" r="1.7" fill={trazo} />
+        <circle cx="44" cy="35" r="1.5" fill={trazo} />
+      </g>
+    </svg>
+  )
+}
+
+/* ------------------------------------------------------------------
+   Pajarito — picoteando el suelo
+------------------------------------------------------------------ */
+function Pajaro({ c, trazo }) {
+  return (
+    <svg viewBox="0 0 38 40" style={{ width: '100%', height: '100%', overflow: 'visible' }}>
+      <ellipse cx="19" cy="38" rx="10" ry="2.2" fill="#000" opacity=".15" />
+      <path d="M15 32V37M22 32V37" stroke={c.oscuro} strokeWidth="1.8" strokeLinecap="round" />
+      <g style={{ animation: 'pajaroPicotea 3.4s ease-in-out infinite', transformOrigin: '19px 34px', transformBox: 'view-box' }}>
+        <ellipse cx="19" cy="24" rx="11" ry="9.5" fill={c.cuerpo} />
+        <ellipse cx="17" cy="27" rx="7" ry="5.5" fill={c.claro} opacity=".8" />
+        <path d="M28 21C33 20 35 25 31 28C28 29 26 26 28 21Z" fill={c.oscuro} opacity=".8" />
+        <circle cx="12" cy="17" r="7" fill={c.cuerpo} />
+        <circle cx="10" cy="16" r="1.6" fill={trazo} />
+        <path d="M5.5 18L0.5 20L5.5 22Z" fill="#e8a33c" />
+      </g>
+    </svg>
+  )
+}
+
 /* ------------------------------------------------------------------
    Colocación
 
@@ -205,10 +299,14 @@ const REPARTO = [
   // [componente, especie, izquierda, altura, ancho, pasto a los pies, retardo]
   // Todos por debajo del 30%: la colina más alta baja hasta el 39% en las
   // hondonadas, y por encima de eso quedarían en el aire.
-  { Quien: Ciervo, especie: 'ciervo', izq: '3%',  abajo: '27%', ancho: 46, pasto: 42, capa: 0, retardo: '0s' },
-  { Quien: Gato,   especie: 'gato',   izq: '80%', abajo: '24%', ancho: 38, pasto: 36, capa: 1, retardo: '-1.3s' },
-  { Quien: Perro,  especie: 'perro',  izq: '26%', abajo: '19%', ancho: 44, pasto: 42, capa: 1, retardo: '-0.7s' },
-  { Quien: Conejo, especie: 'conejo', izq: '62%', abajo: '13%', ancho: 30, pasto: 30, capa: 2, retardo: '-2.1s' },
+  { Quien: Ciervo,  especie: 'ciervo',  izq: '2%',  abajo: '28%', ancho: 44, pasto: 40, capa: 0, retardo: '0s' },
+  { Quien: Pajaro,  especie: 'pajaro',  izq: '44%', abajo: '29%', ancho: 22, pasto: 22, capa: 0, retardo: '-1.8s' },
+  { Quien: Ardilla, especie: 'ardilla', izq: '70%', abajo: '27%', ancho: 30, pasto: 28, capa: 0, retardo: '-3.2s' },
+  { Quien: Gato,    especie: 'gato',    izq: '86%', abajo: '21%', ancho: 36, pasto: 34, capa: 1, retardo: '-1.3s' },
+  { Quien: Perro,   especie: 'perro',   izq: '22%', abajo: '19%', ancho: 44, pasto: 42, capa: 1, retardo: '-0.7s' },
+  { Quien: Erizo,   especie: 'erizo',   izq: '55%', abajo: '17%', ancho: 34, pasto: 32, capa: 1, retardo: '-2.6s' },
+  { Quien: Conejo,  especie: 'conejo',  izq: '8%',  abajo: '11%', ancho: 30, pasto: 30, capa: 2, retardo: '-2.1s' },
+  { Quien: Pajaro,  especie: 'pajaro2', izq: '76%', abajo: '9%',  ancho: 26, pasto: 26, capa: 2, retardo: '-0.4s' },
 ]
 
 export default function Animales({ ambiente = 'dia' }) {
@@ -230,7 +328,7 @@ export default function Animales({ ambiente = 'dia' }) {
             // Son habitantes, no protagonistas: se quedan detrás de las flores.
             opacity: ambiente === 'noche' ? 0.62 : 0.72,
           }}>
-            <Quien c={paleta[especie]} trazo={paleta.trazo} />
+            <Quien c={paleta[especie.replace(/\d+$/, '')]} trazo={paleta.trazo} />
           </div>
 
           {/* La mata que come, delante de las patas: tapa el contacto con

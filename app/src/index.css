@@ -266,3 +266,37 @@ input::placeholder { color: rgba(90, 58, 28, .35); }
   54%       { transform: rotate(16deg) translateY(4px) }
   66%, 100% { transform: rotate(0deg) translateY(0) }
 }
+
+/* Los habitantes nuevos */
+@keyframes colaArdilla { 0%,100% { transform: rotate(-5deg) } 50% { transform: rotate(7deg) } }
+
+/* La ardilla roe la bellota a mordiscos rápidos y descansa */
+@keyframes ardillaRoe {
+  0%, 30%, 100% { transform: rotate(0deg) translateY(0) }
+  36% { transform: rotate(6deg) translateY(1.5px) }
+  42% { transform: rotate(2deg) translateY(0) }
+  48% { transform: rotate(6deg) translateY(1.5px) }
+  54% { transform: rotate(2deg) translateY(0) }
+  60% { transform: rotate(6deg) translateY(1.5px) }
+  70% { transform: rotate(0deg) translateY(0) }
+}
+
+/* El erizo avanza husmeando: dos pasitos cortos y para */
+@keyframes erizoHusmea {
+  0%, 100% { transform: translateX(0) rotate(0deg) }
+  20% { transform: translateX(4px) rotate(1.5deg) }
+  34% { transform: translateX(6px) rotate(-1deg) }
+  52% { transform: translateX(10px) rotate(1deg) }
+  74% { transform: translateX(5px) rotate(-1.5deg) }
+}
+
+/* El pájaro picotea el suelo en tandas */
+@keyframes pajaroPicotea {
+  0%, 22%, 100% { transform: rotate(0deg) translateY(0) }
+  30% { transform: rotate(24deg) translateY(4px) }
+  38% { transform: rotate(6deg) translateY(1px) }
+  46% { transform: rotate(24deg) translateY(4px) }
+  54% { transform: rotate(6deg) translateY(1px) }
+  62% { transform: rotate(24deg) translateY(4px) }
+  74% { transform: rotate(0deg) translateY(0) }
+}

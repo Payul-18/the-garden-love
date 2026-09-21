@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Flor from './Flor'
+import { CAPAS } from '../lib/capas'
 import { describirFlor } from '../lib/colores'
 
 /**
@@ -36,7 +37,7 @@ export default function FichaFlor({ flor, onCerrar }) {
   return (
     <div style={{
       position: 'absolute', inset: 0, background: 'rgba(16,12,8,.5)', backdropFilter: 'blur(3px)',
-      display: 'flex', alignItems: 'flex-end', zIndex: 10,
+      display: 'flex', alignItems: 'flex-end', zIndex: CAPAS.ficha,
       animation: saliendo
         ? `fichaSale ${SALIDA}ms ease both`
         : 'apareceSuave .35s ease both',

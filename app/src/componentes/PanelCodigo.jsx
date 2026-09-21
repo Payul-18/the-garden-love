@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import Casillas from './Casillas'
+import { CAPAS } from '../lib/capas'
 
 /**
  * PanelCodigo — la hoja inferior donde ella escribe el código de la tarjetita.
@@ -42,7 +43,7 @@ export default function PanelCodigo({ abierto, sinFlores, shakeAnim, onAbrir, on
     return (
       <div style={{
         position: 'absolute', left: 0, right: 0, bottom: 0, padding: '0 20px 34px',
-        display: 'flex', justifyContent: 'center',
+        display: 'flex', justifyContent: 'center', zIndex: CAPAS.panel,
         background: 'linear-gradient(180deg,rgba(40,28,16,0) 0%,rgba(40,28,16,.45) 70%)',
       }}>
         <button onClick={onAbrir} style={{
@@ -63,7 +64,7 @@ export default function PanelCodigo({ abierto, sinFlores, shakeAnim, onAbrir, on
 
   return (
     <div ref={caja} style={{
-      position: 'absolute', left: 0, right: 0, bottom: 0, padding: '14px 20px 26px',
+      position: 'absolute', left: 0, right: 0, bottom: 0, padding: '14px 20px 26px', zIndex: CAPAS.panel,
       background: 'linear-gradient(180deg,rgba(74,50,28,0) 0%,rgba(74,50,28,.72) 22%,rgba(56,37,20,.92) 100%)',
       borderRadius: '30px 30px 0 0', boxShadow: '0 -10px 30px rgba(0,0,0,.35)',
       animation: saliendo

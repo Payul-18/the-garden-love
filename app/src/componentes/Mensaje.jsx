@@ -17,6 +17,8 @@ const TONOS = {
   logro: { texto: '#2c5518', tinte: 'rgba(214,244,190,.42)', borde: 'rgba(226,248,206,.78)' },
 }
 
+import { CAPAS } from '../lib/capas'
+
 export default function Mensaje({ texto, tono = 'aviso', abajo = 130 }) {
   if (!texto) return null
   const t = TONOS[tono] ?? TONOS.aviso
@@ -27,7 +29,7 @@ export default function Mensaje({ texto, tono = 'aviso', abajo = 130 }) {
       display: 'flex', justifyContent: 'center',
       pointerEvents: 'none',
       // Por encima del panel del código y de cualquier capa del jardín.
-      zIndex: 40,
+      zIndex: CAPAS.mensaje,
     }}>
       <div
         className="vidrio"
