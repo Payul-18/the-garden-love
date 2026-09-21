@@ -203,10 +203,12 @@ function Conejo({ c, trazo }) {
 ------------------------------------------------------------------ */
 const REPARTO = [
   // [componente, especie, izquierda, altura, ancho, pasto a los pies, retardo]
-  { Quien: Ciervo, especie: 'ciervo', izq: '4%',  abajo: '36%', ancho: 58, pasto: 52, capa: 0, retardo: '0s' },
-  { Quien: Gato,   especie: 'gato',   izq: '74%', abajo: '31%', ancho: 50, pasto: 46, capa: 1, retardo: '-1.3s' },
-  { Quien: Perro,  especie: 'perro',  izq: '24%', abajo: '25%', ancho: 58, pasto: 54, capa: 1, retardo: '-0.7s' },
-  { Quien: Conejo, especie: 'conejo', izq: '58%', abajo: '20%', ancho: 40, pasto: 40, capa: 2, retardo: '-2.1s' },
+  // Todos por debajo del 30%: la colina más alta baja hasta el 39% en las
+  // hondonadas, y por encima de eso quedarían en el aire.
+  { Quien: Ciervo, especie: 'ciervo', izq: '3%',  abajo: '27%', ancho: 46, pasto: 42, capa: 0, retardo: '0s' },
+  { Quien: Gato,   especie: 'gato',   izq: '80%', abajo: '24%', ancho: 38, pasto: 36, capa: 1, retardo: '-1.3s' },
+  { Quien: Perro,  especie: 'perro',  izq: '26%', abajo: '19%', ancho: 44, pasto: 42, capa: 1, retardo: '-0.7s' },
+  { Quien: Conejo, especie: 'conejo', izq: '62%', abajo: '13%', ancho: 30, pasto: 30, capa: 2, retardo: '-2.1s' },
 ]
 
 export default function Animales({ ambiente = 'dia' }) {
@@ -225,7 +227,8 @@ export default function Animales({ ambiente = 'dia' }) {
             filter: ambiente === 'noche'
               ? 'drop-shadow(0 2px 6px rgba(0,0,0,.5))'
               : 'drop-shadow(0 2px 5px rgba(40,60,30,.28))',
-            opacity: ambiente === 'noche' ? 0.88 : 1,
+            // Son habitantes, no protagonistas: se quedan detrás de las flores.
+            opacity: ambiente === 'noche' ? 0.62 : 0.72,
           }}>
             <Quien c={paleta[especie]} trazo={paleta.trazo} />
           </div>
@@ -239,6 +242,7 @@ export default function Animales({ ambiente = 'dia' }) {
             transformOrigin: 'bottom center',
             animation: 'pastoMece 3.4s ease-in-out infinite',
             animationDelay: retardo,
+            opacity: 0.6,
           }}>
             <Mata color={verdes[capa]} ancho={pasto} alto={pasto * 0.52} briznas={5} />
           </div>

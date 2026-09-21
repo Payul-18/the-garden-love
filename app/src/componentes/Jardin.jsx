@@ -50,16 +50,32 @@ export default function Jardin({
       {ambiente === 'atardecer' && <CieloAtardecer />}
       {ambiente === 'noche' && <CieloNoche />}
 
-      {/* Relieve del suelo: sin esto el prado es un degradado liso */}
-      <Pasto ambiente={ambiente} />
+      {/* Segundo plano: pasto y animales comparten una capa ligeramente
+          desenfocada y desaturada. El desenfoque es lo que de verdad los
+          manda al fondo y deja que las flores sean lo único nítido. */}
+      <div style={{
+        position: 'absolute', inset: 0, pointerEvents: 'none',
+        filter: 'blur(1.4px) saturate(.7) brightness(.92)',
+      }}>
+        <Pasto ambiente={ambiente} />
+        <Animales ambiente={ambiente} />
+      </div>
 
-      {/* Habitantes del prado: van detrás de las flores y no se pueden tocar */}
-      <Animales ambiente={ambiente} />
+      {/* Sombra al pie del prado: asienta las flores y las separa del fondo */}
+      <div style={{
+        position: 'absolute', left: 0, right: 0, bottom: 0, height: '42%',
+        background: 'linear-gradient(180deg,rgba(12,22,14,0) 0%,rgba(12,22,14,.16) 55%,rgba(10,18,12,.34) 100%)',
+        pointerEvents: 'none',
+      }} />
 
       <div style={{
         position: 'absolute', left: 0, right: 0, bottom: zocalo,
         display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
         gap: 4, padding: '0 12px 14px',
+        // Por encima del segundo plano: las flores son lo protagonista.
+        zIndex: 3,
+        // Un contorno oscuro muy leve las recorta del verde del fondo.
+        filter: 'drop-shadow(0 2px 3px rgba(20,40,20,.45))',
       }}>
 
         {vacio && <TierraVacia texto={textoVacio} />}
@@ -196,7 +212,7 @@ function CieloDia() {
     <>
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,#5fc0f0 0%,#8fd8f7 38%,#c4ecfb 66%,#e8f7e4 82%)' }} />
       <div style={{
-        position: 'absolute', top: 46, right: 38, width: 84, height: 84, borderRadius: '50%',
+        position: 'absolute', top: 132, right: 34, width: 88, height: 88, borderRadius: '50%',
         background: 'radial-gradient(circle at 42% 38%,#fffdf0 0%,#ffe9a0 46%,rgba(255,220,130,.35) 70%,rgba(255,220,130,0) 100%)',
         animation: 'jSol 6s ease-in-out infinite',
       }} />
@@ -206,6 +222,11 @@ function CieloDia() {
       <Nube top={38} dur={96} delay="-58s" ancho={58} alto={14} opacidad={.55} sombra="16px -6px 0 -4px #fff" />
       <Nube top={216} dur={112} delay="-14s" ancho={64} alto={13} opacidad={.42} sombra="18px -5px 0 -4px #fff" />
       <Nube top={258} dur={88} delay="-70s" ancho={50} alto={12} opacidad={.5} sombra="14px -5px 0 -4px #fff" />
+      <Nube top={16} dur={64} delay="-20s" ancho={84} alto={24} opacidad={.88} sombra="24px -11px 0 -3px #fff, -18px -5px 0 -6px #fff" />
+      <Nube top={106} dur={70} delay="-45s" ancho={76} alto={20} opacidad={.7} sombra="22px -8px 0 -4px #fff, -16px -4px 0 -6px #fff" />
+      <Nube top={196} dur={100} delay="-8s" ancho={62} alto={16} opacidad={.6} sombra="18px -7px 0 -4px #fff" />
+      <Nube top={56} dur={120} delay="-90s" ancho={54} alto={13} opacidad={.45} sombra="15px -5px 0 -4px #fff" />
+      <Nube top={236} dur={92} delay="-52s" ancho={68} alto={15} opacidad={.42} sombra="19px -6px 0 -4px #fff" />
 
       <div style={{ position: 'absolute', top: 112, left: 0, right: 0, animation: 'jAve 34s linear infinite' }}>
         <svg width="86" height="30" viewBox="0 0 86 30" style={{ overflow: 'visible', opacity: .55 }}>
@@ -249,6 +270,10 @@ function CieloAtardecer() {
 
       <Nube top={96} dur={74} delay="0s" ancho={104} alto={20} color="#ffb9a6" opacidad={.75} sombra="30px -8px 0 -4px #ffc7b0, -24px -4px 0 -7px #ff9f96" />
       <Nube top={158} dur={96} delay="-40s" ancho={80} alto={16} color="#ffd0b0" opacidad={.6} sombra="22px -7px 0 -4px #ffd8bb" />
+      <Nube top={30} dur={82} delay="-12s" ancho={92} alto={18} color="#e8a396" opacidad={.6} sombra="26px -7px 0 -4px #f2b2a2, -20px -4px 0 -7px #d98f8c" />
+      <Nube top={64} dur={108} delay="-64s" ancho={70} alto={14} color="#ffc2a8" opacidad={.5} sombra="20px -6px 0 -4px #ffcdb4" />
+      <Nube top={196} dur={120} delay="-30s" ancho={86} alto={15} color="#ffd8bb" opacidad={.45} sombra="24px -5px 0 -4px #ffe0c8" />
+      <Nube top={126} dur={140} delay="-86s" ancho={60} alto={12} color="#f7b9a4" opacidad={.38} sombra="17px -5px 0 -4px #f7c3b0" />
 
       <div style={{ position: 'absolute', top: 130, left: 0, right: 0, animation: 'jAve 40s linear infinite' }}>
         <svg width="96" height="34" viewBox="0 0 96 34" style={{ overflow: 'visible', opacity: .62 }}>
@@ -294,13 +319,16 @@ function CieloNoche() {
     <>
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,#0a1130 0%,#1b1a4a 34%,#38265f 62%,#5b3b6e 84%)' }} />
       <div style={{
-        position: 'absolute', top: 150, left: 38, width: 58, height: 58, borderRadius: '50%',
+        position: 'absolute', top: 222, left: 34, width: 62, height: 62, borderRadius: '50%',
         background: 'radial-gradient(circle at 38% 34%,#fffdf0 0%,#f3ecc9 52%,rgba(243,236,201,.25) 72%,rgba(243,236,201,0) 100%)',
         animation: 'jSol 9s ease-in-out infinite',
       }} />
 
       <Nube top={106} dur={120} delay="-40s" ancho={96} alto={14} color="#6b5f9a" opacidad={.45} sombra="26px -6px 0 -4px #6b5f9a, -20px -3px 0 -6px #5b5188" />
       <Nube top={236} dur={150} delay="0s" ancho={74} alto={12} color="#7a6aa8" opacidad={.32} sombra="20px -5px 0 -4px #7a6aa8" />
+      <Nube top={44} dur={134} delay="-70s" ancho={88} alto={13} color="#5d5286" opacidad={.38} sombra="24px -6px 0 -4px #5d5286, -18px -3px 0 -6px #514879" />
+      <Nube top={166} dur={168} delay="-24s" ancho={66} alto={11} color="#6f619b" opacidad={.3} sombra="18px -5px 0 -4px #6f619b" />
+      <Nube top={286} dur={190} delay="-110s" ancho={78} alto={12} color="#7a6aa8" opacidad={.26} sombra="21px -5px 0 -4px #7a6aa8" />
 
       <div style={{ position: 'absolute', top: 76, right: 26, width: 88, height: 2, borderRadius: 2, background: 'linear-gradient(90deg,rgba(255,255,255,0),#fff8e0)', transformOrigin: '100% 50%', animation: 'jFugaz 14s linear infinite' }} />
       <div style={{ position: 'absolute', top: 190, right: -10, width: 64, height: 2, borderRadius: 2, background: 'linear-gradient(90deg,rgba(255,255,255,0),#e8f0ff)', transformOrigin: '100% 50%', animation: 'jFugaz 21s linear infinite', animationDelay: '-9s' }} />

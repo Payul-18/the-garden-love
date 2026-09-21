@@ -205,7 +205,9 @@ export default function JardinDeGabriela() {
           <Jardin
             ambiente={ambiente}
             flores={floresDelAnio}
-            zocalo={panel ? '244px' : '112px'}
+            // El prado no se mueve al abrir el panel: antes las flores
+            // saltaban hacia arriba. La hoja del código pasa por delante.
+            zocalo="112px"
             resaltada={resaltada}
             onTocarFlor={setSel}
             textoVacio={textoVacio}
