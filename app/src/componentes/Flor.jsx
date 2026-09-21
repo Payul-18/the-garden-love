@@ -172,51 +172,52 @@ export default function Flor({
               <path d="M73 100C77 91 78 82 76 74C72 82 70 91 70 100Z" fill={hojaD} />
               <path d="M60 104C58 95 58 87 60 80C62 87 62 95 60 104Z" fill={hojaD} />
 
-              {/* Silueta del capullo */}
-              <path d="M60 104C40 100 31 82 32 61C33 41 45 26 60 26C75 26 87 41 88 61C89 82 80 100 60 104Z" fill={pd} />
+              {/* Silueta en copa: estrecha en la base y abierta arriba.
+                  Una rosa recién abierta se ensancha hacia la boca; cerrada
+                  en huevo parecía un capullo sin abrir. */}
+              <path d="M60 104C38 100 26 82 26 60C26 40 40 24 60 24C80 24 94 40 94 60C94 82 82 100 60 104Z" fill={pd} />
 
               {/* --- Los pétalos, en franjas VERTICALES ---
-                  Cada uno baja entero desde arriba hasta la base del capullo,
-                  como las hojas de una cebolla. Antes estaban dispuestos en
-                  corona alrededor de un centro, y eso es una flor vista desde
-                  arriba; una rosa de perfil se lee por estas costuras que
-                  recorren la flor de arriba abajo. */}
+                  Cada uno baja entero desde el borde hasta la base, y arriba
+                  se abre hacia fuera. Ese vuelco del borde es lo que hace que
+                  la flor se vea fresca y no un botón cerrado. */}
 
-              {/* Franja exterior izquierda */}
-              <path d="M32 62C32 43 41 28 54 25C46 40 42 54 42 70C42 87 46 97 53 104C40 99 32 81 32 62Z" fill={p} />
+              {/* Franja exterior izquierda, volcada hacia fuera */}
+              <path d="M52 104C38 99 28 82 26 60C24 44 29 32 38 26C34 38 33 52 34 68C35 86 43 98 52 104Z" fill={p} />
               {/* Franja exterior derecha */}
-              <path d="M88 62C88 43 79 28 66 25C74 40 78 54 78 70C78 87 74 97 67 104C80 99 88 81 88 62Z" fill={p} />
-              <path d="M88 62C88 45 80 31 68 26C76 41 79 55 79 71C79 88 75 98 69 104C81 99 88 80 88 62Z" fill={pd} opacity=".4" />
+              <path d="M68 104C82 99 92 82 94 60C96 44 91 32 82 26C86 38 87 52 86 68C85 86 77 98 68 104Z" fill={p} />
+              <path d="M68 104C80 99 90 82 92 60C94 45 90 33 83 27C86 39 88 53 87 69C86 86 78 98 68 104Z" fill={pd} opacity=".38" />
 
               {/* Franja media izquierda */}
-              <path d="M43 70C43 51 48 36 57 28C52 43 49 56 49 71C49 87 51 97 56 104C47 98 43 86 43 70Z" fill={`url(#${gPetalo})`} />
+              <path d="M55 104C44 99 37 85 36 68C35 52 40 37 49 29C45 41 44 54 45 70C46 87 50 98 55 104Z" fill={`url(#${gPetalo})`} />
               {/* Franja media derecha */}
-              <path d="M77 70C77 51 72 36 63 28C68 43 71 56 71 71C71 87 69 97 64 104C73 98 77 86 77 70Z" fill={`url(#${gPetalo})`} />
-              <path d="M77 70C77 53 73 38 65 29C70 44 72 57 72 72C72 88 70 98 66 104C74 98 77 85 77 70Z" fill={pd} opacity=".3" />
+              <path d="M65 104C76 99 83 85 84 68C85 52 80 37 71 29C75 41 76 54 75 70C74 87 70 98 65 104Z" fill={`url(#${gPetalo})`} />
+              <path d="M65 104C74 99 82 85 83 68C84 53 80 38 72 30C75 42 77 55 76 71C75 87 71 98 65 104Z" fill={pd} opacity=".28" />
 
-              {/* Franja central: la más alta y la más iluminada */}
-              <path d="M60 26C68 35 72 51 72 70C72 88 68 98 60 105C52 98 48 88 48 70C48 51 52 35 60 26Z" fill={pl} />
-              <path d="M60 30C66 38 69 52 69 70C69 87 66 96 60 103C60 79 60 54 60 30Z" fill={p} opacity=".55" />
+              {/* Franja central, la más iluminada */}
+              <path d="M60 32C68 41 72 55 72 71C72 88 67 98 60 105C53 98 48 88 48 71C48 55 52 41 60 32Z" fill={pl} />
+              <path d="M60 36C66 44 69 56 69 71C69 87 66 96 60 103C60 80 60 58 60 36Z" fill={p} opacity=".5" />
 
-              {/* Costuras: las líneas verticales donde una franja monta sobre
-                  la siguiente. Son las que dan el volumen del capullo. */}
-              <path d="M42 70C42 53 46 38 54 27" fill="none" stroke={pd} strokeWidth="1.5" strokeLinecap="round" opacity=".45" />
-              <path d="M78 70C78 53 74 38 66 27" fill="none" stroke={pd} strokeWidth="1.5" strokeLinecap="round" opacity=".45" />
-              <path d="M49 71C49 55 52 41 58 30" fill="none" stroke={pd} strokeWidth="1.3" strokeLinecap="round" opacity=".35" />
-              <path d="M71 71C71 55 68 41 62 30" fill="none" stroke={pd} strokeWidth="1.3" strokeLinecap="round" opacity=".35" />
+              {/* Costuras: donde una franja monta sobre la siguiente */}
+              <path d="M34 68C33 52 34 38 38 27" fill="none" stroke={pd} strokeWidth="1.5" strokeLinecap="round" opacity=".45" />
+              <path d="M86 68C87 52 86 38 82 27" fill="none" stroke={pd} strokeWidth="1.5" strokeLinecap="round" opacity=".45" />
+              <path d="M45 70C44 54 45 41 49 29" fill="none" stroke={pd} strokeWidth="1.3" strokeLinecap="round" opacity=".35" />
+              <path d="M75 70C76 54 75 41 71 29" fill="none" stroke={pd} strokeWidth="1.3" strokeLinecap="round" opacity=".35" />
 
-              {/* Bordes rizados, arriba, donde cada franja se abre */}
-              <path d="M32 58C33 42 41 29 54 25" fill="none" stroke={pl} strokeWidth="2.6" strokeLinecap="round" opacity=".6" />
-              <path d="M43 64C44 48 49 36 57 28" fill="none" stroke={pl} strokeWidth="2.2" strokeLinecap="round" opacity=".5" />
-              <path d="M88 58C87 42 79 29 66 25" fill="none" stroke={pl} strokeWidth="2.2" strokeLinecap="round" opacity=".35" />
+              {/* Los bordes vueltos de cada franja, arriba */}
+              <path d="M26 56C24 42 29 31 38 26" fill="none" stroke={pl} strokeWidth="2.8" strokeLinecap="round" opacity=".6" />
+              <path d="M36 66C35 51 40 37 49 29" fill="none" stroke={pl} strokeWidth="2.2" strokeLinecap="round" opacity=".5" />
+              <path d="M94 56C96 42 91 31 82 26" fill="none" stroke={pl} strokeWidth="2.4" strokeLinecap="round" opacity=".38" />
+              <path d="M84 66C85 51 80 37 71 29" fill="none" stroke={pl} strokeWidth="2" strokeLinecap="round" opacity=".3" />
 
-              {/* El remolino del remate, pequeño y arriba del todo */}
-              <path d="M60 28C55 34 53 41 56 46C59 50 65 48 65 43C65 39 62 37 60 39" fill="none"
-                    stroke={pd} strokeWidth="2" strokeLinecap="round" opacity=".7" />
-              <path d="M60 32C57 37 56 42 58 45" fill="none" stroke={pl} strokeWidth="1.6" strokeLinecap="round" opacity=".6" />
+              {/* El corazón, ahora visible porque la flor está abierta */}
+              <path d="M60 38C55 44 53 51 56 56C59 60 65 58 65 53C65 49 62 47 60 49Z" fill={p} />
+              <path d="M60 42C57 46 56 51 58 54C61 56 64 55 64 52C64 50 62 49 60 50Z" fill={pl} />
+              <path d="M60 34C53 42 50 51 54 57C58 62 66 60 67 53C68 47 64 43 60 45" fill="none"
+                    stroke={pd} strokeWidth="1.8" strokeLinecap="round" opacity=".65" />
 
               {/* Luz general, vertical como la flor */}
-              <ellipse cx="50" cy="58" rx="6" ry="20" fill="#ffffff" opacity=".13" transform="rotate(-8 50 58)" />
+              <ellipse cx="46" cy="56" rx="7" ry="20" fill="#ffffff" opacity=".13" transform="rotate(-12 46 56)" />
             </g>
           )}
 
