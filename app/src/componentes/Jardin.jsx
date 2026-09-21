@@ -121,8 +121,8 @@ export default function Jardin({
               {/* Sombra en el suelo: sin ella la flor parece flotar sobre
                   el pasto en vez de estar plantada en él. */}
               <div style={{
-                position: 'absolute', left: '50%', bottom: 2,
-                width: '78%', height: 11, marginLeft: '-39%',
+                position: 'absolute', left: '50%', bottom: -5,
+                width: '82%', height: 10, marginLeft: '-41%',
                 background: 'radial-gradient(ellipse at center, rgba(16,32,14,.5) 0%, rgba(16,32,14,.22) 45%, rgba(16,32,14,0) 72%)',
                 pointerEvents: 'none',
               }} />
@@ -194,10 +194,19 @@ function Suelo({ c1, c2, c3, base }) {
   )
 }
 
+// Un solo número gobierna el tamaño de todas las nubes. Se aplica como
+// transformación para que crezcan también los bultos del box-shadow, que
+// son los que les dan forma de nube y no de píldora.
+const ESCALA_NUBE = 1.1
+
 function Nube({ top, dur, delay, ancho, alto, color = '#ffffff', opacidad, sombra }) {
   return (
-    <div style={{ position: 'absolute', top, left: 0, right: 0, height: alto + 12, animation: `jNube ${dur}s linear infinite`, animationDelay: delay }}>
-      <div style={{ width: ancho, height: alto, borderRadius: 999, background: color, opacity: opacidad, boxShadow: sombra }} />
+    <div style={{ position: 'absolute', top, left: 0, right: 0, height: alto * ESCALA_NUBE + 12, animation: `jNube ${dur}s linear infinite`, animationDelay: delay }}>
+      <div style={{
+        width: ancho, height: alto, borderRadius: 999, background: color,
+        opacity: opacidad, boxShadow: sombra,
+        transform: `scale(${ESCALA_NUBE})`, transformOrigin: 'left center',
+      }} />
     </div>
   )
 }
@@ -223,21 +232,26 @@ function CieloDia() {
     <>
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,#5fc0f0 0%,#8fd8f7 38%,#c4ecfb 66%,#e8f7e4 82%)' }} />
       <div style={{
-        position: 'absolute', top: '26%', right: 34, width: 88, height: 88, borderRadius: '50%',
+        position: 'absolute', top: '20%', right: 34, width: 97, height: 97, borderRadius: '50%',
         background: 'radial-gradient(circle at 42% 38%,#fffdf0 0%,#ffe9a0 46%,rgba(255,220,130,.35) 70%,rgba(255,220,130,0) 100%)',
         animation: 'jSol 6s ease-in-out infinite',
       }} />
 
-      <Nube top="21%" dur={52} delay="0s" ancho={96} alto={28} opacidad={.92} sombra="26px -12px 0 -3px #fff, -22px -6px 0 -6px #fff, 0 8px 18px rgba(80,140,180,.18)" />
-      <Nube top="29%" dur={78} delay="-30s" ancho={70} alto={22} opacidad={.8} sombra="20px -9px 0 -3px #fff, -16px -4px 0 -5px #fff" />
-      <Nube top="18%" dur={96} delay="-58s" ancho={58} alto={14} opacidad={.55} sombra="16px -6px 0 -4px #fff" />
-      <Nube top="35%" dur={112} delay="-14s" ancho={64} alto={13} opacidad={.42} sombra="18px -5px 0 -4px #fff" />
-      <Nube top="38%" dur={88} delay="-70s" ancho={50} alto={12} opacidad={.5} sombra="14px -5px 0 -4px #fff" />
-      <Nube top="16%" dur={64} delay="-20s" ancho={84} alto={24} opacidad={.88} sombra="24px -11px 0 -3px #fff, -18px -5px 0 -6px #fff" />
-      <Nube top="25%" dur={70} delay="-45s" ancho={76} alto={20} opacidad={.7} sombra="22px -8px 0 -4px #fff, -16px -4px 0 -6px #fff" />
-      <Nube top="33%" dur={100} delay="-8s" ancho={62} alto={16} opacidad={.6} sombra="18px -7px 0 -4px #fff" />
-      <Nube top="20%" dur={120} delay="-90s" ancho={54} alto={13} opacidad={.45} sombra="15px -5px 0 -4px #fff" />
-      <Nube top="36%" dur={92} delay="-52s" ancho={68} alto={15} opacidad={.42} sombra="19px -6px 0 -4px #fff" />
+      <Nube top="27%" dur={52} delay="0s" ancho={96} alto={28} opacidad={.92} sombra="26px -12px 0 -3px #fff, -22px -6px 0 -6px #fff, 0 8px 18px rgba(80,140,180,.18)" />
+      <Nube top="35%" dur={78} delay="-30s" ancho={70} alto={22} opacidad={.8} sombra="20px -9px 0 -3px #fff, -16px -4px 0 -5px #fff" />
+      <Nube top="24%" dur={96} delay="-58s" ancho={58} alto={14} opacidad={.55} sombra="16px -6px 0 -4px #fff" />
+      <Nube top="41%" dur={112} delay="-14s" ancho={64} alto={13} opacidad={.42} sombra="18px -5px 0 -4px #fff" />
+      <Nube top="44%" dur={88} delay="-70s" ancho={50} alto={12} opacidad={.5} sombra="14px -5px 0 -4px #fff" />
+      <Nube top="22%" dur={64} delay="-20s" ancho={84} alto={24} opacidad={.88} sombra="24px -11px 0 -3px #fff, -18px -5px 0 -6px #fff" />
+      <Nube top="31%" dur={70} delay="-45s" ancho={76} alto={20} opacidad={.7} sombra="22px -8px 0 -4px #fff, -16px -4px 0 -6px #fff" />
+      <Nube top="39%" dur={100} delay="-8s" ancho={62} alto={16} opacidad={.6} sombra="18px -7px 0 -4px #fff" />
+      <Nube top="26%" dur={120} delay="-90s" ancho={54} alto={13} opacidad={.45} sombra="15px -5px 0 -4px #fff" />
+      <Nube top="42%" dur={92} delay="-52s" ancho={68} alto={15} opacidad={.42} sombra="19px -6px 0 -4px #fff" />
+      <Nube top="23%" dur={58} delay="-36s" ancho={90} alto={26} opacidad={.85} sombra="25px -12px 0 -3px #fff, -20px -6px 0 -6px #fff" />
+      <Nube top="33%" dur={84} delay="-62s" ancho={72} alto={19} opacidad={.68} sombra="21px -8px 0 -4px #fff, -15px -4px 0 -6px #fff" />
+      <Nube top="37%" dur={104} delay="-18s" ancho={80} alto={17} opacidad={.55} sombra="23px -7px 0 -4px #fff" />
+      <Nube top="45%" dur={76} delay="-80s" ancho={58} alto={14} opacidad={.5} sombra="16px -6px 0 -4px #fff" />
+      <Nube top="29%" dur={130} delay="-40s" ancho={74} alto={16} opacidad={.38} sombra="20px -6px 0 -4px #fff" />
 
       <div style={{ position: 'absolute', top: '17%', left: 0, right: 0, animation: 'jAve 34s linear infinite' }}>
         <svg width="86" height="30" viewBox="0 0 86 30" style={{ overflow: 'visible', opacity: .55 }}>
@@ -258,8 +272,8 @@ function CieloDia() {
       <div style={{ position: 'absolute', bottom: '30%', left: '56%', width: 4, height: 4, borderRadius: '50%', background: '#fffbe8', boxShadow: '0 0 6px 2px rgba(255,248,216,.6)', animation: 'jPolen 15s linear infinite', animationDelay: '-6s' }} />
       <div style={{ position: 'absolute', bottom: '38%', left: '82%', width: 4, height: 4, borderRadius: '50%', background: '#fff8d8', boxShadow: '0 0 6px 2px rgba(255,248,216,.55)', animation: 'jPolen 17s linear infinite', animationDelay: '-11s' }} />
 
-      <Mariposa top="34%" dur={17} delay="0s" alaA="#ff9ec4" alaB="#ffc2dc" />
-      <Mariposa top="40%" dur={23} delay="-9s" escala={0.85} alaA="#ffd98a" alaB="#ffe9b8" />
+      <Mariposa top="40%" dur={17} delay="0s" alaA="#ff9ec4" alaB="#ffc2dc" />
+      <Mariposa top="46%" dur={23} delay="-9s" escala={0.85} alaA="#ffd98a" alaB="#ffe9b8" />
 
       <Suelo c1="#7fc46a" c2="#63b158" c3="#4f9c49" base="linear-gradient(180deg,rgba(79,156,73,0) 0%,#47903f 55%,#3a7c35 100%)" />
     </>
@@ -279,12 +293,16 @@ function CieloAtardecer() {
         animation: 'jSol 7s ease-in-out infinite',
       }} />
 
-      <Nube top="22%" dur={74} delay="0s" ancho={104} alto={20} color="#ffb9a6" opacidad={.75} sombra="30px -8px 0 -4px #ffc7b0, -24px -4px 0 -7px #ff9f96" />
-      <Nube top="28%" dur={96} delay="-40s" ancho={80} alto={16} color="#ffd0b0" opacidad={.6} sombra="22px -7px 0 -4px #ffd8bb" />
-      <Nube top="18%" dur={82} delay="-12s" ancho={92} alto={18} color="#e8a396" opacidad={.6} sombra="26px -7px 0 -4px #f2b2a2, -20px -4px 0 -7px #d98f8c" />
-      <Nube top="20%" dur={108} delay="-64s" ancho={70} alto={14} color="#ffc2a8" opacidad={.5} sombra="20px -6px 0 -4px #ffcdb4" />
-      <Nube top="33%" dur={120} delay="-30s" ancho={86} alto={15} color="#ffd8bb" opacidad={.45} sombra="24px -5px 0 -4px #ffe0c8" />
-      <Nube top="26%" dur={140} delay="-86s" ancho={60} alto={12} color="#f7b9a4" opacidad={.38} sombra="17px -5px 0 -4px #f7c3b0" />
+      <Nube top="28%" dur={74} delay="0s" ancho={104} alto={20} color="#ffb9a6" opacidad={.75} sombra="30px -8px 0 -4px #ffc7b0, -24px -4px 0 -7px #ff9f96" />
+      <Nube top="34%" dur={96} delay="-40s" ancho={80} alto={16} color="#ffd0b0" opacidad={.6} sombra="22px -7px 0 -4px #ffd8bb" />
+      <Nube top="24%" dur={82} delay="-12s" ancho={92} alto={18} color="#e8a396" opacidad={.6} sombra="26px -7px 0 -4px #f2b2a2, -20px -4px 0 -7px #d98f8c" />
+      <Nube top="26%" dur={108} delay="-64s" ancho={70} alto={14} color="#ffc2a8" opacidad={.5} sombra="20px -6px 0 -4px #ffcdb4" />
+      <Nube top="39%" dur={120} delay="-30s" ancho={86} alto={15} color="#ffd8bb" opacidad={.45} sombra="24px -5px 0 -4px #ffe0c8" />
+      <Nube top="32%" dur={140} delay="-86s" ancho={60} alto={12} color="#f7b9a4" opacidad={.38} sombra="17px -5px 0 -4px #f7c3b0" />
+      <Nube top="38%" dur={90} delay="-26s" ancho={98} alto={17} color="#f0a893" opacidad={.55} sombra="27px -6px 0 -4px #f7b9a4, -21px -4px 0 -7px #e09a90" />
+      <Nube top="42%" dur={116} delay="-58s" ancho={76} alto={14} color="#ffcba8" opacidad={.48} sombra="21px -5px 0 -4px #ffd6b8" />
+      <Nube top="45%" dur={132} delay="-14s" ancho={88} alto={15} color="#ffdcc0" opacidad={.4} sombra="24px -5px 0 -4px #ffe4cd" />
+      <Nube top="28%" dur={100} delay="-72s" ancho={66} alto={13} color="#eaa79a" opacidad={.42} sombra="18px -5px 0 -4px #f2b6a6" />
 
       <div style={{ position: 'absolute', top: '18%', left: 0, right: 0, animation: 'jAve 40s linear infinite' }}>
         <svg width="96" height="34" viewBox="0 0 96 34" style={{ overflow: 'visible', opacity: .62 }}>
@@ -294,7 +312,7 @@ function CieloAtardecer() {
         </svg>
       </div>
 
-      <Mariposa top="36%" dur={26} delay="0s" escala={0.85} alaA="#ffd28a" alaB="#ffb27a" />
+      <Mariposa top="42%" dur={26} delay="0s" escala={0.85} alaA="#ffd28a" alaB="#ffb27a" />
 
       <Suelo c1="#8a6b58" c2="#6c7a4e" c3="#55693f" base="linear-gradient(180deg,rgba(85,105,63,0) 0%,#4c6038 55%,#3d4f2e 100%)" />
 
@@ -335,11 +353,15 @@ function CieloNoche() {
         animation: 'jSol 9s ease-in-out infinite',
       }} />
 
-      <Nube top="23%" dur={120} delay="-40s" ancho={96} alto={14} color="#6b5f9a" opacidad={.45} sombra="26px -6px 0 -4px #6b5f9a, -20px -3px 0 -6px #5b5188" />
-      <Nube top="35%" dur={150} delay="0s" ancho={74} alto={12} color="#7a6aa8" opacidad={.32} sombra="20px -5px 0 -4px #7a6aa8" />
-      <Nube top="19%" dur={134} delay="-70s" ancho={88} alto={13} color="#5d5286" opacidad={.38} sombra="24px -6px 0 -4px #5d5286, -18px -3px 0 -6px #514879" />
-      <Nube top="29%" dur={168} delay="-24s" ancho={66} alto={11} color="#6f619b" opacidad={.3} sombra="18px -5px 0 -4px #6f619b" />
-      <Nube top="38%" dur={190} delay="-110s" ancho={78} alto={12} color="#7a6aa8" opacidad={.26} sombra="21px -5px 0 -4px #7a6aa8" />
+      <Nube top="29%" dur={120} delay="-40s" ancho={96} alto={14} color="#6b5f9a" opacidad={.45} sombra="26px -6px 0 -4px #6b5f9a, -20px -3px 0 -6px #5b5188" />
+      <Nube top="41%" dur={150} delay="0s" ancho={74} alto={12} color="#7a6aa8" opacidad={.32} sombra="20px -5px 0 -4px #7a6aa8" />
+      <Nube top="25%" dur={134} delay="-70s" ancho={88} alto={13} color="#5d5286" opacidad={.38} sombra="24px -6px 0 -4px #5d5286, -18px -3px 0 -6px #514879" />
+      <Nube top="35%" dur={168} delay="-24s" ancho={66} alto={11} color="#6f619b" opacidad={.3} sombra="18px -5px 0 -4px #6f619b" />
+      <Nube top="44%" dur={190} delay="-110s" ancho={78} alto={12} color="#7a6aa8" opacidad={.26} sombra="21px -5px 0 -4px #7a6aa8" />
+      <Nube top="23%" dur={146} delay="-34s" ancho={92} alto={14} color="#645791" opacidad={.36} sombra="25px -6px 0 -4px #645791, -19px -3px 0 -6px #564b80" />
+      <Nube top="32%" dur={172} delay="-96s" ancho={70} alto={12} color="#736498" opacidad={.3} sombra="19px -5px 0 -4px #736498" />
+      <Nube top="38%" dur={200} delay="-56s" ancho={84} alto={13} color="#7f6fae" opacidad={.24} sombra="22px -5px 0 -4px #7f6fae" />
+      <Nube top="46%" dur={158} delay="-128s" ancho={62} alto={11} color="#6a5c95" opacidad={.28} sombra="17px -4px 0 -4px #6a5c95" />
 
       <div style={{ position: 'absolute', top: 76, right: 26, width: 88, height: 2, borderRadius: 2, background: 'linear-gradient(90deg,rgba(255,255,255,0),#fff8e0)', transformOrigin: '100% 50%', animation: 'jFugaz 14s linear infinite' }} />
       <div style={{ position: 'absolute', top: 190, right: -10, width: 64, height: 2, borderRadius: 2, background: 'linear-gradient(90deg,rgba(255,255,255,0),#e8f0ff)', transformOrigin: '100% 50%', animation: 'jFugaz 21s linear infinite', animationDelay: '-9s' }} />

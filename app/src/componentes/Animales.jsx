@@ -299,14 +299,14 @@ const REPARTO = [
   // [componente, especie, izquierda, altura, ancho, pasto a los pies, retardo]
   // Todos por debajo del 30%: la colina más alta baja hasta el 39% en las
   // hondonadas, y por encima de eso quedarían en el aire.
-  { Quien: Ciervo,  especie: 'ciervo',  izq: '2%',  abajo: '28%', ancho: 55, pasto: 50, capa: 0, retardo: '0s' },
-  { Quien: Pajaro,  especie: 'pajaro',  izq: '44%', abajo: '29%', ancho: 28, pasto: 28, capa: 0, retardo: '-1.8s' },
-  { Quien: Ardilla, especie: 'ardilla', izq: '70%', abajo: '27%', ancho: 38, pasto: 35, capa: 0, retardo: '-3.2s' },
-  { Quien: Gato,    especie: 'gato',    izq: '86%', abajo: '21%', ancho: 45, pasto: 42, capa: 1, retardo: '-1.3s' },
-  { Quien: Perro,   especie: 'perro',   izq: '22%', abajo: '19%', ancho: 55, pasto: 52, capa: 1, retardo: '-0.7s' },
-  { Quien: Erizo,   especie: 'erizo',   izq: '55%', abajo: '17%', ancho: 42, pasto: 40, capa: 1, retardo: '-2.6s' },
-  { Quien: Conejo,  especie: 'conejo',  izq: '8%',  abajo: '11%', ancho: 38, pasto: 38, capa: 2, retardo: '-2.1s' },
-  { Quien: Pajaro,  especie: 'pajaro2', izq: '76%', abajo: '9%',  ancho: 32, pasto: 32, capa: 2, retardo: '-0.4s' },
+  { Quien: Ciervo,  especie: 'ciervo',  izq: '2%',  abajo: '28%', ancho: 61, pasto: 55, capa: 0, retardo: '0s' },
+  { Quien: Pajaro,  especie: 'pajaro',  izq: '44%', abajo: '29%', ancho: 31, pasto: 31, capa: 0, retardo: '-1.8s' },
+  { Quien: Ardilla, especie: 'ardilla', izq: '70%', abajo: '27%', ancho: 42, pasto: 38, capa: 0, retardo: '-3.2s' },
+  { Quien: Gato,    especie: 'gato',    izq: '86%', abajo: '21%', ancho: 50, pasto: 46, capa: 1, retardo: '-1.3s' },
+  { Quien: Perro,   especie: 'perro',   izq: '22%', abajo: '19%', ancho: 61, pasto: 57, capa: 1, retardo: '-0.7s' },
+  { Quien: Erizo,   especie: 'erizo',   izq: '55%', abajo: '17%', ancho: 46, pasto: 44, capa: 1, retardo: '-2.6s' },
+  { Quien: Conejo,  especie: 'conejo',  izq: '8%',  abajo: '11%', ancho: 42, pasto: 42, capa: 2, retardo: '-2.1s' },
+  { Quien: Pajaro,  especie: 'pajaro2', izq: '76%', abajo: '9%',  ancho: 35, pasto: 35, capa: 2, retardo: '-0.4s' },
 ]
 
 export default function Animales({ ambiente = 'dia' }) {
