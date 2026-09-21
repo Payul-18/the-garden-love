@@ -8,6 +8,7 @@ import PanelCodigo from '../componentes/PanelCodigo'
 import { ambienteActual } from '../lib/ambiente'
 import { prepararFlor } from '../lib/colores'
 import { canjearCodigo, verJardin } from '../lib/supabase'
+import { fraseAlSembrar } from '../lib/frases'
 
 const NOMBRE_ELLA = import.meta.env.VITE_NOMBRE_ELLA ?? 'Gabichi'
 const LLAVE = import.meta.env.VITE_LLAVE_JARDIN ?? ''
@@ -105,8 +106,9 @@ export default function JardinDeGabriela() {
     }
 
     // Canje bueno: florece.
-    const flor = prepararFlor(r, flores.length)
-    setNueva(flor)
+    const cuantasHabia = flores.length
+    const flor = prepararFlor(r, cuantasHabia)
+    setNueva({ ...flor, cuantasHabia })
     setSel(null)
     setPanel(false)
     setMsg({ texto: '', tono: 'aviso' })

@@ -1,5 +1,6 @@
 import Jardin from './Jardin'
 import Flor from './Flor'
+import { fraseDeFlorecimiento } from '../lib/frases'
 
 /**
  * Florecimiento — el momento emocional del aplicativo.
@@ -113,7 +114,7 @@ export default function Florecimiento({ flor, ambiente }) {
         <div style={{
           fontFamily: 'Caveat,cursive', fontSize: 22, color: '#ffeec9',
           textShadow: '0 2px 8px rgba(0,0,0,.75)', opacity: .95,
-        }}>acaba de florecer en tu jardín</div>
+        }}>{fraseDeFlorecimiento(flor.cuantasHabia ?? 1)}</div>
         <div style={{
           fontFamily: "'Berkshire Swash',serif", fontSize: 30, lineHeight: 1.2, color: '#fff6e0',
           textShadow: '0 2px 10px rgba(0,0,0,.8), 0 0 26px rgba(255,214,130,.35)',
