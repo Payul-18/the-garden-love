@@ -13,8 +13,12 @@ import { fraseAlSembrar } from '../lib/frases'
 const NOMBRE_ELLA = import.meta.env.VITE_NOMBRE_ELLA ?? 'Gabichi'
 const LLAVE = import.meta.env.VITE_LLAVE_JARDIN ?? ''
 
-/** La animación de florecimiento dura esto antes de devolverla al jardín. */
-const DURACION_BLOOM = 5200
+/**
+ * Cuánto dura la escena del florecimiento antes de devolverla al jardín.
+ * La coreografía termina a los 3.9s, cuando entra la frase; se dejan tres
+ * segundos más para poder leerla con calma antes de que cambie la pantalla.
+ */
+const DURACION_BLOOM = 7000
 
 export default function JardinDeGabriela() {
   const [pantalla, setPantalla] = useState('portada')   // portada | jardin | bloom
@@ -108,7 +112,7 @@ export default function JardinDeGabriela() {
     // Canje bueno: florece.
     const cuantasHabia = flores.length
     const flor = prepararFlor(r, cuantasHabia)
-    setNueva({ ...flor, cuantasHabia })
+    setNueva({ ...flor, cuantasHabia, frase: fraseAlSembrar(cuantasHabia) })
     setSel(null)
     setPanel(false)
     setMsg({ texto: '', tono: 'aviso' })
@@ -119,7 +123,7 @@ export default function JardinDeGabriela() {
       setFlores((prev) => [...prev, flor])
       setAnioVisible(Number(flor.fecha_regalo.slice(0, 4)))
       setPantalla('jardin')
-      decir(fraseAlSembrar(cuantasHabia), 'logro')
+      decir('Tu jardín tiene una flor nueva 🌻', 'logro')
     }, DURACION_BLOOM)
 
     return true

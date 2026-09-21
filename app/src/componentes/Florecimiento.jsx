@@ -120,6 +120,21 @@ export default function Florecimiento({ flor, ambiente }) {
           textShadow: '0 2px 10px rgba(0,0,0,.8), 0 0 26px rgba(255,214,130,.35)',
         }}>{flor.nombre}</div>
       </div>
+
+      {/* La frase va abajo, en el hueco que ocupaba el texto de la tierra
+          cuando el jardín estaba vacío. Entra después del nombre para que
+          se lean en orden y no compitan. */}
+      <div style={{
+        position: 'absolute', left: 0, right: 0, bottom: 62,
+        display: 'flex', justifyContent: 'center', padding: '0 26px',
+        animation: 'fadeUp 1s ease 3.9s both', zIndex: 5, pointerEvents: 'none',
+      }}>
+        <div style={{
+          fontFamily: 'Caveat,cursive', fontSize: 27, lineHeight: 1.3,
+          color: '#fff8e8', textAlign: 'center', maxWidth: 300,
+          textShadow: '0 2px 10px rgba(0,0,0,.8), 0 0 22px rgba(255,214,130,.3)',
+        }}>{flor.frase}</div>
+      </div>
     </div>
   )
 }
