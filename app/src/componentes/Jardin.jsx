@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import Flor from './Flor'
+import Animales from './Animales'
 
 /**
  * Jardin — el escenario donde viven las flores.
@@ -17,6 +18,10 @@ import Flor from './Flor'
  *   textoVacio  qué decir cuando no hay flores. En null no dice nada: sirve
  *               para cuando el jardín es solo el fondo de otra escena.
  */
+// Las flores crecieron un 20%: de 118 a 142 de alto. El ancho lo reparte
+// la cuadrícula entre cuatro columnas.
+const ALTO_FLOR = 142
+
 export default function Jardin({
   ambiente = 'dia',
   flores = [],
@@ -44,6 +49,9 @@ export default function Jardin({
       {ambiente === 'atardecer' && <CieloAtardecer />}
       {ambiente === 'noche' && <CieloNoche />}
 
+      {/* Habitantes del prado: van detrás de las flores y no se pueden tocar */}
+      <Animales ambiente={ambiente} />
+
       <div style={{
         position: 'absolute', left: 0, right: 0, bottom: zocalo,
         display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
@@ -52,11 +60,20 @@ export default function Jardin({
 
         {vacio && <TierraVacia texto={textoVacio} />}
 
+        {/* Cuadrícula de cuatro por fila. Se ven tres filas completas y,
+            si el año tiene más de doce flores, el prado se desplaza hacia
+            abajo: siguen entrando cuatro por fila. */}
         <div ref={fila} className="sin-barra" style={{
-          display: 'flex', alignItems: 'flex-end', gap: 6,
-          overflowX: 'auto', overflowY: 'hidden', padding: '0 2px 2px',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: '2px 4px',
+          alignItems: 'end',
+          maxHeight: ALTO_FLOR * 3 + 8,
+          overflowY: 'auto',
+          overflowX: 'hidden',
+          padding: '0 2px 2px',
         }}>
-          {flores.map((f) => (
+          {flores.map((f, i) => (
             <div
               key={f.id}
               data-flor={f.id}
@@ -68,13 +85,14 @@ export default function Jardin({
                 setTimeout(() => onTocarFlor(f), 170)
               }}
               style={{
-                flex: '0 0 68px', height: 118, cursor: 'pointer', position: 'relative',
+                height: ALTO_FLOR, cursor: 'pointer', position: 'relative',
                 transition: 'transform .2s',
                 animation: resaltada === f.id
                   ? 'resalta 1.6s ease 2'
                   : tocada === f.id
                     ? 'florTocada .42s cubic-bezier(.2,1.4,.4,1)'
-                    : 'none',
+                    // Al abrir el jardín las flores brotan por turno.
+                    : `floreceEnFila .55s cubic-bezier(.2,1.3,.4,1) ${Math.min(i, 11) * 0.06}s both`,
               }}
             >
               <Flor

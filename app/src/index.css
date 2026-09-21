@@ -182,3 +182,44 @@ input::placeholder { color: rgba(90, 58, 28, .35); }
   25%  { opacity: 1 }
   100% { left: 115%; opacity: 0 }
 }
+
+/* ------------------------------------------------------------------
+   Los animales del jardín
+   Ritmos distintos a propósito: si respiraran a la vez se notaría
+   que es un bucle.
+------------------------------------------------------------------ */
+@keyframes respiraAnimal { 0%,100% { transform: scaleY(1) } 50% { transform: scaleY(1.035) } }
+@keyframes colaGato      { 0%,100% { transform: rotate(-9deg) } 50% { transform: rotate(13deg) } }
+@keyframes colaPerro     { 0%,100% { transform: rotate(-20deg) } 50% { transform: rotate(22deg) } }
+@keyframes orejaPerro    { 0%,100% { transform: rotate(-3deg) } 50% { transform: rotate(5deg) } }
+
+/* La oreja no se mueve todo el rato: se sacude un instante y descansa */
+@keyframes orejaTic {
+  0%, 82%, 100% { transform: rotate(0deg) }
+  86% { transform: rotate(-7deg) }
+  92% { transform: rotate(5deg) }
+}
+
+/* El ciervo levanta la cabeza, mira, y vuelve a bajarla */
+@keyframes cabezaCiervo {
+  0%, 55%, 100% { transform: rotate(0deg) translateY(0) }
+  70% { transform: rotate(-6deg) translateY(-3px) }
+  85% { transform: rotate(-4deg) translateY(-2px) }
+}
+
+/* Dos saltitos seguidos y una pausa larga, como un conejo de verdad */
+@keyframes saltoConejo {
+  0%, 60%, 100% { transform: translateY(0) scaleY(1) }
+  8%  { transform: translateY(0) scaleY(.9) }
+  16% { transform: translateY(-13px) scaleY(1.06) }
+  26% { transform: translateY(0) scaleY(.94) }
+  34% { transform: translateY(-9px) scaleY(1.04) }
+  44% { transform: translateY(0) scaleY(1) }
+}
+
+/* Cada flor de la cuadrícula entra por turno, como si brotaran en cadena */
+@keyframes floreceEnFila {
+  0%   { opacity: 0; transform: translateY(14px) scale(.82) }
+  70%  { opacity: 1; transform: translateY(-3px) scale(1.04) }
+  100% { opacity: 1; transform: translateY(0) scale(1) }
+}
