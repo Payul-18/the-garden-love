@@ -1,18 +1,20 @@
 /**
  * Mensaje — los avisos cariñosos del jardín.
  *
- * Nunca son errores secos, pero sí tienen que leerse a la primera y sobre
- * cualquier fondo: el jardín de día es claro, el de noche oscuro, y encima
- * puede estar abierto el panel del código. Por eso el globo es opaco, con
- * borde propio, y se dibuja por encima de todo lo demás.
+ * Acabado de vidrio líquido: difumina el jardín que queda detrás en vez de
+ * taparlo, con un brillo especular arriba y un destello que lo recorre al
+ * aparecer. La clase .vidrio hace el trabajo y, donde el navegador no
+ * soporte el difuminado, cae a un fondo casi opaco para que nunca deje de
+ * leerse. Esto último importa más que el efecto: el aviso tiene que
+ * entenderse a la primera sobre el jardín de día y sobre el de noche.
  */
 
 // Cada mensaje tiene su tono. El de error no es rojo de sistema: es un
 // terracota cálido, para que corregir el código no se sienta como fallar.
 const TONOS = {
-  aviso:  { fondo: '#fff8ec', borde: 'rgba(150,104,52,.35)', texto: '#5a3310' },
-  error:  { fondo: '#fff1e8', borde: 'rgba(170,92,60,.38)',  texto: '#8a3f22' },
-  logro:  { fondo: '#f2fbe6', borde: 'rgba(96,140,64,.38)',  texto: '#33621f' },
+  aviso: { texto: '#4a2a0c', tinte: 'rgba(255,236,196,.42)', borde: 'rgba(255,240,205,.75)' },
+  error: { texto: '#7a3418', tinte: 'rgba(255,214,190,.45)', borde: 'rgba(255,222,205,.75)' },
+  logro: { texto: '#2c5518', tinte: 'rgba(214,244,190,.42)', borde: 'rgba(226,248,206,.78)' },
 }
 
 export default function Mensaje({ texto, tono = 'aviso', abajo = 130 }) {
@@ -27,24 +29,36 @@ export default function Mensaje({ texto, tono = 'aviso', abajo = 130 }) {
       // Por encima del panel del código y de cualquier capa del jardín.
       zIndex: 40,
     }}>
-      <div style={{
-        maxWidth: 340,
-        padding: '14px 22px',
-        borderRadius: '24px 24px 26px 22px',
-        background: t.fondo,
-        border: `2px solid ${t.borde}`,
-        // Doble sombra: una pegada que despega el globo del fondo, y otra
-        // amplia y oscura que lo recorta incluso sobre el jardín de día.
-        boxShadow: '0 4px 0 rgba(122,84,44,.18), 0 10px 30px rgba(0,0,0,.45)',
-        animation: 'toastIn .45s cubic-bezier(.2,1.3,.4,1) both',
-      }}>
+      <div
+        className="vidrio"
+        style={{
+          maxWidth: 340,
+          padding: '15px 24px',
+          // Radios distintos en cada esquina: el vidrio se ve soplado
+          // a mano y no recortado por una máquina.
+          borderRadius: '26px 26px 28px 24px',
+          borderColor: t.borde,
+          animation: 'toastIn .5s cubic-bezier(.2,1.3,.4,1) both',
+        }}
+      >
+        {/* El tinte va sobre el difuminado, no en el fondo: así el color
+            del tono se nota sin restarle transparencia al vidrio. */}
         <div style={{
+          position: 'absolute', inset: 0, borderRadius: 'inherit',
+          background: t.tinte, pointerEvents: 'none',
+        }} />
+
+        <div style={{
+          position: 'relative',
           fontFamily: 'Caveat,cursive',
           fontSize: 26,
           fontWeight: 700,
           lineHeight: 1.3,
           color: t.texto,
           textAlign: 'center',
+          // Un halo claro detrás de las letras: sostiene el contraste
+          // aunque justo detrás del vidrio pase una flor oscura.
+          textShadow: '0 1px 0 rgba(255,255,255,.75)',
         }}>{texto}</div>
       </div>
     </div>
