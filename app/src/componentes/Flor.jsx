@@ -161,52 +161,51 @@ export default function Flor({
           {/* ---------------- ROSA ---------------- */}
           {tipo === 'rosa' && (
             <g>
-              {/* Sépalos: las lengüetas verdes que sujetan la flor */}
-              <path d="M42 96C35 102 30 111 31 120C39 116 44 107 45 98Z" fill={hojaD} />
-              <path d="M78 96C85 102 90 111 89 120C81 116 76 107 75 98Z" fill={hojaD} />
-              <path d="M60 104C57 112 56 119 58 126C63 119 64 112 62 104Z" fill={hojaD} />
-              <path d="M52 101C48 109 47 116 48 123C53 116 55 109 55 102Z" fill={hoja} />
-              <path d="M68 101C72 109 73 116 72 123C67 116 65 109 65 102Z" fill={hoja} />
+              {/* Hojas del cáliz, abiertas hacia los lados */}
+              <path d="M44 92C34 96 26 106 24 118C36 116 44 106 47 95Z" fill={hoja} />
+              <path d="M76 92C86 96 94 106 96 118C84 116 76 106 73 95Z" fill={hoja} />
+              <path d="M44 92C36 97 30 105 27 114C36 111 42 103 46 94Z" fill={hojaD} opacity=".5" />
+              <path d="M76 92C84 97 90 105 93 114C84 111 78 103 74 94Z" fill={hojaD} opacity=".5" />
 
-              {/* Copa de la flor: el volumen sobre el que se apoyan los pétalos */}
-              <path d="M60 106C33 101 22 79 25 58C28 40 42 30 60 30C78 30 92 40 95 58C98 79 87 101 60 106Z" fill={pd} />
+              {/* Sépalos que suben pegados al capullo */}
+              <path d="M48 96C44 88 43 80 45 73C49 80 51 88 51 96Z" fill={hojaD} />
+              <path d="M72 96C76 88 77 80 75 73C71 80 69 88 69 96Z" fill={hojaD} />
+              <path d="M60 100C58 92 58 85 60 79C62 85 62 92 60 100Z" fill={hojaD} />
 
-              {/* Cinco pétalos externos en remolino. Cada uno arranca abajo,
-                  sube abrazando la flor y vuelve: girados entre sí es lo que
-                  produce la espiral que distingue a una rosa. */}
-              {[0, 72, 144, 216, 288].map((a) => (
-                <g key={`re${a}`} transform={`rotate(${a} 60 70)`}>
-                  <path d="M60 104C32 97 23 72 32 50C39 33 60 32 68 46C60 42 47 48 43 61C39 76 47 94 60 104Z" fill={`url(#${gPetalo})`} />
-                  {/* Borde vuelto del pétalo: la rosa se reconoce por el rizo */}
-                  <path d="M32 51C40 34 59 33 67 45" fill="none" stroke={pl} strokeWidth="3" strokeLinecap="round" opacity="0.7" />
-                  <path d="M35 56C42 41 57 39 65 49" fill="none" stroke={pd} strokeWidth="1.3" strokeLinecap="round" opacity="0.45" />
-                </g>
-              ))}
+              {/* Cuerpo del capullo: un huevo ancho arriba y estrecho abajo.
+                  Esta silueta es la que hace que se lea como rosa de perfil,
+                  igual que en el emoji, y no como una flor abierta de frente. */}
+              <path d="M60 102C39 98 30 80 31 60C32 41 44 28 60 28C76 28 88 41 89 60C90 80 81 98 60 102Z" fill={pd} />
 
-              {/* Cinco pétalos intermedios, girados para rellenar los huecos */}
-              {[36, 108, 180, 252, 324].map((a) => (
-                <g key={`rm${a}`} transform={`rotate(${a} 60 72)`}>
-                  <path d="M60 96C41 90 34 71 41 55C46 43 61 43 66 54C59 51 50 55 47 65C44 77 50 89 60 96Z" fill={p} />
-                  <path d="M41 56C47 44 60 43 65 53" fill="none" stroke={pl} strokeWidth="2.2" strokeLinecap="round" opacity="0.6" />
-                </g>
-              ))}
+              {/* Pétalo izquierdo, que envuelve por detrás */}
+              <path d="M31 62C31 42 43 28 60 28C50 36 43 48 42 64C41 80 45 93 54 101C40 96 31 80 31 62Z" fill={p} />
+              {/* Pétalo derecho */}
+              <path d="M89 62C89 42 77 28 60 28C70 36 77 48 78 64C79 80 75 93 66 101C80 96 89 80 89 62Z" fill={p} />
+              <path d="M89 62C89 44 79 31 64 29C73 39 78 50 79 65C80 81 76 93 68 100C81 95 89 79 89 62Z" fill={pd} opacity=".45" />
 
-              {/* Corazón: cuatro medias lunas cada vez más cerradas.
-                  Es el remolino del centro, no una flor dentro de otra. */}
-              <path d="M60 90C44 85 37 70 45 58C53 46 71 49 75 62C78 73 72 86 60 90Z" fill={pd} />
-              <path d="M60 86C48 82 43 70 49 61C56 51 69 54 72 64C74 73 69 83 60 86Z" fill={`url(#${gPetalo})`} />
-              <path d="M60 82C51 79 47 70 52 63C57 56 67 59 69 67C70 74 66 80 60 82Z" fill={pl} />
-              <path d="M61 78C55 76 52 70 55 65C59 61 66 63 66 69C66 74 64 77 61 78Z" fill={p} />
-              <path d="M62 74C58 74 55 71 57 68C59 65 63 66 63 69C63 72 63 74 62 74Z" fill={pd} />
+              {/* Pétalo frontal: el que cubre el centro del capullo */}
+              <path d="M60 102C48 98 42 85 43 69C44 55 51 45 60 43C69 45 76 55 77 69C78 85 72 98 60 102Z" fill={`url(#${gPetalo})`} />
 
-              {/* Los pliegues del centro, que rematan la espiral */}
-              <path d="M62 71C60 71 58 69 59 68" fill="none" stroke={cd} strokeWidth="1.5" strokeLinecap="round" opacity="0.55" />
-              <path d="M57 64C61 60 67 62 69 67" fill="none" stroke={pd} strokeWidth="1.5" strokeLinecap="round" opacity="0.6" />
-              <path d="M52 62C58 55 68 57 71 65" fill="none" stroke={pd} strokeWidth="1.4" strokeLinecap="round" opacity="0.45" />
-              <path d="M49 60C57 51 70 54 73 64" fill="none" stroke="#ffffff" strokeWidth="1.4" strokeLinecap="round" opacity="0.28" />
+              {/* Los dos pétalos que se cruzan arriba formando la espiral.
+                  En el emoji son justo esto: dos labios cruzados. */}
+              <path d="M43 69C44 54 51 44 60 42C58 52 55 62 55 74C55 86 57 95 60 101C50 97 42 84 43 69Z" fill={pl} opacity=".75" />
+              <path d="M77 69C76 54 69 44 60 42C62 52 65 62 65 74C65 86 63 95 60 101C70 97 78 84 77 69Z" fill={pd} opacity=".35" />
 
-              {/* Luz general sobre la flor */}
-              <ellipse cx="46" cy="52" rx="11" ry="7" fill="#ffffff" opacity="0.16" transform="rotate(-32 46 52)" />
+              {/* El remolino del centro */}
+              <path d="M60 78C52 76 48 68 52 61C56 54 66 55 69 62C71 69 67 76 60 78Z" fill={p} />
+              <path d="M60 74C55 73 52 68 55 63C58 59 64 60 66 65C67 70 64 73 60 74Z" fill={pl} />
+              <path d="M61 70C58 70 56 67 58 64C60 62 63 63 63 66C63 68 62 70 61 70Z" fill={pd} />
+              <path d="M52 62C57 55 67 56 69 63" fill="none" stroke={pl} strokeWidth="2.2" strokeLinecap="round" opacity=".7" />
+              <path d="M47 60C54 48 68 50 72 61" fill="none" stroke={pl} strokeWidth="2" strokeLinecap="round" opacity=".5" />
+              <path d="M61 67C59 67 58 65 59 64" fill="none" stroke={cd} strokeWidth="1.4" strokeLinecap="round" opacity=".55" />
+
+              {/* Bordes rizados: el remate que distingue a una rosa */}
+              <path d="M33 58C35 41 46 30 60 30" fill="none" stroke={pl} strokeWidth="2.6" strokeLinecap="round" opacity=".55" />
+              <path d="M87 58C85 41 74 30 60 30" fill="none" stroke={pl} strokeWidth="2.2" strokeLinecap="round" opacity=".35" />
+              <path d="M45 72C45 58 51 47 60 44" fill="none" stroke={pd} strokeWidth="1.6" strokeLinecap="round" opacity=".4" />
+
+              {/* Luz general */}
+              <ellipse cx="46" cy="52" rx="9" ry="14" fill="#ffffff" opacity=".14" transform="rotate(-16 46 52)" />
             </g>
           )}
 
