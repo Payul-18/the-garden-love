@@ -1,32 +1,54 @@
+import { useId } from 'react'
+
 /**
  * Flor — la ilustración SVG de una flor.
  *
- * Un solo dibujo por especie, pintado con las variables de color que recibe.
- * El tallo y la cabeza se mecen por separado y con ritmos distintos: por eso
- * el jardín parece vivo aunque nadie lo toque.
+ * Cada especie está dibujada siguiendo su forma real: el girasol tiene
+ * brácteas y semillas en espiral de Fibonacci, la rosa un corazón en
+ * espiral con sépalos, el tulipán seis tépalos en copa, la margarita
+ * pétalos desiguales, y el clavel el borde dentado y el cáliz tubular
+ * que lo distinguen. Lo que no se copia de la realidad es el acabado:
+ * sigue siendo ilustración de cuento, no una fotografía.
  *
- * Props:
- *   tipo        girasol | rosa | tulipan | margarita | clavel
- *   p/pd/pl/c/cd  colores del pétalo, su sombra, su luz, el centro y su sombra
- *   tallo/hoja/hojaD  los verdes
- *   soloCabeza  true durante el florecimiento, donde el tallo se dibuja aparte
- *   dur/delay   duración y retardo del vaivén, para desincronizar las flores
- *   fx          filtro CSS extra (de noche, el brillo propio de la flor)
+ * El tallo y la cabeza se mecen por separado y con ritmos distintos: por
+ * eso el jardín parece vivo aunque nadie lo toque.
  */
 
-// Los pétalos se generan por rotación para no repetir 18 veces el mismo path.
-const GIRASOL_FONDO = [0, 41, 80, 119, 161, 200, 240, 281, 320]
-const GIRASOL_FRENTE = [20, 60, 100, 141, 180, 221, 260, 300, 340]
-const MARGARITA_FONDO = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330]
-const MARGARITA_FRENTE = [15, 45, 75, 105, 135, 165, 195, 225, 255, 285, 315, 345]
-const ROSA_FONDO = [0, 74, 146, 216, 288]
-const ROSA_MEDIO = [36, 112, 188, 262]
+/* ------------------------------------------------------------------
+   Semillas del girasol
+   Se reparten con el ángulo áureo (137.5°), que es como se ordenan de
+   verdad en el capítulo de la flor. Una retícula se vería artificial.
+------------------------------------------------------------------ */
+const SEMILLAS = (() => {
+  const puntos = []
+  for (let i = 0; i < 68; i++) {
+    const r = 2.4 * Math.sqrt(i)
+    if (r > 18) break
+    const a = i * 137.508 * (Math.PI / 180)
+    puntos.push([
+      +(60 + r * Math.cos(a)).toFixed(2),
+      +(78 + r * Math.sin(a)).toFixed(2),
+      +(0.95 + r * 0.045).toFixed(2),
+    ])
+  }
+  return puntos
+})()
 
-// Motas del centro del girasol: dan textura de semillas sin ser un patrón rígido.
-const SEMILLAS = [
-  [54, 72, 0.6], [62, 70, 0.6], [58, 78, 0.6], [66, 76, 0.6],
-  [52, 81, 0.6], [62, 86, 0.6], [69, 83, 0.5], [55, 89, 0.5],
-]
+// Pétalo del girasol: lanceolado y con la muesca del extremo.
+const PETALO_GIRASOL = 'M60 76 C50 60 48 38 55 23 L60 29 L65 23 C72 38 70 60 60 76Z'
+const PETALO_GIRASOL_INT = 'M60 76 C52 62 50 44 56 32 L60 37 L64 32 C70 44 68 62 60 76Z'
+const ANGULOS_13 = Array.from({ length: 13 }, (_, i) => +(i * (360 / 13)).toFixed(1))
+const ANGULOS_13_INT = ANGULOS_13.map((a) => +(a + 13.8).toFixed(1))
+const BRACTEAS = Array.from({ length: 9 }, (_, i) => +(i * 40 + 20).toFixed(1))
+
+// Margarita: longitudes ligeramente desiguales, como las de verdad.
+const PETALOS_MARGARITA = Array.from({ length: 21 }, (_, i) => ({
+  angulo: +(i * (360 / 21)).toFixed(1),
+  escala: +(0.88 + ((i * 7) % 5) * 0.055).toFixed(3),
+}))
+
+const ROSA_EXT = [0, 72, 144, 216, 288]
+const ROSA_MED = [36, 108, 180, 252, 324]
 
 export default function Flor({
   tipo = 'girasol',
@@ -34,6 +56,13 @@ export default function Flor({
   tallo = '#4e9a4a', hoja = '#59ad53', hojaD = '#3c8038',
   soloCabeza = false, dur = 4.4, delay = 0, fx = 'none',
 }) {
+  // Los degradados necesitan identificadores únicos: con varias flores en
+  // pantalla, ids repetidos harían que todas usaran el color de la primera.
+  const uid = useId().replace(/:/g, '')
+  const gPetalo = `pt-${uid}`
+  const gCentro = `ct-${uid}`
+  const gTallo = `tl-${uid}`
+
   const vaiven = {
     animation: `florSway ${dur}s ease-in-out infinite`,
     animationDelay: `${delay}s`,
@@ -55,92 +84,181 @@ export default function Flor({
       preserveAspectRatio="xMidYMax meet"
       style={{ width: '100%', height: '100%', overflow: 'visible', display: 'block' }}
     >
+      <defs>
+        {/* La luz entra por arriba a la izquierda, igual en toda la flor */}
+        <linearGradient id={gPetalo} x1="0.25" y1="0" x2="0.75" y2="1">
+          <stop offset="0%" stopColor={pl} />
+          <stop offset="48%" stopColor={p} />
+          <stop offset="100%" stopColor={pd} />
+        </linearGradient>
+        <radialGradient id={gCentro} cx="0.38" cy="0.34" r="0.72">
+          <stop offset="0%" stopColor={c} />
+          <stop offset="70%" stopColor={c} />
+          <stop offset="100%" stopColor={cd} />
+        </radialGradient>
+        <linearGradient id={gTallo} x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor={hojaD} />
+          <stop offset="40%" stopColor={tallo} />
+          <stop offset="100%" stopColor={hojaD} />
+        </linearGradient>
+      </defs>
+
       <g style={vaiven}>
 
         {!soloCabeza && (
           <g>
-            <path d="M60 200C56 172 65 146 60 104" fill="none" stroke={tallo} strokeWidth="7" strokeLinecap="round" />
-            <path d="M59 196C56 172 64 148 60 112" fill="none" stroke={hojaD} strokeWidth="2" strokeLinecap="round" opacity="0.45" />
-            <path d="M60 158C42 148 26 152 19 166C33 178 52 176 60 158Z" fill={hoja} />
-            <path d="M57 159C45 160 32 163 22 168" fill="none" stroke={hojaD} strokeWidth="1.6" strokeLinecap="round" opacity="0.7" />
-            <path d="M62 130C80 118 97 123 102 138C87 149 70 146 62 130Z" fill={hoja} />
-            <path d="M65 131C77 130 90 133 99 139" fill="none" stroke={hojaD} strokeWidth="1.6" strokeLinecap="round" opacity="0.7" />
+            {/* Tallo con nervadura y hojas con su nervio central */}
+            <path d="M60 200C56 172 65 146 60 104" fill="none" stroke={`url(#${gTallo})`} strokeWidth="7.5" strokeLinecap="round" />
+            <path d="M58.5 196C55.5 172 63.5 148 59.5 112" fill="none" stroke={hojaD} strokeWidth="1.8" strokeLinecap="round" opacity="0.35" />
+
+            <path d="M60 158C42 147 24 150 17 165C32 179 53 177 60 158Z" fill={hoja} />
+            <path d="M60 158C46 152 31 153 21 161C34 170 51 169 60 158Z" fill={hojaD} opacity="0.28" />
+            <path d="M57 159C45 160 31 163 20 167" fill="none" stroke={hojaD} strokeWidth="1.5" strokeLinecap="round" opacity="0.8" />
+            <path d="M48 160L44 156M40 161L37 157M33 163L31 159" stroke={hojaD} strokeWidth="1" strokeLinecap="round" opacity="0.5" />
+
+            <path d="M62 130C81 117 99 122 104 137C88 150 69 147 62 130Z" fill={hoja} />
+            <path d="M62 130C76 125 92 127 101 134C87 141 70 140 62 130Z" fill={hojaD} opacity="0.24" />
+            <path d="M65 131C78 130 92 133 101 139" fill="none" stroke={hojaD} strokeWidth="1.5" strokeLinecap="round" opacity="0.8" />
+            <path d="M74 131L78 127M82 133L85 129M90 135L93 131" stroke={hojaD} strokeWidth="1" strokeLinecap="round" opacity="0.5" />
           </g>
         )}
 
         <g style={cabeceo}>
 
+          {/* ---------------- GIRASOL ---------------- */}
           {tipo === 'girasol' && (
             <g>
-              {GIRASOL_FONDO.map((a) => (
-                <path key={`gf${a}`} d="M60 78C46 60 43 30 60 20C77 30 74 60 60 78Z" fill={pd} transform={`rotate(${a} 60 78)`} />
+              {/* Brácteas verdes: asoman entre los pétalos, como en la real */}
+              {BRACTEAS.map((a) => (
+                <path key={`b${a}`} d="M60 78C54 66 53 50 60 42C67 50 66 66 60 78Z"
+                      fill={hojaD} opacity="0.75" transform={`rotate(${a} 60 78)`} />
               ))}
-              {GIRASOL_FRENTE.map((a) => (
-                <path key={`gp${a}`} d="M60 78C49 63 46 38 60 28C74 38 71 63 60 78Z" fill={p} stroke={pd} strokeWidth="0.7" transform={`rotate(${a} 60 78)`} />
+              {ANGULOS_13.map((a) => (
+                <path key={`g1${a}`} d={PETALO_GIRASOL} fill={pd} transform={`rotate(${a} 60 78)`} />
               ))}
-              <path d="M60 50C54 56 52 64 53 70" fill="none" stroke={pl} strokeWidth="2.4" strokeLinecap="round" opacity="0.65" transform="rotate(20 60 78)" />
-              <path d="M60 50C54 56 52 64 53 70" fill="none" stroke={pl} strokeWidth="2.4" strokeLinecap="round" opacity="0.65" transform="rotate(300 60 78)" />
-              <circle cx="60" cy="78" r="23" fill={cd} />
-              <circle cx="59" cy="77" r="19" fill={c} />
-              {SEMILLAS.map(([x, y, o], i) => (
-                <circle key={`s${i}`} cx={x} cy={y} r="1.7" fill={cd} opacity={o} />
+              {ANGULOS_13_INT.map((a) => (
+                <path key={`g2${a}`} d={PETALO_GIRASOL_INT} fill={`url(#${gPetalo})`}
+                      stroke={pd} strokeWidth="0.5" transform={`rotate(${a} 60 78)`} />
               ))}
-              <ellipse cx="51" cy="68" rx="9" ry="6" fill="#ffffff" opacity="0.2" transform="rotate(-24 51 68)" />
-              <path d="M43 88C48 95 58 99 68 96" fill="none" stroke="#000000" strokeWidth="2.4" strokeLinecap="round" opacity="0.12" />
+              {/* Nervios de los pétalos de delante */}
+              {[13.8, 96, 180, 262].map((a) => (
+                <path key={`n${a}`} d="M60 70C58 60 58 48 60 38" fill="none" stroke={pl}
+                      strokeWidth="1.5" strokeLinecap="round" opacity="0.5" transform={`rotate(${a} 60 78)`} />
+              ))}
+
+              <circle cx="60" cy="78" r="21.5" fill={cd} />
+              <circle cx="60" cy="78" r="19.5" fill={`url(#${gCentro})`} />
+              {/* Corona de flósculos: el anillo suelto del borde del disco */}
+              <circle cx="60" cy="78" r="18" fill="none" stroke={pd} strokeWidth="2.6" opacity="0.32" />
+              {SEMILLAS.map(([x, y, r], i) => (
+                <circle key={`s${i}`} cx={x} cy={y} r={r} fill={cd} opacity={0.32 + (i % 4) * 0.13} />
+              ))}
+              <ellipse cx="52" cy="69" rx="8" ry="5.4" fill="#ffffff" opacity="0.16" transform="rotate(-26 52 69)" />
+              <path d="M44 87C49 95 59 99 69 96" fill="none" stroke="#000000" strokeWidth="2.6" strokeLinecap="round" opacity="0.1" />
             </g>
           )}
 
+          {/* ---------------- ROSA ---------------- */}
           {tipo === 'rosa' && (
             <g>
-              {ROSA_FONDO.map((a) => (
-                <path key={`rf${a}`} d="M60 96C40 90 32 68 42 54C52 44 70 46 74 60C78 74 70 90 60 96Z" fill={pd} transform={`rotate(${a} 60 84)`} />
+              {/* Sépalos: las puntas verdes que sujetan la flor */}
+              <path d="M44 94C38 100 34 108 35 116C42 112 46 104 46 96Z" fill={hojaD} />
+              <path d="M76 94C82 100 86 108 85 116C78 112 74 104 74 96Z" fill={hojaD} />
+              <path d="M60 100C58 108 58 114 60 120C62 114 62 108 60 100Z" fill={hojaD} />
+
+              {/* Pétalos externos, anchos y vueltos hacia fuera */}
+              {ROSA_EXT.map((a) => (
+                <g key={`re${a}`} transform={`rotate(${a} 60 82)`}>
+                  <path d="M60 100C36 95 24 74 32 55C39 39 62 37 71 52C80 67 74 92 60 100Z" fill={pd} />
+                  <path d="M60 97C40 92 30 74 37 58C43 45 62 44 69 56C76 69 71 90 60 97Z" fill={p} opacity="0.55" />
+                  {/* Borde enrollado del pétalo */}
+                  <path d="M33 56C40 43 61 42 69 54" fill="none" stroke={pl} strokeWidth="2.6" strokeLinecap="round" opacity="0.55" />
+                </g>
               ))}
-              {ROSA_MEDIO.map((a) => (
-                <path key={`rm${a}`} d="M60 92C46 86 41 70 49 60C56 52 69 54 72 64C75 74 69 87 60 92Z" fill={p} transform={`rotate(${a} 60 82)`} />
+
+              {/* Pétalos medios */}
+              {ROSA_MED.map((a) => (
+                <g key={`rm${a}`} transform={`rotate(${a} 60 82)`}>
+                  <path d="M60 94C44 89 36 73 43 60C49 49 64 49 70 60C76 71 70 89 60 94Z" fill={`url(#${gPetalo})`} />
+                  <path d="M44 60C50 51 64 51 69 60" fill="none" stroke={pl} strokeWidth="2" strokeLinecap="round" opacity="0.5" />
+                </g>
               ))}
-              <path d="M60 86C51 82 47 72 53 65C59 59 69 62 70 70C71 78 66 84 60 86Z" fill={pl} />
-              <path d="M60 80C55 78 53 72 57 69C61 66 66 69 65 73C64 77 61 79 58 78" fill="none" stroke={pd} strokeWidth="2" strokeLinecap="round" opacity="0.75" />
-              <path d="M52 62C56 57 63 56 68 60" fill="none" stroke={pl} strokeWidth="2" strokeLinecap="round" opacity="0.6" />
-              <path d="M44 92C50 100 70 100 76 92C72 104 48 104 44 92Z" fill={hojaD} />
+
+              {/* Corazón en espiral: lo que hace que una rosa sea una rosa */}
+              <path d="M60 88C50 84 45 74 50 66C55 58 67 60 69 68C71 76 67 85 60 88Z" fill={pl} />
+              <path d="M60 84C53 81 50 74 54 69C58 64 66 66 67 72C68 78 65 82 60 84Z" fill={p} opacity="0.85" />
+              <path d="M62 80C57 79 54 75 56 71C58 68 63 69 64 72C65 75 64 79 62 80Z" fill={pd} opacity="0.75" />
+              <path d="M62 77C59 77 57 75 58 73C59 71 62 72 62 74" fill="none" stroke={pd} strokeWidth="1.8" strokeLinecap="round" />
+              <path d="M52 68C56 63 65 63 68 69" fill="none" stroke="#ffffff" strokeWidth="1.6" strokeLinecap="round" opacity="0.3" />
             </g>
           )}
 
+          {/* ---------------- TULIPÁN ---------------- */}
           {tipo === 'tulipan' && (
             <g>
-              <path d="M60 100C40 96 31 72 36 44C43 56 51 61 60 61C69 61 77 56 84 44C89 72 80 96 60 100Z" fill={pd} />
-              <path d="M60 100C46 94 40 72 43 47C49 58 54 62 60 62C60 74 60 88 60 100Z" fill={p} />
-              <path d="M60 100C50 90 47 66 52 45C57 57 63 57 68 45C73 66 70 90 60 100Z" fill={pl} />
-              <path d="M57 56C55 70 55 86 58 97" fill="none" stroke={pd} strokeWidth="1.6" strokeLinecap="round" opacity="0.4" />
-              <path d="M66 52C69 66 69 84 65 96" fill="none" stroke={pd} strokeWidth="1.6" strokeLinecap="round" opacity="0.35" />
-              <ellipse cx="51" cy="70" rx="5" ry="12" fill="#ffffff" opacity="0.16" transform="rotate(-8 51 70)" />
+              {/* Tres tépalos traseros, con la punta hacia fuera */}
+              <path d="M60 104C36 99 28 72 33 38C36 52 41 60 48 62L52 36C56 50 58 56 60 56Z" fill={pd} />
+              <path d="M60 104C84 99 92 72 87 38C84 52 79 60 72 62L68 36C64 50 62 56 60 56Z" fill={pd} />
+              {/* Tépalo central, el más iluminado */}
+              <path d="M60 104C47 97 41 74 44 44C49 57 54 62 60 62C66 62 71 57 76 44C79 74 73 97 60 104Z" fill={`url(#${gPetalo})`} />
+              {/* Tépalos laterales de delante */}
+              <path d="M60 104C50 94 46 70 50 46C54 58 57 62 60 63C60 77 60 92 60 104Z" fill={p} opacity="0.65" />
+              <path d="M60 104C70 94 74 70 70 46C66 58 63 62 60 63C60 77 60 92 60 104Z" fill={pl} opacity="0.5" />
+              {/* Pliegues */}
+              <path d="M53 56C51 70 51 88 55 101" fill="none" stroke={pd} strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
+              <path d="M67 56C69 70 69 88 65 101" fill="none" stroke={pd} strokeWidth="1.5" strokeLinecap="round" opacity="0.38" />
+              <path d="M60 64C60 78 60 92 60 102" fill="none" stroke={pd} strokeWidth="1.2" strokeLinecap="round" opacity="0.25" />
+              <ellipse cx="50" cy="72" rx="4.6" ry="12" fill="#ffffff" opacity="0.18" transform="rotate(-8 50 72)" />
             </g>
           )}
 
+          {/* ---------------- MARGARITA ---------------- */}
           {tipo === 'margarita' && (
             <g>
-              {MARGARITA_FONDO.map((a) => (
-                <path key={`mf${a}`} d="M60 82C52 70 50 44 60 31C70 44 68 70 60 82Z" fill={pd} transform={`rotate(${a} 60 82)`} />
+              {PETALOS_MARGARITA.map(({ angulo, escala }) => (
+                <g key={`ms${angulo}`} transform={`rotate(${angulo} 60 82)`}>
+                  <path d={`M60 82C53 70 51 ${(82 - 44 * escala).toFixed(1)} 60 ${(82 - 52 * escala).toFixed(1)}C69 ${(82 - 44 * escala).toFixed(1)} 67 70 60 82Z`} fill={pd} />
+                </g>
               ))}
-              {MARGARITA_FRENTE.map((a) => (
-                <path key={`mp${a}`} d="M60 82C53 70 51 45 60 33C69 45 67 70 60 82Z" fill={p} transform={`rotate(${a} 60 82)`} />
+              {PETALOS_MARGARITA.map(({ angulo, escala }) => (
+                <g key={`mp${angulo}`} transform={`rotate(${angulo + 8} 60 82)`}>
+                  <path d={`M60 82C54 70 52 ${(82 - 42 * escala).toFixed(1)} 60 ${(82 - 49 * escala).toFixed(1)}C68 ${(82 - 42 * escala).toFixed(1)} 66 70 60 82Z`}
+                        fill={`url(#${gPetalo})`} stroke={pd} strokeWidth="0.35" />
+                  <path d={`M60 76C59 66 59 ${(82 - 40 * escala).toFixed(1)} 60 ${(82 - 45 * escala).toFixed(1)}`}
+                        fill="none" stroke={pd} strokeWidth="0.7" opacity="0.28" />
+                </g>
               ))}
-              <circle cx="60" cy="82" r="13" fill={cd} />
-              <circle cx="59" cy="81" r="10" fill={c} />
-              <ellipse cx="55" cy="77" rx="4" ry="3" fill="#ffffff" opacity="0.28" />
+              {/* El centro es una cúpula, no un disco plano */}
+              <circle cx="60" cy="82" r="12.5" fill={cd} />
+              <circle cx="60" cy="82" r="11" fill={`url(#${gCentro})`} />
+              {[[56,78,1.5],[63,78,1.3],[59,83,1.4],[66,83,1.2],[54,84,1.2],[61,87,1.3],[68,80,1.1],[52,80,1.1]].map(([x,y,r],i) => (
+                <circle key={`md${i}`} cx={x} cy={y} r={r} fill={cd} opacity="0.4" />
+              ))}
+              <ellipse cx="55" cy="77" rx="4" ry="2.8" fill="#ffffff" opacity="0.3" />
             </g>
           )}
 
+          {/* ---------------- CLAVEL ---------------- */}
           {tipo === 'clavel' && (
             <g>
-              <path d="M60 98C34 94 26 70 34 54C39 63 45 58 48 50C52 61 57 55 60 48C63 55 68 61 72 50C75 58 81 63 86 54C94 70 86 94 60 98Z" fill={pd} />
-              <g transform="translate(60 98) scale(0.8) translate(-60 -98)">
-                <path d="M60 98C34 94 26 70 34 54C39 63 45 58 48 50C52 61 57 55 60 48C63 55 68 61 72 50C75 58 81 63 86 54C94 70 86 94 60 98Z" fill={p} />
+              {/* Cáliz tubular: el rasgo que más distingue al clavel */}
+              <path d="M50 96C50 106 50 116 52 122C56 125 64 125 68 122C70 116 70 106 70 96Z" fill={hoja} />
+              <path d="M50 96C50 106 50 116 52 122C54 116 54 106 54 96Z" fill={hojaD} opacity="0.55" />
+              <path d="M50 98C53 94 57 96 58 100M70 98C67 94 63 96 62 100" fill="none" stroke={hojaD} strokeWidth="1.6" strokeLinecap="round" />
+
+              {/* Tres coronas de pétalos con el borde dentado */}
+              <path d="M60 100C31 96 22 70 31 51C36 61 42 55 45 46C50 58 55 51 57 43C58 51 60 47 60 40C60 47 62 51 63 43C65 51 70 58 75 46C78 55 84 61 89 51C98 70 89 96 60 100Z" fill={pd} />
+              <g transform="translate(60 100) scale(0.82) translate(-60 -100)">
+                <path d="M60 100C31 96 22 70 31 51C36 61 42 55 45 46C50 58 55 51 57 43C58 51 60 47 60 40C60 47 62 51 63 43C65 51 70 58 75 46C78 55 84 61 89 51C98 70 89 96 60 100Z" fill={`url(#${gPetalo})`} />
               </g>
-              <g transform="translate(60 96) scale(0.55) translate(-60 -96)">
-                <path d="M60 98C34 94 26 70 34 54C39 63 45 58 48 50C52 61 57 55 60 48C63 55 68 61 72 50C75 58 81 63 86 54C94 70 86 94 60 98Z" fill={pl} />
+              <g transform="translate(60 98) scale(0.58) translate(-60 -98)">
+                <path d="M60 100C31 96 22 70 31 51C36 61 42 55 45 46C50 58 55 51 57 43C58 51 60 47 60 40C60 47 62 51 63 43C65 51 70 58 75 46C78 55 84 61 89 51C98 70 89 96 60 100Z" fill={pl} />
               </g>
-              <path d="M48 96C52 106 68 106 72 96C74 110 46 110 48 96Z" fill={hojaD} />
-              <path d="M46 72C50 78 54 82 60 84" fill="none" stroke={pl} strokeWidth="2" strokeLinecap="round" opacity="0.5" />
+              <g transform="translate(60 96) scale(0.33) translate(-60 -96)">
+                <path d="M60 100C31 96 22 70 31 51C36 61 42 55 45 46C50 58 55 51 57 43C58 51 60 47 60 40C60 47 62 51 63 43C65 51 70 58 75 46C78 55 84 61 89 51C98 70 89 96 60 100Z" fill={c} opacity="0.85" />
+              </g>
+              <path d="M44 70C49 77 54 82 60 85" fill="none" stroke={pl} strokeWidth="1.8" strokeLinecap="round" opacity="0.45" />
+              <path d="M76 70C71 77 66 82 60 85" fill="none" stroke={pd} strokeWidth="1.6" strokeLinecap="round" opacity="0.35" />
             </g>
           )}
 
