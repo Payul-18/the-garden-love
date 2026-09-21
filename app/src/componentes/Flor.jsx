@@ -161,35 +161,52 @@ export default function Flor({
           {/* ---------------- ROSA ---------------- */}
           {tipo === 'rosa' && (
             <g>
-              {/* Sépalos: las puntas verdes que sujetan la flor */}
-              <path d="M44 94C38 100 34 108 35 116C42 112 46 104 46 96Z" fill={hojaD} />
-              <path d="M76 94C82 100 86 108 85 116C78 112 74 104 74 96Z" fill={hojaD} />
-              <path d="M60 100C58 108 58 114 60 120C62 114 62 108 60 100Z" fill={hojaD} />
+              {/* Sépalos: las lengüetas verdes que sujetan la flor */}
+              <path d="M42 96C35 102 30 111 31 120C39 116 44 107 45 98Z" fill={hojaD} />
+              <path d="M78 96C85 102 90 111 89 120C81 116 76 107 75 98Z" fill={hojaD} />
+              <path d="M60 104C57 112 56 119 58 126C63 119 64 112 62 104Z" fill={hojaD} />
+              <path d="M52 101C48 109 47 116 48 123C53 116 55 109 55 102Z" fill={hoja} />
+              <path d="M68 101C72 109 73 116 72 123C67 116 65 109 65 102Z" fill={hoja} />
 
-              {/* Pétalos externos, anchos y vueltos hacia fuera */}
-              {ROSA_EXT.map((a) => (
-                <g key={`re${a}`} transform={`rotate(${a} 60 82)`}>
-                  <path d="M60 100C36 95 24 74 32 55C39 39 62 37 71 52C80 67 74 92 60 100Z" fill={pd} />
-                  <path d="M60 97C40 92 30 74 37 58C43 45 62 44 69 56C76 69 71 90 60 97Z" fill={p} opacity="0.55" />
-                  {/* Borde enrollado del pétalo */}
-                  <path d="M33 56C40 43 61 42 69 54" fill="none" stroke={pl} strokeWidth="2.6" strokeLinecap="round" opacity="0.55" />
+              {/* Copa de la flor: el volumen sobre el que se apoyan los pétalos */}
+              <path d="M60 106C33 101 22 79 25 58C28 40 42 30 60 30C78 30 92 40 95 58C98 79 87 101 60 106Z" fill={pd} />
+
+              {/* Cinco pétalos externos en remolino. Cada uno arranca abajo,
+                  sube abrazando la flor y vuelve: girados entre sí es lo que
+                  produce la espiral que distingue a una rosa. */}
+              {[0, 72, 144, 216, 288].map((a) => (
+                <g key={`re${a}`} transform={`rotate(${a} 60 70)`}>
+                  <path d="M60 104C32 97 23 72 32 50C39 33 60 32 68 46C60 42 47 48 43 61C39 76 47 94 60 104Z" fill={`url(#${gPetalo})`} />
+                  {/* Borde vuelto del pétalo: la rosa se reconoce por el rizo */}
+                  <path d="M32 51C40 34 59 33 67 45" fill="none" stroke={pl} strokeWidth="3" strokeLinecap="round" opacity="0.7" />
+                  <path d="M35 56C42 41 57 39 65 49" fill="none" stroke={pd} strokeWidth="1.3" strokeLinecap="round" opacity="0.45" />
                 </g>
               ))}
 
-              {/* Pétalos medios */}
-              {ROSA_MED.map((a) => (
-                <g key={`rm${a}`} transform={`rotate(${a} 60 82)`}>
-                  <path d="M60 94C44 89 36 73 43 60C49 49 64 49 70 60C76 71 70 89 60 94Z" fill={`url(#${gPetalo})`} />
-                  <path d="M44 60C50 51 64 51 69 60" fill="none" stroke={pl} strokeWidth="2" strokeLinecap="round" opacity="0.5" />
+              {/* Cinco pétalos intermedios, girados para rellenar los huecos */}
+              {[36, 108, 180, 252, 324].map((a) => (
+                <g key={`rm${a}`} transform={`rotate(${a} 60 72)`}>
+                  <path d="M60 96C41 90 34 71 41 55C46 43 61 43 66 54C59 51 50 55 47 65C44 77 50 89 60 96Z" fill={p} />
+                  <path d="M41 56C47 44 60 43 65 53" fill="none" stroke={pl} strokeWidth="2.2" strokeLinecap="round" opacity="0.6" />
                 </g>
               ))}
 
-              {/* Corazón en espiral: lo que hace que una rosa sea una rosa */}
-              <path d="M60 88C50 84 45 74 50 66C55 58 67 60 69 68C71 76 67 85 60 88Z" fill={pl} />
-              <path d="M60 84C53 81 50 74 54 69C58 64 66 66 67 72C68 78 65 82 60 84Z" fill={p} opacity="0.85" />
-              <path d="M62 80C57 79 54 75 56 71C58 68 63 69 64 72C65 75 64 79 62 80Z" fill={pd} opacity="0.75" />
-              <path d="M62 77C59 77 57 75 58 73C59 71 62 72 62 74" fill="none" stroke={pd} strokeWidth="1.8" strokeLinecap="round" />
-              <path d="M52 68C56 63 65 63 68 69" fill="none" stroke="#ffffff" strokeWidth="1.6" strokeLinecap="round" opacity="0.3" />
+              {/* Corazón: cuatro medias lunas cada vez más cerradas.
+                  Es el remolino del centro, no una flor dentro de otra. */}
+              <path d="M60 90C44 85 37 70 45 58C53 46 71 49 75 62C78 73 72 86 60 90Z" fill={pd} />
+              <path d="M60 86C48 82 43 70 49 61C56 51 69 54 72 64C74 73 69 83 60 86Z" fill={`url(#${gPetalo})`} />
+              <path d="M60 82C51 79 47 70 52 63C57 56 67 59 69 67C70 74 66 80 60 82Z" fill={pl} />
+              <path d="M61 78C55 76 52 70 55 65C59 61 66 63 66 69C66 74 64 77 61 78Z" fill={p} />
+              <path d="M62 74C58 74 55 71 57 68C59 65 63 66 63 69C63 72 63 74 62 74Z" fill={pd} />
+
+              {/* Los pliegues del centro, que rematan la espiral */}
+              <path d="M62 71C60 71 58 69 59 68" fill="none" stroke={cd} strokeWidth="1.5" strokeLinecap="round" opacity="0.55" />
+              <path d="M57 64C61 60 67 62 69 67" fill="none" stroke={pd} strokeWidth="1.5" strokeLinecap="round" opacity="0.6" />
+              <path d="M52 62C58 55 68 57 71 65" fill="none" stroke={pd} strokeWidth="1.4" strokeLinecap="round" opacity="0.45" />
+              <path d="M49 60C57 51 70 54 73 64" fill="none" stroke="#ffffff" strokeWidth="1.4" strokeLinecap="round" opacity="0.28" />
+
+              {/* Luz general sobre la flor */}
+              <ellipse cx="46" cy="52" rx="11" ry="7" fill="#ffffff" opacity="0.16" transform="rotate(-32 46 52)" />
             </g>
           )}
 

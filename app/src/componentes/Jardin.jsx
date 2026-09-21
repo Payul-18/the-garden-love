@@ -187,13 +187,41 @@ function TierraVacia({ texto }) {
    Suelo: las tres capas de césped, compartidas por los tres ambientes
    con distinta paleta.
 ------------------------------------------------------------------ */
-function Suelo({ c1, c2, c3, base }) {
+/**
+ * Suelo — las tres terrazas del prado.
+ *
+ * Antes eran tres olas amplias y regulares, y el terreno parecía dibujado
+ * con un compás. Ahora cada terraza es casi plana con ondulaciones cortas
+ * e irregulares, que es como se ve un prado de verdad: la pendiente general
+ * apenas cambia, lo que cambia son los bultos pequeños.
+ */
+function Suelo({ c1, c2, c3, base, tierra, piedra }) {
   return (
     <>
       <svg viewBox="0 0 375 220" preserveAspectRatio="none" style={{ position: 'absolute', left: 0, right: 0, bottom: 0, width: '100%', height: '62%' }}>
-        <path d="M0 78C70 40 120 96 190 70C260 44 320 84 375 60L375 220L0 220Z" fill={c1} />
-        <path d="M0 116C60 92 130 128 200 108C270 88 330 120 375 104L375 220L0 220Z" fill={c2} />
-        <path d="M0 150C70 132 140 162 210 146C280 130 330 152 375 142L375 220L0 220Z" fill={c3} />
+        {/* Terraza lejana */}
+        <path d="M0 92C18 88 32 91 52 87C74 83 90 87 114 83C140 79 156 84 182 81C208 78 226 82 252 79C278 76 294 80 320 78C342 76 358 79 375 77L375 220L0 220Z" fill={c1} />
+
+        {/* Terraza media */}
+        <path d="M0 128C22 125 40 129 64 126C90 123 106 127 132 125C160 123 176 126 204 124C232 122 248 125 276 124C302 123 320 125 344 124L375 123L375 220L0 220Z" fill={c2} />
+        {/* Bultos del terreno: lomas bajas que rompen la línea */}
+        <ellipse cx="88" cy="132" rx="46" ry="8" fill={c1} opacity=".28" />
+        <ellipse cx="248" cy="130" rx="54" ry="7" fill={c1} opacity=".24" />
+
+        {/* Terraza cercana */}
+        <path d="M0 162C26 160 48 163 76 161C104 159 122 162 152 161C182 160 200 162 230 161C260 160 278 162 306 161C330 160 352 162 375 161L375 220L0 220Z" fill={c3} />
+        <ellipse cx="150" cy="168" rx="62" ry="8" fill={c2} opacity=".22" />
+        <ellipse cx="322" cy="166" rx="44" ry="7" fill={c2} opacity=".2" />
+
+        {/* Calvas de tierra y piedrecitas: el prado no es una alfombra */}
+        <ellipse cx="62" cy="192" rx="30" ry="6" fill={tierra} opacity=".3" />
+        <ellipse cx="206" cy="204" rx="38" ry="7" fill={tierra} opacity=".26" />
+        <ellipse cx="316" cy="188" rx="26" ry="5" fill={tierra} opacity=".24" />
+        <ellipse cx="44" cy="191" rx="2.6" ry="1.8" fill={piedra} opacity=".5" />
+        <ellipse cx="78" cy="195" rx="2" ry="1.4" fill={piedra} opacity=".45" />
+        <ellipse cx="196" cy="205" rx="3" ry="2" fill={piedra} opacity=".45" />
+        <ellipse cx="222" cy="202" rx="2.2" ry="1.5" fill={piedra} opacity=".4" />
+        <ellipse cx="310" cy="189" rx="2.4" ry="1.6" fill={piedra} opacity=".45" />
       </svg>
       <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: '26%', background: base }} />
     </>
@@ -279,7 +307,7 @@ function CieloDia() {
 
       <Montanas ambiente="dia" />
 
-      <Suelo c1="#7fc46a" c2="#63b158" c3="#4f9c49" base="linear-gradient(180deg,rgba(79,156,73,0) 0%,#47903f 55%,#3a7c35 100%)" />
+      <Suelo tierra="#8a6a44" piedra="#c9bda6" c1="#7fc46a" c2="#63b158" c3="#4f9c49" base="linear-gradient(180deg,rgba(79,156,73,0) 0%,#47903f 55%,#3a7c35 100%)" />
     </>
   )
 }
@@ -320,7 +348,7 @@ function CieloAtardecer() {
 
       <Montanas ambiente="atardecer" />
 
-      <Suelo c1="#8a6b58" c2="#6c7a4e" c3="#55693f" base="linear-gradient(180deg,rgba(85,105,63,0) 0%,#4c6038 55%,#3d4f2e 100%)" />
+      <Suelo tierra="#6e523c" piedra="#b09a80" c1="#8a6b58" c2="#6c7a4e" c3="#55693f" base="linear-gradient(180deg,rgba(85,105,63,0) 0%,#4c6038 55%,#3d4f2e 100%)" />
 
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,rgba(255,170,90,0) 40%,rgba(255,160,90,.22) 100%)', pointerEvents: 'none' }} />
     </>
@@ -360,7 +388,7 @@ function CieloNoche() {
 
       <Montanas ambiente="noche" />
 
-      <Suelo c1="#26324f" c2="#1e3a46" c3="#1a4440" base="linear-gradient(180deg,rgba(26,68,64,0) 0%,#163a38 55%,#11302f 100%)" />
+      <Suelo tierra="#1c2a30" piedra="#4a5566" c1="#26324f" c2="#1e3a46" c3="#1a4440" base="linear-gradient(180deg,rgba(26,68,64,0) 0%,#163a38 55%,#11302f 100%)" />
 
       {LUCIERNAGAS.map(([bottom, left, tam, color, dur, delay], i) => (
         <div key={i} style={{
