@@ -46,7 +46,7 @@ export default function JardinDeGabriela() {
     setMsg({ texto, tono })
     // Cinco segundos y medio: da tiempo a leer una frase escrita a mano
     // sin que el aviso se quede estorbando la vista del jardín.
-    tMsg.current = setTimeout(() => setMsg({ texto: '', tono }), 5500)
+    tMsg.current = setTimeout(() => setMsg({ texto: '', tono }), tono === 'logro' ? 7000 : 5500)
   }, [])
 
   // Las flores se cargan una sola vez, al entrar. Antes de la llave no hace
@@ -96,7 +96,7 @@ export default function JardinDeGabriela() {
 
     if (r.estado === 'ya_canjeada') {
       setShake((s) => s + 1)
-      decir('Esta flor ya está en tu jardín 🌷')
+      decir('Esta flor ya está en tu jardín 🌷', 'aviso')
       // En vez de quedarse en el error, el jardín la lleva hasta esa flor.
       setAnioVisible(Number(r.fecha_regalo.slice(0, 4)))
       setPanel(false)
@@ -119,7 +119,7 @@ export default function JardinDeGabriela() {
       setFlores((prev) => [...prev, flor])
       setAnioVisible(Number(flor.fecha_regalo.slice(0, 4)))
       setPantalla('jardin')
-      decir('Tu jardín tiene una flor nueva 🌻')
+      decir(fraseAlSembrar(cuantasHabia), 'logro')
     }, DURACION_BLOOM)
 
     return true
@@ -186,7 +186,7 @@ export default function JardinDeGabriela() {
             onCambiarAnio={setAnioVisible}
           />
 
-          <Mensaje texto={msg.texto} tono={msg.tono} abajo={panel ? 286 : 130} />
+          <Mensaje texto={msg.texto} tono={msg.tono} abajo={panel ? 300 : 248} />
 
           <PanelCodigo
             abierto={panel}
