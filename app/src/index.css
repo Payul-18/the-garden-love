@@ -223,3 +223,46 @@ input::placeholder { color: rgba(90, 58, 28, .35); }
   70%  { opacity: 1; transform: translateY(-3px) scale(1.04) }
   100% { opacity: 1; transform: translateY(0) scale(1) }
 }
+
+/* ------------------------------------------------------------------
+   Pasto y animales comiendo
+------------------------------------------------------------------ */
+/* Las matas se inclinan desde la base, como si las moviera el viento */
+@keyframes pastoMece {
+  0%, 100% { transform: skewX(-4deg) scaleY(1) }
+  50%      { transform: skewX(5deg) scaleY(1.03) }
+}
+
+/* El ciervo baja la cabeza, mastica un buen rato y vuelve a mirar */
+@keyframes ciervoPasta {
+  0%, 9%    { transform: rotate(0deg) translateY(0) }
+  17%       { transform: rotate(27deg) translateY(3px) }
+  23%       { transform: rotate(23deg) translateY(2px) }
+  29%       { transform: rotate(27deg) translateY(3px) }
+  35%       { transform: rotate(23deg) translateY(2px) }
+  41%       { transform: rotate(27deg) translateY(3px) }
+  47%       { transform: rotate(23deg) translateY(2px) }
+  53%       { transform: rotate(27deg) translateY(3px) }
+  62%       { transform: rotate(24deg) translateY(2px) }
+  72%, 100% { transform: rotate(0deg) translateY(0) }
+}
+
+/* El conejo mordisquea con la cabeza gacha entre salto y salto */
+@keyframes conejoMordisquea {
+  0%, 52%   { transform: rotate(0deg) translateY(0) }
+  58%       { transform: rotate(13deg) translateY(2px) }
+  63%       { transform: rotate(9deg) translateY(1px) }
+  68%       { transform: rotate(13deg) translateY(2px) }
+  73%       { transform: rotate(9deg) translateY(1px) }
+  78%       { transform: rotate(13deg) translateY(2px) }
+  86%, 100% { transform: rotate(0deg) translateY(0) }
+}
+
+/* El perro husmea la hierba y levanta la cabeza */
+@keyframes perroHusmea {
+  0%, 24%   { transform: rotate(0deg) translateY(0) }
+  34%       { transform: rotate(16deg) translateY(4px) }
+  44%       { transform: rotate(13deg) translateY(3px) }
+  54%       { transform: rotate(16deg) translateY(4px) }
+  66%, 100% { transform: rotate(0deg) translateY(0) }
+}

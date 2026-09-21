@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Flor from './Flor'
 import Animales from './Animales'
+import Pasto from './Pasto'
 
 /**
  * Jardin — el escenario donde viven las flores.
@@ -48,6 +49,9 @@ export default function Jardin({
       {ambiente === 'dia' && <CieloDia />}
       {ambiente === 'atardecer' && <CieloAtardecer />}
       {ambiente === 'noche' && <CieloNoche />}
+
+      {/* Relieve del suelo: sin esto el prado es un degradado liso */}
+      <Pasto ambiente={ambiente} />
 
       {/* Habitantes del prado: van detrás de las flores y no se pueden tocar */}
       <Animales ambiente={ambiente} />

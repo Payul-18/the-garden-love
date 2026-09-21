@@ -1,3 +1,5 @@
+import { Mata, VERDES } from './Pasto'
+
 /**
  * Animales — los habitantes del jardín.
  *
@@ -99,6 +101,7 @@ function Perro({ c, trazo }) {
         <ellipse cx="36" cy="35" rx="19" ry="11" fill={c.cuerpo} />
         <ellipse cx="38" cy="39" rx="13" ry="6" fill={c.claro} opacity=".7" />
 
+        <g style={{ animation: 'perroHusmea 7s ease-in-out infinite', transformOrigin: '48px 30px', transformBox: 'view-box' }}>
         <circle cx="54" cy="25" r="10.5" fill={c.cuerpo} />
         <ellipse cx="60" cy="28" rx="7" ry="5.5" fill={c.claro} />
         <ellipse cx="63.5" cy="27" rx="2.6" ry="2.1" fill={trazo} />
@@ -108,6 +111,7 @@ function Perro({ c, trazo }) {
         {/* Oreja caída, que rebota al respirar */}
         <g style={{ animation: 'orejaPerro 3s ease-in-out infinite', transformOrigin: '49px 18px', transformBox: 'view-box' }}>
           <path d="M49 18C43 19 41 27 44 33C49 32 51 24 49 18Z" fill={c.oscuro} />
+        </g>
         </g>
       </g>
     </svg>
@@ -138,7 +142,7 @@ function Ciervo({ c, trazo }) {
 
         <path d="M45 44C46 34 48 27 47 22" fill="none" stroke={c.cuerpo} strokeWidth="8" strokeLinecap="round" />
 
-        <g style={{ animation: 'cabezaCiervo 6s ease-in-out infinite', transformOrigin: '47px 22px', transformBox: 'view-box' }}>
+        <g style={{ animation: 'ciervoPasta 11s ease-in-out infinite', transformOrigin: '45px 26px', transformBox: 'view-box' }}>
           {/* Cuernos */}
           <path d="M43 15C41 10 39 7 36 5M43 11C40 10 38 9 36.5 7.5M51 15C53 10 55 7 58 5M51 11C54 10 56 9 57.5 7.5"
                 fill="none" stroke={c.oscuro} strokeWidth="2.2" strokeLinecap="round" />
@@ -174,11 +178,13 @@ function Conejo({ c, trazo }) {
         <ellipse cx="26" cy="38" rx="13" ry="10" fill={c.cuerpo} />
         <circle cx="38" cy="42" r="4" fill={c.claro} />
         <ellipse cx="24" cy="41" rx="8" ry="5" fill={c.claro} opacity=".7" />
-        <circle cx="23" cy="26" r="9.5" fill={c.cuerpo} />
-        <ellipse cx="22" cy="30" rx="5.5" ry="4" fill={c.claro} opacity=".8" />
-        <circle cx="18.5" cy="25" r="1.6" fill={trazo} />
-        <circle cx="27" cy="25" r="1.6" fill={trazo} />
-        <path d="M22.8 28.4L21.4 29.8L22.8 30.8L24.2 29.8Z" fill="#e58aa0" />
+        <g style={{ animation: 'conejoMordisquea 3.6s ease-in-out infinite', transformOrigin: '24px 33px', transformBox: 'view-box' }}>
+          <circle cx="23" cy="26" r="9.5" fill={c.cuerpo} />
+          <ellipse cx="22" cy="30" rx="5.5" ry="4" fill={c.claro} opacity=".8" />
+          <circle cx="18.5" cy="25" r="1.6" fill={trazo} />
+          <circle cx="27" cy="25" r="1.6" fill={trazo} />
+          <path d="M22.8 28.4L21.4 29.8L22.8 30.8L24.2 29.8Z" fill="#e58aa0" />
+        </g>
       </g>
     </svg>
   )
@@ -186,33 +192,56 @@ function Conejo({ c, trazo }) {
 
 /* ------------------------------------------------------------------
    Colocación
-   Van sobre la ladera, por encima de donde crecen las flores, y con
-   tamaños distintos para dar sensación de profundidad: el ciervo está
-   más lejos, el conejo más cerca.
+
+   Las tres colinas del suelo forman terrazas a distintas alturas. Los
+   animales se apoyan POR DEBAJO de la línea de cada terraza, nunca por
+   encima: antes flotaban justo por eso. Además cada uno lleva su propia
+   mata de pasto a los pies, que tapa el punto de contacto y termina de
+   asentarlos en el césped.
+
+   Los de arriba van más pequeños; los de abajo, más grandes y cerca.
 ------------------------------------------------------------------ */
 const REPARTO = [
-  { Quien: Ciervo, especie: 'ciervo', izq: '6%',  abajo: '46%', ancho: 66, retardo: '0s' },
-  { Quien: Gato,   especie: 'gato',   izq: '70%', abajo: '41%', ancho: 54, retardo: '-1.3s' },
-  { Quien: Conejo, especie: 'conejo', izq: '44%', abajo: '36%', ancho: 42, retardo: '-2.1s' },
-  { Quien: Perro,  especie: 'perro',  izq: '20%', abajo: '33%', ancho: 60, retardo: '-0.7s' },
+  // [componente, especie, izquierda, altura, ancho, pasto a los pies, retardo]
+  { Quien: Ciervo, especie: 'ciervo', izq: '4%',  abajo: '36%', ancho: 58, pasto: 52, capa: 0, retardo: '0s' },
+  { Quien: Gato,   especie: 'gato',   izq: '74%', abajo: '31%', ancho: 50, pasto: 46, capa: 1, retardo: '-1.3s' },
+  { Quien: Perro,  especie: 'perro',  izq: '24%', abajo: '25%', ancho: 58, pasto: 54, capa: 1, retardo: '-0.7s' },
+  { Quien: Conejo, especie: 'conejo', izq: '58%', abajo: '20%', ancho: 40, pasto: 40, capa: 2, retardo: '-2.1s' },
 ]
 
 export default function Animales({ ambiente = 'dia' }) {
   const paleta = PALETA[ambiente] ?? PALETA.dia
+  const verdes = VERDES[ambiente] ?? VERDES.dia
 
   return (
     <div aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
-      {REPARTO.map(({ Quien, especie, izq, abajo, ancho, retardo }) => (
-        <div key={especie} style={{
-          position: 'absolute', left: izq, bottom: abajo, width: ancho,
-          animationDelay: retardo,
-          // Un pelín de sombra los asienta en el césped en vez de flotar.
-          filter: ambiente === 'noche'
-            ? 'drop-shadow(0 2px 6px rgba(0,0,0,.5))'
-            : 'drop-shadow(0 2px 5px rgba(40,60,30,.28))',
-          opacity: ambiente === 'noche' ? .88 : 1,
-        }}>
-          <Quien c={paleta[especie]} trazo={paleta.trazo} />
+      {REPARTO.map(({ Quien, especie, izq, abajo, ancho, pasto, capa, retardo }) => (
+        <div key={especie} style={{ position: 'absolute', left: izq, bottom: abajo, width: ancho }}>
+
+          {/* El animal, con su sombra pegada al suelo */}
+          <div style={{
+            position: 'relative', zIndex: 1,
+            animationDelay: retardo,
+            filter: ambiente === 'noche'
+              ? 'drop-shadow(0 2px 6px rgba(0,0,0,.5))'
+              : 'drop-shadow(0 2px 5px rgba(40,60,30,.28))',
+            opacity: ambiente === 'noche' ? 0.88 : 1,
+          }}>
+            <Quien c={paleta[especie]} trazo={paleta.trazo} />
+          </div>
+
+          {/* La mata que come, delante de las patas: tapa el contacto con
+              el suelo y da la excusa visual para que esté comiendo. */}
+          <div style={{
+            position: 'absolute', left: '50%', bottom: -4,
+            width: pasto, height: pasto * 0.52,
+            marginLeft: -pasto / 2, zIndex: 2,
+            transformOrigin: 'bottom center',
+            animation: 'pastoMece 3.4s ease-in-out infinite',
+            animationDelay: retardo,
+          }}>
+            <Mata color={verdes[capa]} ancho={pasto} alto={pasto * 0.52} briznas={5} />
+          </div>
         </div>
       ))}
     </div>
