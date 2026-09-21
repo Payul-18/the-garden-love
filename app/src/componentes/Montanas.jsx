@@ -81,47 +81,59 @@ export default function Montanas({ ambiente = 'dia' }) {
         </defs>
 
         {/* --- Macizo del fondo ---
-            No son triángulos: son macizos anchos con laderas desiguales,
-            hombros y cumbres secundarias. Una montaña real casi nunca es
-            simétrica, y esa asimetría es lo que la hace creíble. */}
+            Macizos anchos con laderas desiguales, hombros y cumbres
+            secundarias: una montaña real casi nunca es simétrica, y esa
+            asimetría es lo que la hace creíble. */}
         <path d="M0 270 L0 142 C14 134 26 122 38 104 L60 58 L74 84 L92 50 L108 92
-                 C118 108 128 104 140 90 L166 36 L184 74 L198 58 L214 100
-                 C226 116 238 110 250 92 L274 44 L292 82 L308 62 L324 102
-                 C336 118 350 112 362 98 L375 74 L375 270Z" fill={c.lejos} />
+                 C118 108 128 104 140 90 L166 36 L184 74 L198 54 L214 100
+                 C226 116 238 110 250 92 L274 44 L292 82 L308 58 L324 102
+                 C336 118 350 112 362 98 L375 70 L375 270Z" fill={c.lejos} />
 
         {/* Caras iluminadas: la luz entra por la derecha, igual en todas */}
         <path d="M92 50 L108 92 L98 92 Z" fill={c.lejosLuz} />
         <path d="M166 36 L184 74 L172 74 Z" fill={c.lejosLuz} />
         <path d="M274 44 L292 82 L280 82 Z" fill={c.lejosLuz} />
         <path d="M60 58 L74 84 L66 84 Z" fill={c.lejosLuz} />
+        <path d="M198 54 L214 100 L204 100 Z" fill={c.lejosLuz} />
+        <path d="M308 58 L324 102 L314 102 Z" fill={c.lejosLuz} />
 
-        {/* Nieve: baja por las vaguadas y se retira en las aristas, que es
-            como se derrite de verdad */}
+        {/* Nieve en TODAS las cumbres. Baja por las vaguadas y se retira
+            en las aristas, que es como se derrite de verdad. */}
         <path d="M166 36 L184 74 L177 68 L172 80 L166 70 L160 82 L153 70 L148 76 L156 56Z" fill={c.nieveLejos} />
         <path d="M92 50 L108 92 L102 85 L97 95 L92 84 L86 94 L80 84 L84 68Z" fill={c.nieveLejos} />
         <path d="M274 44 L292 82 L286 76 L281 87 L275 77 L269 88 L263 77 L268 60Z" fill={c.nieveLejos} />
-        <path d="M60 58 L74 84 L69 80 L65 89 L60 81 L55 89 L50 81 L54 70Z" fill={c.nieveLejos} />
+        <path d="M60 58 L74 84 L69 79 L65 89 L60 80 L55 90 L50 80 L54 69Z" fill={c.nieveLejos} />
+        <path d="M198 54 L214 100 L208 93 L203 104 L198 93 L192 104 L186 92 L191 72Z" fill={c.nieveLejos} />
+        <path d="M308 58 L324 102 L318 95 L313 106 L308 95 L302 106 L296 94 L301 76Z" fill={c.nieveLejos} />
 
         {/* Aristas: las líneas que separan una ladera de otra */}
-        <path d="M166 36 L162 84 M92 50 L88 96 M274 44 L270 90" fill="none"
-              stroke={c.lejosLuz} strokeWidth="1.2" opacity=".5" />
+        <path d="M166 36 L162 84 M92 50 L88 96 M274 44 L270 90 M198 54 L194 102 M308 58 L304 106"
+              fill="none" stroke={c.lejosLuz} strokeWidth="1.2" opacity=".5" />
 
-        {/* --- Cordillera media: más ancha, más redondeada y más baja --- */}
-        <path d="M0 270 L0 190 C22 182 42 188 62 174 L96 138 L116 170 L138 152 L160 186
-                 C176 200 192 194 208 178 L236 144 L258 178 L276 160 L298 192
-                 C314 204 332 200 348 186 L375 166 L375 270Z" fill={c.medio} />
-        <path d="M96 138 L116 170 L106 170 Z" fill={c.medioLuz} />
-        <path d="M236 144 L258 178 L246 178 Z" fill={c.medioLuz} />
-        <path d="M96 138 L116 170 L110 164 L105 174 L99 165 L93 175 L88 166 L91 152Z" fill={c.nieveMedio} />
-        <path d="M236 144 L258 178 L252 172 L246 182 L240 172 L234 182 L228 172 L232 158Z" fill={c.nieveMedio} />
+        {/* --- Cordillera media ---
+            Sube respecto de antes: sus cumbres quedaban casi a ras del
+            bosque y parecían montículos, no montañas. */}
+        <path d="M0 270 L0 172 C22 164 42 170 62 154 L96 106 L116 142 L138 120 L160 158
+                 C176 174 192 168 208 150 L236 112 L258 150 L276 128 L298 164
+                 C314 178 332 174 348 156 L375 134 L375 270Z" fill={c.medio} />
+        <path d="M96 106 L116 142 L106 142 Z" fill={c.medioLuz} />
+        <path d="M236 112 L258 150 L246 150 Z" fill={c.medioLuz} />
+        <path d="M138 120 L160 158 L150 158 Z" fill={c.medioLuz} />
+        <path d="M348 156 L375 134 L375 158 Z" fill={c.medioLuz} />
+
+        {/* También nevadas: antes solo dos de las cinco tenían nieve */}
+        <path d="M96 106 L116 142 L110 136 L105 146 L99 137 L93 147 L88 137 L91 122Z" fill={c.nieveMedio} />
+        <path d="M236 112 L258 150 L252 144 L246 154 L240 144 L234 154 L228 144 L232 128Z" fill={c.nieveMedio} />
+        <path d="M138 120 L160 158 L154 152 L149 162 L143 152 L137 162 L131 151 L134 136Z" fill={c.nieveMedio} />
+        <path d="M276 128 L298 164 L292 158 L287 168 L281 158 L276 166 L270 156 L272 142Z" fill={c.nieveMedio} />
 
         {/* --- Lomas del pie: enlazan las montañas con el prado llano --- */}
-        <path d="M0 270 L0 224 C28 218 54 224 82 218 C110 212 132 219 162 214
-                 C192 209 212 216 242 212 C272 208 294 214 324 211
-                 C348 208 362 213 375 211 L375 270Z" fill={c.medio} opacity=".55" />
+        <path d="M0 270 L0 216 C28 210 54 216 82 210 C110 204 132 211 162 206
+                 C192 201 212 208 242 204 C272 200 294 206 324 203
+                 C348 200 362 205 375 203 L375 270Z" fill={c.medio} opacity=".55" />
 
         {/* Bruma entre las montañas y el bosque: da la distancia */}
-        <rect x="0" y="186" width="375" height="48" fill={c.bruma} opacity=".5" />
+        <rect x="0" y="178" width="375" height="50" fill={c.bruma} opacity=".5" />
 
         {/* --- Bosque: dos hileras --- */}
         {PINOS_FONDO.map(([x, alto], i) => (
