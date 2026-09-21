@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Jardin from './Jardin'
 import Casillas from './Casillas'
+import Mensaje from './Mensaje'
 
 /**
  * Portada — lo primero que ve ella.
@@ -103,15 +104,7 @@ export default function Portada({ nombreElla, ambiente, msg, shakeAnim, onEntrar
         </div>
 
         <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 18 }}>
-          {msg && (
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: 10, maxWidth: 344, padding: '12px 18px',
-              borderRadius: '22px 22px 24px 20px', background: 'linear-gradient(180deg,#fff6e6,#ffe9cf)',
-              boxShadow: '0 8px 22px rgba(0,0,0,.35)', animation: 'toastIn .45s cubic-bezier(.2,1.3,.4,1) both',
-            }}>
-              <div style={{ fontFamily: 'Caveat,cursive', fontSize: 22, lineHeight: 1.25, color: '#7a4520', textAlign: 'center' }}>{msg}</div>
-            </div>
-          )}
+          {msg && <Mensaje texto={msg} tono="error" abajo={210} />}
 
           <div style={{ fontFamily: 'Caveat,cursive', fontSize: 24, color: '#fff3dc', textShadow: '0 2px 8px rgba(0,0,0,.65)' }}>
             Escribe tu llave de 4 dígitos

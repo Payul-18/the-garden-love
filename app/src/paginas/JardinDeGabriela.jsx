@@ -3,6 +3,7 @@ import Jardin from '../componentes/Jardin'
 import Florecimiento from '../componentes/Florecimiento'
 import FichaFlor from '../componentes/FichaFlor'
 import Portada from '../componentes/Portada'
+import Mensaje from '../componentes/Mensaje'
 import PanelCodigo from '../componentes/PanelCodigo'
 import { ambienteActual } from '../lib/ambiente'
 import { prepararFlor } from '../lib/colores'
@@ -22,7 +23,7 @@ export default function JardinDeGabriela() {
   const [sel, setSel] = useState(null)                   // flor abierta en la ficha
   const [nueva, setNueva] = useState(null)               // flor que está floreciendo
   const [resaltada, setResaltada] = useState(null)       // flor a la que hay que ir
-  const [msg, setMsg] = useState('')
+  const [msg, setMsg] = useState({ texto: '', tono: 'aviso' })
   const [shake, setShake] = useState(0)
   const [panel, setPanel] = useState(false)
   const [ambiente, setAmbiente] = useState(ambienteActual())
@@ -39,10 +40,12 @@ export default function JardinDeGabriela() {
 
   useEffect(() => () => { clearTimeout(tMsg.current); clearTimeout(tBloom.current) }, [])
 
-  const decir = useCallback((texto) => {
+  const decir = useCallback((texto, tono = 'aviso') => {
     clearTimeout(tMsg.current)
-    setMsg(texto)
-    tMsg.current = setTimeout(() => setMsg(''), 4200)
+    setMsg({ texto, tono })
+    // Cinco segundos y medio: da tiempo a leer una frase escrita a mano
+    // sin que el aviso se quede estorbando la vista del jardín.
+    tMsg.current = setTimeout(() => setMsg({ texto: '', tono }), 5500)
   }, [])
 
   // Las flores se cargan una sola vez, al entrar. Antes de la llave no hace
@@ -56,7 +59,7 @@ export default function JardinDeGabriela() {
         setAnioVisible(Math.max(...anios))
       }
     } catch {
-      decir('El jardín tarda en despertar… ¿revisas tu conexión?')
+      decir('El jardín tarda en despertar… ¿revisas tu conexión?', 'error')
     } finally {
       setCargando(false)
     }
@@ -65,10 +68,10 @@ export default function JardinDeGabriela() {
   const entrar = useCallback((llaveEscrita) => {
     if (llaveEscrita !== LLAVE) {
       setShake((s) => s + 1)
-      decir('Esa llave todavía no abre… ¿revisas tu tarjetita?')
+      decir('Esa llave todavía no abre… ¿revisas tu tarjetita?', 'error')
       return false
     }
-    setMsg('')
+    setMsg({ texto: '', tono: 'aviso' })
     setPantalla('jardin')
     cargar()
     return true
@@ -80,13 +83,13 @@ export default function JardinDeGabriela() {
       r = await canjearCodigo(codigo)
     } catch {
       setShake((s) => s + 1)
-      decir('El jardín no respondió… ¿lo intentas de nuevo?')
+      decir('El jardín no respondió… ¿lo intentas de nuevo?', 'error')
       return false
     }
 
     if (r.estado === 'no_existe') {
       setShake((s) => s + 1)
-      decir('Esa semilla no germinó… ¿revisas el código?')
+      decir('Esa semilla no germinó… ¿revisas el código?', 'error')
       return false
     }
 
@@ -106,7 +109,7 @@ export default function JardinDeGabriela() {
     setNueva(flor)
     setSel(null)
     setPanel(false)
-    setMsg('')
+    setMsg({ texto: '', tono: 'aviso' })
     setPantalla('bloom')
 
     clearTimeout(tBloom.current)
@@ -149,7 +152,7 @@ export default function JardinDeGabriela() {
         <Portada
           nombreElla={NOMBRE_ELLA}
           ambiente={ambiente}
-          msg={msg}
+          msg={msg.texto}
           shakeAnim={shakeAnim}
           onEntrar={entrar}
         />
@@ -174,7 +177,7 @@ export default function JardinDeGabriela() {
             onCambiarAnio={setAnioVisible}
           />
 
-          {msg && <Mensaje texto={msg} />}
+          <Mensaje texto={msg.texto} tono={msg.tono} abajo={panel ? 286 : 130} />
 
           <PanelCodigo
             abierto={panel}
@@ -244,16 +247,3 @@ function Encabezado({ nombreElla, conteo, ambienteTxt, anios, anioVisible, onCam
   )
 }
 
-function Mensaje({ texto }) {
-  return (
-    <div style={{ position: 'absolute', left: 20, right: 20, bottom: 212, display: 'flex', justifyContent: 'center', pointerEvents: 'none' }}>
-      <div style={{
-        padding: '12px 18px', borderRadius: '22px 22px 24px 20px',
-        background: 'linear-gradient(180deg,#fff6e6,#ffe9cf)', boxShadow: '0 8px 22px rgba(0,0,0,.35)',
-        animation: 'toastIn .45s cubic-bezier(.2,1.3,.4,1) both',
-      }}>
-        <div style={{ fontFamily: 'Caveat,cursive', fontSize: 22, lineHeight: 1.25, color: '#7a4520', textAlign: 'center' }}>{texto}</div>
-      </div>
-    </div>
-  )
-}
