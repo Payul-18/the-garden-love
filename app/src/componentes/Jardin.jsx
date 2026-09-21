@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import Flor from './Flor'
 import Animales from './Animales'
 import Pasto from './Pasto'
+import Montanas from './Montanas'
+import { Sol, Luna, Estrellas } from './Astros'
 import { CAPAS } from '../lib/capas'
 
 /**
@@ -54,13 +56,17 @@ export default function Jardin({
       {/* Segundo plano: pasto y animales comparten una capa ligeramente
           desenfocada y desaturada. El desenfoque es lo que de verdad los
           manda al fondo y deja que las flores sean lo único nítido. */}
+      {/* El pasto sí se apaga: es fondo. Los animales NO, porque son
+          personajes y tienen que verse con su color. */}
       <div style={{
         position: 'absolute', inset: 0, pointerEvents: 'none',
-        // Sin desenfoque: el fondo se aleja bajando el contraste y la
-        // saturación, no emborronándolo. Así todo se ve limpio.
-        filter: 'saturate(.68) brightness(.86)',
+        filter: 'saturate(.72) brightness(.88)',
       }}>
         <Pasto ambiente={ambiente} />
+      </div>
+
+      {/* Los animales van delante de la hierba y detrás de las flores */}
+      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: CAPAS.animales }}>
         <Animales ambiente={ambiente} />
       </div>
 
@@ -231,11 +237,7 @@ function CieloDia() {
   return (
     <>
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,#5fc0f0 0%,#8fd8f7 38%,#c4ecfb 66%,#e8f7e4 82%)' }} />
-      <div style={{
-        position: 'absolute', top: '20%', right: 34, width: 97, height: 97, borderRadius: '50%',
-        background: 'radial-gradient(circle at 42% 38%,#fffdf0 0%,#ffe9a0 46%,rgba(255,220,130,.35) 70%,rgba(255,220,130,0) 100%)',
-        animation: 'jSol 6s ease-in-out infinite',
-      }} />
+      <div style={{ position: 'absolute', top: '20%', right: 26 }}><Sol tam={97} /></div>
 
       <Nube top="27%" dur={52} delay="0s" ancho={96} alto={28} opacidad={.92} sombra="26px -12px 0 -3px #fff, -22px -6px 0 -6px #fff, 0 8px 18px rgba(80,140,180,.18)" />
       <Nube top="35%" dur={78} delay="-30s" ancho={70} alto={22} opacidad={.8} sombra="20px -9px 0 -3px #fff, -16px -4px 0 -5px #fff" />
@@ -274,6 +276,8 @@ function CieloDia() {
 
       <Mariposa top="40%" dur={17} delay="0s" alaA="#ff9ec4" alaB="#ffc2dc" />
       <Mariposa top="46%" dur={23} delay="-9s" escala={0.85} alaA="#ffd98a" alaB="#ffe9b8" />
+
+      <Montanas ambiente="dia" />
 
       <Suelo c1="#7fc46a" c2="#63b158" c3="#4f9c49" base="linear-gradient(180deg,rgba(79,156,73,0) 0%,#47903f 55%,#3a7c35 100%)" />
     </>
@@ -314,6 +318,8 @@ function CieloAtardecer() {
 
       <Mariposa top="42%" dur={26} delay="0s" escala={0.85} alaA="#ffd28a" alaB="#ffb27a" />
 
+      <Montanas ambiente="atardecer" />
+
       <Suelo c1="#8a6b58" c2="#6c7a4e" c3="#55693f" base="linear-gradient(180deg,rgba(85,105,63,0) 0%,#4c6038 55%,#3d4f2e 100%)" />
 
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,rgba(255,170,90,0) 40%,rgba(255,160,90,.22) 100%)', pointerEvents: 'none' }} />
@@ -324,18 +330,6 @@ function CieloAtardecer() {
 /* ------------------------------------------------------------------
    Noche · 18:00–00:00
 ------------------------------------------------------------------ */
-const ESTRELLAS = [
-  [6, '44%', 2, '#fff', 3.5, '-.9s'], [40, '8%', 3, '#dfe6ff', 4.6, '-2.2s'],
-  [62, '92%', 2, '#fff', 3.3, '-1.3s'], [112, '70%', 3, '#ffeec9', 4.8, '-3.4s'],
-  [142, '52%', 2, '#fff', 3.7, '-.5s'], [158, '28%', 3, '#dfe6ff', 5.2, '-4.1s'],
-  [184, '78%', 2, '#fff', 4.2, '-2.8s'], [214, '42%', 3, '#ffeec9', 3.4, '-1.7s'],
-  [228, '10%', 2, '#fff', 4.9, '-3.9s'], [240, '88%', 3, '#dfe6ff', 4.4, '-.2s'],
-  [20, '60%', 3, '#fff', 3.2, '0s'], [52, '78%', 4, '#ffeec9', 4.1, '-1s'],
-  [96, '34%', 3, '#fff', 2.8, '-.6s'], [130, '86%', 3, '#dfe6ff', 3.6, '-2s'],
-  [12, '22%', 2, '#fff', 4.4, '-1.6s'], [168, '16%', 3, '#ffeec9', 3.9, '-2.6s'],
-  [74, '50%', 2, '#fff', 3.1, '-.3s'], [198, '66%', 2, '#dfe6ff', 5, '-3s'],
-]
-
 const LUCIERNAGAS = [
   ['18%', '12%', 6, '#ffe9a3', 7, '0s'], ['30%', '36%', 5, '#fff3b8', 9, '-3s'],
   ['24%', '62%', 6, '#ffe9a3', 8, '-5s'], ['40%', '80%', 5, '#fff3b8', 10, '-1.5s'],
@@ -347,11 +341,7 @@ function CieloNoche() {
   return (
     <>
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,#0a1130 0%,#1b1a4a 34%,#38265f 62%,#5b3b6e 84%)' }} />
-      <div style={{
-        position: 'absolute', top: '33%', left: 34, width: 62, height: 62, borderRadius: '50%',
-        background: 'radial-gradient(circle at 38% 34%,#fffdf0 0%,#f3ecc9 52%,rgba(243,236,201,.25) 72%,rgba(243,236,201,0) 100%)',
-        animation: 'jSol 9s ease-in-out infinite',
-      }} />
+      <div style={{ position: 'absolute', top: '33%', left: 28 }}><Luna tam={66} /></div>
 
       <Nube top="29%" dur={120} delay="-40s" ancho={96} alto={14} color="#6b5f9a" opacidad={.45} sombra="26px -6px 0 -4px #6b5f9a, -20px -3px 0 -6px #5b5188" />
       <Nube top="41%" dur={150} delay="0s" ancho={74} alto={12} color="#7a6aa8" opacidad={.32} sombra="20px -5px 0 -4px #7a6aa8" />
@@ -366,14 +356,9 @@ function CieloNoche() {
       <div style={{ position: 'absolute', top: 76, right: 26, width: 88, height: 2, borderRadius: 2, background: 'linear-gradient(90deg,rgba(255,255,255,0),#fff8e0)', transformOrigin: '100% 50%', animation: 'jFugaz 14s linear infinite' }} />
       <div style={{ position: 'absolute', top: 190, right: -10, width: 64, height: 2, borderRadius: 2, background: 'linear-gradient(90deg,rgba(255,255,255,0),#e8f0ff)', transformOrigin: '100% 50%', animation: 'jFugaz 21s linear infinite', animationDelay: '-9s' }} />
 
-      <div style={{ position: 'absolute', top: '3%', left: 0, right: 0, height: '32%' }}>
-        {ESTRELLAS.map(([top, left, tam, color, dur, delay], i) => (
-          <div key={i} style={{
-            position: 'absolute', top, left, width: tam, height: tam, borderRadius: '50%', background: color,
-            animation: `jTwinkle ${dur}s ease-in-out infinite`, animationDelay: delay,
-          }} />
-        ))}
-      </div>
+      <Estrellas />
+
+      <Montanas ambiente="noche" />
 
       <Suelo c1="#26324f" c2="#1e3a46" c3="#1a4440" base="linear-gradient(180deg,rgba(26,68,64,0) 0%,#163a38 55%,#11302f 100%)" />
 

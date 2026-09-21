@@ -300,3 +300,29 @@ input::placeholder { color: rgba(90, 58, 28, .35); }
   62% { transform: rotate(24deg) translateY(4px) }
   74% { transform: rotate(0deg) translateY(0) }
 }
+
+/* ------------------------------------------------------------------
+   Los astros
+   Cada capa gira o late a su propio ritmo. Si fueran a la vez se
+   vería el truco y dejaría de parecer luz.
+------------------------------------------------------------------ */
+@keyframes rayosGiran        { to { transform: rotate(360deg) } }
+@keyframes rayosGiranAlReves { to { transform: rotate(-360deg) } }
+@keyframes orbita            { to { transform: rotate(360deg) } }
+
+@keyframes haloLate {
+  0%, 100% { opacity: .55; transform: scale(.92) }
+  50%      { opacity: 1;   transform: scale(1.08) }
+}
+
+@keyframes chispaLate {
+  0%, 100% { opacity: .35; transform: scale(.65) rotate(0deg) }
+  50%      { opacity: 1;   transform: scale(1.15) rotate(45deg) }
+}
+
+/* Las estrellas de cuatro puntas giran un poco al titilar: así el
+   destello parece luz y no un icono encendiéndose. */
+@keyframes chispaTitila {
+  0%, 100% { opacity: .3;  transform: scale(.6) rotate(-18deg) }
+  50%      { opacity: 1;   transform: scale(1.2) rotate(18deg) }
+}

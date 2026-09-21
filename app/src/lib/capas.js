@@ -6,7 +6,8 @@
  * otro y deje de responder al dedo. Cualquier capa nueva se añade aquí.
  */
 export const CAPAS = {
-  fondo: 0,      // cielo, pasto y animales
+  fondo: 0,      // cielo, montañas y pasto
+  animales: 2,   // los habitantes: delante de la hierba, detrás de las flores
   flores: 3,     // el prado con las flores
   encabezado: 20,
   panel: 30,     // la hoja del código: por encima de las flores
