@@ -7,9 +7,12 @@ import Casillas from './Casillas'
  * Cerrado es solo un botón, para que el jardín se vea entero. Abierto sube
  * desde abajo y deja las seis casillas al alcance del pulgar.
  */
+const SALIDA = 300
+
 export default function PanelCodigo({ abierto, sinFlores, shakeAnim, onAbrir, onCerrar, onSembrar }) {
   const [codigo, setCodigo] = useState(['', '', '', '', '', ''])
   const [enviando, setEnviando] = useState(false)
+  const [saliendo, setSaliendo] = useState(false)
   const caja = useRef(null)
   const listo = codigo.every((d) => d !== '')
 
@@ -19,6 +22,13 @@ export default function PanelCodigo({ abierto, sinFlores, shakeAnim, onAbrir, on
     const id = setTimeout(() => caja.current?.querySelector('input')?.focus(), 120)
     return () => clearTimeout(id)
   }, [abierto])
+
+  // La hoja baja antes de cerrarse del todo, en vez de esfumarse.
+  const cerrar = () => {
+    if (saliendo) return
+    setSaliendo(true)
+    setTimeout(() => { setSaliendo(false); onCerrar() }, SALIDA)
+  }
 
   const sembrar = async () => {
     if (!listo || enviando) return
@@ -42,7 +52,7 @@ export default function PanelCodigo({ abierto, sinFlores, shakeAnim, onAbrir, on
           background: 'linear-gradient(180deg,#8ed167 0%,#5fa244 60%,#528f3b 100%)',
           textShadow: '0 2px 4px rgba(40,70,30,.6)',
           boxShadow: '0 6px 0 #3f7a2e, 0 10px 22px rgba(0,0,0,.4)',
-          animation: 'latido 2.6s ease-in-out infinite',
+          animation: 'fadeUp .5s ease both, latido 2.6s ease-in-out .5s infinite',
         }}>
           <svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 3V17M3 10H17" stroke="#fffaea" strokeWidth="2.6" strokeLinecap="round" /></svg>
           Agregar flor
@@ -56,10 +66,12 @@ export default function PanelCodigo({ abierto, sinFlores, shakeAnim, onAbrir, on
       position: 'absolute', left: 0, right: 0, bottom: 0, padding: '14px 20px 26px',
       background: 'linear-gradient(180deg,rgba(74,50,28,0) 0%,rgba(74,50,28,.72) 22%,rgba(56,37,20,.92) 100%)',
       borderRadius: '30px 30px 0 0', boxShadow: '0 -10px 30px rgba(0,0,0,.35)',
-      animation: 'sheetUp .42s cubic-bezier(.2,1.2,.4,1) both',
+      animation: saliendo
+        ? `sheetDown ${SALIDA}ms cubic-bezier(.4,0,.8,.4) both`
+        : 'sheetUp .42s cubic-bezier(.2,1.2,.4,1) both',
     }}>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <button onClick={onCerrar} style={{
+        <button onClick={cerrar} style={{
           border: 'none', background: 'rgba(255,240,210,.16)', width: 34, height: 34,
           borderRadius: '50%', cursor: 'pointer', color: '#ffeec9',
           fontFamily: 'Nunito,sans-serif', fontSize: 18, fontWeight: 700, lineHeight: 1,

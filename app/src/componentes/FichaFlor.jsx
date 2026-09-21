@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Flor from './Flor'
 import { describirFlor } from '../lib/colores'
 
@@ -18,20 +19,38 @@ function fechaLarga(iso) {
   return `${d} de ${MESES[m - 1]} de ${a}`
 }
 
+// Lo que tarda la carta en bajar antes de desmontarse.
+const SALIDA = 340
+
 export default function FichaFlor({ flor, onCerrar }) {
+  const [saliendo, setSaliendo] = useState(false)
+
+  // Cerrar no es desaparecer: la carta se desliza hacia abajo y recién
+  // entonces se quita del árbol.
+  const cerrar = () => {
+    if (saliendo) return
+    setSaliendo(true)
+    setTimeout(onCerrar, SALIDA)
+  }
+
   return (
     <div style={{
       position: 'absolute', inset: 0, background: 'rgba(16,12,8,.5)', backdropFilter: 'blur(3px)',
-      display: 'flex', alignItems: 'flex-end', animation: 'apareceSuave .35s ease both', zIndex: 10,
+      display: 'flex', alignItems: 'flex-end', zIndex: 10,
+      animation: saliendo
+        ? `fichaSale ${SALIDA}ms ease both`
+        : 'apareceSuave .35s ease both',
     }}>
-      <div onClick={onCerrar} style={{ position: 'absolute', inset: 0, cursor: 'pointer' }} />
+      <div onClick={cerrar} style={{ position: 'absolute', inset: 0, cursor: 'pointer' }} />
 
       <div style={{
         position: 'relative', width: '100%', maxHeight: '92%', overflow: 'auto',
         padding: '26px 26px 34px', borderRadius: '32px 32px 0 0',
         backgroundImage: 'linear-gradient(180deg,#fdf6e8,#f7ead0)',
         boxShadow: '0 -14px 40px rgba(0,0,0,.45)',
-        animation: 'sheetUp .5s cubic-bezier(.2,1.2,.4,1) both',
+        animation: saliendo
+          ? `sheetDown ${SALIDA}ms cubic-bezier(.4,0,.8,.4) both`
+          : 'sheetUp .5s cubic-bezier(.2,1.2,.4,1) both',
       }}>
         <div style={{ width: 46, height: 5, borderRadius: 99, background: 'rgba(122,84,44,.28)', margin: '0 auto 14px' }} />
 
@@ -77,7 +96,7 @@ export default function FichaFlor({ flor, onCerrar }) {
           </div>
         </div>
 
-        <button onClick={onCerrar} style={{
+        <button onClick={cerrar} style={{
           marginTop: 22, width: '100%', padding: 14, border: 'none', borderRadius: 24, cursor: 'pointer',
           fontFamily: 'Nunito,sans-serif', fontWeight: 800, fontSize: 16, color: '#6b4220',
           background: 'linear-gradient(180deg,#ffe6b8,#f2cf95)', boxShadow: '0 4px 0 rgba(160,110,54,.5)',

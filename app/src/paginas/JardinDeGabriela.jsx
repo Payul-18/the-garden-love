@@ -4,6 +4,7 @@ import Florecimiento from '../componentes/Florecimiento'
 import FichaFlor from '../componentes/FichaFlor'
 import Portada from '../componentes/Portada'
 import Mensaje from '../componentes/Mensaje'
+import Velo, { DURACION_CUBRE, DURACION_DESCUBRE } from '../componentes/Velo'
 import PanelCodigo from '../componentes/PanelCodigo'
 import { ambienteActual } from '../lib/ambiente'
 import { prepararFlor } from '../lib/colores'
@@ -32,9 +33,11 @@ export default function JardinDeGabriela() {
   const [shake, setShake] = useState(0)
   const [panel, setPanel] = useState(false)
   const [ambiente, setAmbiente] = useState(ambienteActual())
+  const [velo, setVelo] = useState(null)
 
   const tMsg = useRef(null)
   const tBloom = useRef(null)
+  const tVelo = useRef([])
 
   // El ambiente sigue a la hora real: se revisa cada minuto, así el jardín
   // pasa de día a atardecer y a noche aunque ella deje la página abierta.
@@ -43,7 +46,29 @@ export default function JardinDeGabriela() {
     return () => clearInterval(id)
   }, [])
 
-  useEffect(() => () => { clearTimeout(tMsg.current); clearTimeout(tBloom.current) }, [])
+  useEffect(() => () => {
+    clearTimeout(tMsg.current)
+    clearTimeout(tBloom.current)
+    tVelo.current.forEach(clearTimeout)
+  }, [])
+
+  /**
+   * Cambia de pantalla detrás del velo: cubre, cambia, descubre.
+   * `alCambiar` se ejecuta en el instante en que la pantalla ya no se ve,
+   * para que ningún reacomodo quede a la vista.
+   */
+  const irA = useCallback((destino, alCambiar) => {
+    tVelo.current.forEach(clearTimeout)
+    setVelo('cubriendo')
+    const t1 = setTimeout(() => {
+      alCambiar?.()
+      setPantalla(destino)
+      setVelo('descubriendo')
+      const t2 = setTimeout(() => setVelo(null), DURACION_DESCUBRE)
+      tVelo.current = [t2]
+    }, DURACION_CUBRE)
+    tVelo.current = [t1]
+  }, [])
 
   const decir = useCallback((texto, tono = 'aviso') => {
     clearTimeout(tMsg.current)
@@ -76,11 +101,12 @@ export default function JardinDeGabriela() {
       decir('Esa llave todavía no abre… ¿revisas tu tarjetita?', 'error')
       return false
     }
-    setMsg({ texto: '', tono: 'aviso' })
-    setPantalla('jardin')
-    cargar()
+    irA('jardin', () => {
+      setMsg({ texto: '', tono: 'aviso' })
+      cargar()
+    })
     return true
-  }, [cargar, decir])
+  }, [cargar, decir, irA])
 
   const sembrar = useCallback(async (codigo) => {
     let r
@@ -113,21 +139,25 @@ export default function JardinDeGabriela() {
     const cuantasHabia = flores.length
     const flor = prepararFlor(r, cuantasHabia)
     setNueva({ ...flor, cuantasHabia, frase: fraseAlSembrar(cuantasHabia) })
-    setSel(null)
-    setPanel(false)
-    setMsg({ texto: '', tono: 'aviso' })
-    setPantalla('bloom')
+    irA('bloom', () => {
+      setSel(null)
+      setPanel(false)
+      setMsg({ texto: '', tono: 'aviso' })
+    })
 
+    // --- florecimiento -> jardín, cuando termina la escena ---
     clearTimeout(tBloom.current)
     tBloom.current = setTimeout(() => {
-      setFlores((prev) => [...prev, flor])
-      setAnioVisible(Number(flor.fecha_regalo.slice(0, 4)))
-      setPantalla('jardin')
-      decir('Tu jardín tiene una flor nueva 🌻', 'logro')
+      irA('jardin', () => {
+        setFlores((prev) => [...prev, flor])
+        setAnioVisible(Number(flor.fecha_regalo.slice(0, 4)))
+      })
+      // El aviso espera a que el velo se haya retirado.
+      setTimeout(() => decir('Tu jardín tiene una flor nueva 🌻', 'logro'), DURACION_CUBRE + 120)
     }, DURACION_BLOOM)
 
     return true
-  }, [decir, flores.length])
+  }, [decir, flores.length, irA])
 
   // Las flores se agrupan por año y solo se ve un año a la vez: así el jardín
   // puede crecer indefinidamente sin apelotonarse.
@@ -171,7 +201,7 @@ export default function JardinDeGabriela() {
       )}
 
       {pantalla === 'jardin' && (
-        <div style={{ position: 'absolute', inset: 0, animation: 'apareceSuave .6s ease both' }}>
+        <div style={{ position: 'absolute', inset: 0, animation: 'escenaEntra .8s cubic-bezier(.2,.8,.3,1) both' }}>
           <Jardin
             ambiente={ambiente}
             flores={floresDelAnio}
@@ -208,6 +238,8 @@ export default function JardinDeGabriela() {
       {pantalla === 'bloom' && nueva && (
         <Florecimiento flor={nueva} ambiente={ambiente} />
       )}
+
+      <Velo fase={velo} />
     </div>
   )
 }

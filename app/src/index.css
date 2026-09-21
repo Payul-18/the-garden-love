@@ -89,3 +89,33 @@ input::placeholder { color: rgba(90, 58, 28, .35); }
   0%, 100% { transform: translateY(0) scale(1); filter: none; }
   50% { transform: translateY(-10px) scale(1.14); filter: drop-shadow(0 0 14px rgba(255,236,170,.95)); }
 }
+
+/* ------------------------------------------------------------------
+   Transiciones entre pantallas
+   El cambio de escena no es un corte: un velo cálido cubre, la pantalla
+   cambia debajo y el velo se retira. Así nunca se ve el salto.
+------------------------------------------------------------------ */
+@keyframes veloCubre     { 0% { opacity:0; transform:scale(1.18) } 100% { opacity:1; transform:scale(1) } }
+@keyframes veloDescubre  { 0% { opacity:1; transform:scale(1) }   100% { opacity:0; transform:scale(1.18) } }
+
+/* Chispas que cruzan el velo mientras cubre: el instante también decora */
+@keyframes veloChispa {
+  0%   { opacity:0; transform:translateY(24px) scale(.3) }
+  35%  { opacity:1; transform:translateY(0) scale(1.1) }
+  100% { opacity:0; transform:translateY(-40px) scale(.5) }
+}
+
+/* La escena que entra no aparece de golpe: respira hacia su tamaño */
+@keyframes escenaEntra {
+  0%   { opacity:0; transform:scale(1.035); filter:blur(3px) }
+  60%  { opacity:1 }
+  100% { opacity:1; transform:scale(1); filter:blur(0) }
+}
+
+/* Salidas: hasta ahora las hojas inferiores desaparecían de golpe */
+@keyframes sheetDown  { 0% { opacity:1; transform:translateY(0) } 100% { opacity:0; transform:translateY(70px) } }
+@keyframes fichaSale  { 0% { opacity:1 } 100% { opacity:0 } }
+@keyframes toastOut   { 0% { opacity:1; transform:translateY(0) scale(1) } 100% { opacity:0; transform:translateY(-10px) scale(.96) } }
+
+/* La flor responde al dedo antes de abrirse su ficha */
+@keyframes florTocada { 0% { transform:scale(1) } 45% { transform:translateY(-8px) scale(1.12) } 100% { transform:scale(1) } }

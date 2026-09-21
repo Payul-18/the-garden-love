@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Flor from './Flor'
 
 /**
@@ -26,6 +26,7 @@ export default function Jardin({
   textoVacio = null,
 }) {
   const fila = useRef(null)
+  const [tocada, setTocada] = useState(null)
   const vacio = flores.length === 0 && textoVacio
 
   // Cuando ella escribe un código que ya canjeó, el jardín va hasta esa flor
@@ -59,11 +60,21 @@ export default function Jardin({
             <div
               key={f.id}
               data-flor={f.id}
-              onClick={() => onTocarFlor(f)}
+              onClick={() => {
+                // La flor salta antes de abrir su carta: el gesto se siente
+                // respondido aunque la ficha tarde un instante en subir.
+                setTocada(f.id)
+                setTimeout(() => setTocada(null), 420)
+                setTimeout(() => onTocarFlor(f), 170)
+              }}
               style={{
                 flex: '0 0 68px', height: 118, cursor: 'pointer', position: 'relative',
                 transition: 'transform .2s',
-                animation: resaltada === f.id ? 'resalta 1.6s ease 2' : 'none',
+                animation: resaltada === f.id
+                  ? 'resalta 1.6s ease 2'
+                  : tocada === f.id
+                    ? 'florTocada .42s cubic-bezier(.2,1.4,.4,1)'
+                    : 'none',
               }}
             >
               <Flor
