@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@keyframes florSway { 0%,100% { transform: rotate(-2.2deg); } 50% { transform: rotate(2.4deg); } }
+@keyframes florHead { 0%,100% { transform: rotate(1.6deg) translateY(0px); } 50% { transform: rotate(-1.8deg) translateY(-2px); } }
+</style>
+</helmet>
+<svg viewBox="0 0 120 200" preserveAspectRatio="xMidYMax meet" style="width:100%; height:100%; overflow:visible; display:block">
+  <g style="animation: florSway {{ dur }}s ease-in-out infinite; animation-delay: {{ delay }}s; transform-origin: 60px 198px; transform-box: view-box; filter: {{ fx }}">
+    <sc-if value="{{ conTallo }}" hint-placeholder-val="{{ true }}">
+      <g>
+        <path d="M60 200C56 172 65 146 60 104" fill="none" stroke="{{ tallo }}" stroke-width="7" stroke-linecap="round"></path>
+        <path d="M59 196C56 172 64 148 60 112" fill="none" stroke="{{ hojaD }}" stroke-width="2" stroke-linecap="round" opacity="0.45"></path>
+        <path d="M60 158C42 148 26 152 19 166C33 178 52 176 60 158Z" fill="{{ hoja }}"></path>
+        <path d="M57 159C45 160 32 163 22 168" fill="none" stroke="{{ hojaD }}" stroke-width="1.6" stroke-linecap="round" opacity="0.7"></path>
+        <path d="M62 130C80 118 97 123 102 138C87 149 70 146 62 130Z" fill="{{ hoja }}"></path>
+        <path d="M65 131C77 130 90 133 99 139" fill="none" stroke="{{ hojaD }}" stroke-width="1.6" stroke-linecap="round" opacity="0.7"></path>
+      </g>
+    </sc-if>
+    <g style="animation: florHead {{ dur }}s ease-in-out infinite; animation-delay: {{ delay }}s; transform-origin: 60px 104px; transform-box: view-box">
+
+      <sc-if value="{{ esGirasol }}" hint-placeholder-val="{{ true }}">
+        <g>
+          <path d="M60 78C46 60 43 30 60 20C77 30 74 60 60 78Z" fill="{{ pd }}" transform="rotate(0 60 78)"></path>
+          <path d="M60 78C46 60 43 30 60 20C77 30 74 60 60 78Z" fill="{{ pd }}" transform="rotate(41 60 78)"></path>
+          <path d="M60 78C46 60 43 30 60 20C77 30 74 60 60 78Z" fill="{{ pd }}" transform="rotate(80 60 78)"></path>
+          <path d="M60 78C46 60 43 30 60 20C77 30 74 60 60 78Z" fill="{{ pd }}" transform="rotate(119 60 78)"></path>
+          <path d="M60 78C46 60 43 30 60 20C77 30 74 60 60 78Z" fill="{{ pd }}" transform="rotate(161 60 78)"></path>
+          <path d="M60 78C46 60 43 30 60 20C77 30 74 60 60 78Z" fill="{{ pd }}" transform="rotate(200 60 78)"></path>
+          <path d="M60 78C46 60 43 30 60 20C77 30 74 60 60 78Z" fill="{{ pd }}" transform="rotate(240 60 78)"></path>
+          <path d="M60 78C46 60 43 30 60 20C77 30 74 60 60 78Z" fill="{{ pd }}" transform="rotate(281 60 78)"></path>
+          <path d="M60 78C46 60 43 30 60 20C77 30 74 60 60 78Z" fill="{{ pd }}" transform="rotate(320 60 78)"></path>
+          <path d="M60 78C49 63 46 38 60 28C74 38 71 63 60 78Z" fill="{{ p }}" stroke="{{ pd }}" stroke-width="0.7" transform="rotate(20 60 78)"></path>
+          <path d="M60 78C49 63 46 38 60 28C74 38 71 63 60 78Z" fill="{{ p }}" stroke="{{ pd }}" stroke-width="0.7" transform="rotate(60 60 78)"></path>
+          <path d="M60 78C49 63 46 38 60 28C74 38 71 63 60 78Z" fill="{{ p }}" stroke="{{ pd }}" stroke-width="0.7" transform="rotate(100 60 78)"></path>
+          <path d="M60 78C49 63 46 38 60 28C74 38 71 63 60 78Z" fill="{{ p }}" stroke="{{ pd }}" stroke-width="0.7" transform="rotate(141 60 78)"></path>
+          <path d="M60 78C49 63 46 38 60 28C74 38 71 63 60 78Z" fill="{{ p }}" stroke="{{ pd }}" stroke-width="0.7" transform="rotate(180 60 78)"></path>
+          <path d="M60 78C49 63 46 38 60 28C74 38 71 63 60 78Z" fill="{{ p }}" stroke="{{ pd }}" stroke-width="0.7" transform="rotate(221 60 78)"></path>
+          <path d="M60 78C49 63 46 38 60 28C74 38 71 63 60 78Z" fill="{{ p }}" stroke="{{ pd }}" stroke-width="0.7" transform="rotate(260 60 78)"></path>
+          <path d="M60 78C49 63 46 38 60 28C74 38 71 63 60 78Z" fill="{{ p }}" stroke="{{ pd }}" stroke-width="0.7" transform="rotate(300 60 78)"></path>
+          <path d="M60 78C49 63 46 38 60 28C74 38 71 63 60 78Z" fill="{{ p }}" stroke="{{ pd }}" stroke-width="0.7" transform="rotate(340 60 78)"></path>
+          <path d="M60 50C54 56 52 64 53 70" fill="none" stroke="{{ pl }}" stroke-width="2.4" stroke-linecap="round" opacity="0.65" transform="rotate(20 60 78)"></path>
+          <path d="M60 50C54 56 52 64 53 70" fill="none" stroke="{{ pl }}" stroke-width="2.4" stroke-linecap="round" opacity="0.65" transform="rotate(300 60 78)"></path>
+          <circle cx="60" cy="78" r="23" fill="{{ cd }}"></circle>
+          <circle cx="59" cy="77" r="19" fill="{{ c }}"></circle>
+          <circle cx="54" cy="72" r="1.7" fill="{{ cd }}" opacity="0.6"></circle>
+          <circle cx="62" cy="70" r="1.7" fill="{{ cd }}" opacity="0.6"></circle>
+          <circle cx="58" cy="78" r="1.7" fill="{{ cd }}" opacity="0.6"></circle>
+          <circle cx="66" cy="76" r="1.7" fill="{{ cd }}" opacity="0.6"></circle>
+          <circle cx="52" cy="81" r="1.7" fill="{{ cd }}" opacity="0.6"></circle>
+          <circle cx="62" cy="86" r="1.7" fill="{{ cd }}" opacity="0.6"></circle>
+          <circle cx="69" cy="83" r="1.7" fill="{{ cd }}" opacity="0.5"></circle>
+          <circle cx="55" cy="89" r="1.7" fill="{{ cd }}" opacity="0.5"></circle>
+          <ellipse cx="51" cy="68" rx="9" ry="6" fill="#ffffff" opacity="0.2" transform="rotate(-24 51 68)"></ellipse>
+          <path d="M43 88C48 95 58 99 68 96" fill="none" stroke="#000000" stroke-width="2.4" stroke-linecap="round" opacity="0.12"></path>
+        </g>
+      </sc-if>
+
+      <sc-if value="{{ esRosa }}">
+        <g>
+          <path d="M60 96C40 90 32 68 42 54C52 44 70 46 74 60C78 74 70 90 60 96Z" fill="{{ pd }}" transform="rotate(0 60 84)"></path>
+          <path d="M60 96C40 90 32 68 42 54C52 44 70 46 74 60C78 74 70 90 60 96Z" fill="{{ pd }}" transform="rotate(74 60 84)"></path>
+          <path d="M60 96C40 90 32 68 42 54C52 44 70 46 74 60C78 74 70 90 60 96Z" fill="{{ pd }}" transform="rotate(146 60 84)"></path>
+          <path d="M60 96C40 90 32 68 42 54C52 44 70 46 74 60C78 74 70 90 60 96Z" fill="{{ pd }}" transform="rotate(216 60 84)"></path>
+          <path d="M60 96C40 90 32 68 42 54C52 44 70 46 74 60C78 74 70 90 60 96Z" fill="{{ pd }}" transform="rotate(288 60 84)"></path>
+          <path d="M60 92C46 86 41 70 49 60C56 52 69 54 72 64C75 74 69 87 60 92Z" fill="{{ p }}" transform="rotate(36 60 82)"></path>
+          <path d="M60 92C46 86 41 70 49 60C56 52 69 54 72 64C75 74 69 87 60 92Z" fill="{{ p }}" transform="rotate(112 60 82)"></path>
+          <path d="M60 92C46 86 41 70 49 60C56 52 69 54 72 64C75 74 69 87 60 92Z" fill="{{ p }}" transform="rotate(188 60 82)"></path>
+          <path d="M60 92C46 86 41 70 49 60C56 52 69 54 72 64C75 74 69 87 60 92Z" fill="{{ p }}" transform="rotate(262 60 82)"></path>
+          <path d="M60 86C51 82 47 72 53 65C59 59 69 62 70 70C71 78 66 84 60 86Z" fill="{{ pl }}"></path>
+          <path d="M60 80C55 78 53 72 57 69C61 66 66 69 65 73C64 77 61 79 58 78" fill="none" stroke="{{ pd }}" stroke-width="2" stroke-linecap="round" opacity="0.75"></path>
+          <path d="M52 62C56 57 63 56 68 60" fill="none" stroke="{{ pl }}" stroke-width="2" stroke-linecap="round" opacity="0.6"></path>
+          <path d="M44 92C50 100 70 100 76 92C72 104 48 104 44 92Z" fill="{{ hojaD }}"></path>
+        </g>
+      </sc-if>
+
+      <sc-if value="{{ esTulipan }}">
+        <g>
+          <path d="M60 100C40 96 31 72 36 44C43 56 51 61 60 61C69 61 77 56 84 44C89 72 80 96 60 100Z" fill="{{ pd }}"></path>
+          <path d="M60 100C46 94 40 72 43 47C49 58 54 62 60 62C60 74 60 88 60 100Z" fill="{{ p }}"></path>
+          <path d="M60 100C50 90 47 66 52 45C57 57 63 57 68 45C73 66 70 90 60 100Z" fill="{{ pl }}"></path>
+          <path d="M57 56C55 70 55 86 58 97" fill="none" stroke="{{ pd }}" stroke-width="1.6" stroke-linecap="round" opacity="0.4"></path>
+          <path d="M66 52C69 66 69 84 65 96" fill="none" stroke="{{ pd }}" stroke-width="1.6" stroke-linecap="round" opacity="0.35"></path>
+          <ellipse cx="51" cy="70" rx="5" ry="12" fill="#ffffff" opacity="0.16" transform="rotate(-8 51 70)"></ellipse>
+        </g>
+      </sc-if>
+
+      <sc-if value="{{ esMargarita }}">
+        <g>
+          <path d="M60 82C52 70 50 44 60 31C70 44 68 70 60 82Z" fill="{{ pd }}" transform="rotate(0 60 82)"></path>
+          <path d="M60 82C52 70 50 44 60 31C70 44 68 70 60 82Z" fill="{{ pd }}" transform="rotate(30 60 82)"></path>
+          <path d="M60 82C52 70 50 44 60 31C70 44 68 70 60 82Z" fill="{{ pd }}" transform="rotate(60 60 82)"></path>
+          <path d="M60 82C52 70 50 44 60 31C70 44 68 70 60 82Z" fill="{{ pd }}" transform="rotate(90 60 82)"></path>
+          <path d="M60 82C52 70 50 44 60 31C70 44 68 70 60 82Z" fill="{{ pd }}" transform="rotate(120 60 82)"></path>
+          <path d="M60 82C52 70 50 44 60 31C70 44 68 70 60 82Z" fill="{{ pd }}" transform="rotate(150 60 82)"></path>
+          <path d="M60 82C52 70 50 44 60 31C70 44 68 70 60 82Z" fill="{{ pd }}" transform="rotate(180 60 82)"></path>
+          <path d="M60 82C52 70 50 44 60 31C70 44 68 70 60 82Z" fill="{{ pd }}" transform="rotate(210 60 82)"></path>
+          <path d="M60 82C52 70 50 44 60 31C70 44 68 70 60 82Z" fill="{{ pd }}" transform="rotate(240 60 82)"></path>
+          <path d="M60 82C52 70 50 44 60 31C70 44 68 70 60 82Z" fill="{{ pd }}" transform="rotate(270 60 82)"></path>
+          <path d="M60 82C52 70 50 44 60 31C70 44 68 70 60 82Z" fill="{{ pd }}" transform="rotate(300 60 82)"></path>
+          <path d="M60 82C52 70 50 44 60 31C70 44 68 70 60 82Z" fill="{{ pd }}" transform="rotate(330 60 82)"></path>
+          <path d="M60 82C53 70 51 45 60 33C69 45 67 70 60 82Z" fill="{{ p }}" transform="rotate(15 60 82)"></path>
+          <path d="M60 82C53 70 51 45 60 33C69 45 67 70 60 82Z" fill="{{ p }}" transform="rotate(45 60 82)"></path>
+          <path d="M60 82C53 70 51 45 60 33C69 45 67 70 60 82Z" fill="{{ p }}" transform="rotate(75 60 82)"></path>
+          <path d="M60 82C53 70 51 45 60 33C69 45 67 70 60 82Z" fill="{{ p }}" transform="rotate(105 60 82)"></path>
+          <path d="M60 82C53 70 51 45 60 33C69 45 67 70 60 82Z" fill="{{ p }}" transform="rotate(135 60 82)"></path>
+          <path d="M60 82C53 70 51 45 60 33C69 45 67 70 60 82Z" fill="{{ p }}" transform="rotate(165 60 82)"></path>
+          <path d="M60 82C53 70 51 45 60 33C69 45 67 70 60 82Z" fill="{{ p }}" transform="rotate(195 60 82)"></path>
+          <path d="M60 82C53 70 51 45 60 33C69 45 67 70 60 82Z" fill="{{ p }}" transform="rotate(225 60 82)"></path>
+          <path d="M60 82C53 70 51 45 60 33C69 45 67 70 60 82Z" fill="{{ p }}" transform="rotate(255 60 82)"></path>
+          <path d="M60 82C53 70 51 45 60 33C69 45 67 70 60 82Z" fill="{{ p }}" transform="rotate(285 60 82)"></path>
+          <path d="M60 82C53 70 51 45 60 33C69 45 67 70 60 82Z" fill="{{ p }}" transform="rotate(315 60 82)"></path>
+          <path d="M60 82C53 70 51 45 60 33C69 45 67 70 60 82Z" fill="{{ p }}" transform="rotate(345 60 82)"></path>
+          <circle cx="60" cy="82" r="13" fill="{{ cd }}"></circle>
+          <circle cx="59" cy="81" r="10" fill="{{ c }}"></circle>
+          <ellipse cx="55" cy="77" rx="4" ry="3" fill="#ffffff" opacity="0.28"></ellipse>
+        </g>
+      </sc-if>
+
+      <sc-if value="{{ esClavel }}">
+        <g>
+          <path d="M60 98C34 94 26 70 34 54C39 63 45 58 48 50C52 61 57 55 60 48C63 55 68 61 72 50C75 58 81 63 86 54C94 70 86 94 60 98Z" fill="{{ pd }}"></path>
+          <g transform="translate(60 98) scale(0.8) translate(-60 -98)">
+            <path d="M60 98C34 94 26 70 34 54C39 63 45 58 48 50C52 61 57 55 60 48C63 55 68 61 72 50C75 58 81 63 86 54C94 70 86 94 60 98Z" fill="{{ p }}"></path>
+          </g>
+          <g transform="translate(60 96) scale(0.55) translate(-60 -96)">
+            <path d="M60 98C34 94 26 70 34 54C39 63 45 58 48 50C52 61 57 55 60 48C63 55 68 61 72 50C75 58 81 63 86 54C94 70 86 94 60 98Z" fill="{{ pl }}"></path>
+          </g>
+          <path d="M48 96C52 106 68 106 72 96C74 110 46 110 48 96Z" fill="{{ hojaD }}"></path>
+          <path d="M46 72C50 78 54 82 60 84" fill="none" stroke="{{ pl }}" stroke-width="2" stroke-linecap="round" opacity="0.5"></path>
+        </g>
+      </sc-if>
+
+    </g>
+  </g>
+</svg>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:180,&quot;height&quot;:300},&quot;tipo&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;girasol&quot;,&quot;rosa&quot;,&quot;tulipan&quot;,&quot;margarita&quot;,&quot;clavel&quot;],&quot;default&quot;:&quot;girasol&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;soloCabeza&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;p&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#ffc93c&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Color&quot;},&quot;pd&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#eda428&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Color&quot;},&quot;pl&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#ffe6a3&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Color&quot;},&quot;c&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#7a4a1f&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Color&quot;},&quot;cd&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#543012&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Color&quot;},&quot;tallo&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#4e9a4a&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Color&quot;},&quot;hoja&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#59ad53&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Color&quot;},&quot;hojaD&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#3c8038&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Color&quot;},&quot;dur&quot;:{&quot;editor&quot;:&quot;float&quot;,&quot;default&quot;:4.4,&quot;min&quot;:2,&quot;max&quot;:9,&quot;step&quot;:0.1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Movimiento&quot;},&quot;delay&quot;:{&quot;editor&quot;:&quot;float&quot;,&quot;default&quot;:0,&quot;min&quot;:0,&quot;max&quot;:4,&quot;step&quot;:0.1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Movimiento&quot;},&quot;fx&quot;:{&quot;editor&quot;:null,&quot;default&quot;:&quot;none&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const t = this.props.tipo || 'girasol';
+    return {
+      conTallo: !this.props.soloCabeza,
+      esGirasol: t === 'girasol',
+      esRosa: t === 'rosa',
+      esTulipan: t === 'tulipan',
+      esMargarita: t === 'margarita',
+      esClavel: t === 'clavel',
+      p: this.props.p ?? '#ffc93c',
+      pd: this.props.pd ?? '#eda428',
+      pl: this.props.pl ?? '#ffe6a3',
+      c: this.props.c ?? '#7a4a1f',
+      cd: this.props.cd ?? '#543012',
+      tallo: this.props.tallo ?? '#4e9a4a',
+      hoja: this.props.hoja ?? '#59ad53',
+      hojaD: this.props.hojaD ?? '#3c8038',
+      dur: this.props.dur ?? 4.4,
+      delay: this.props.delay ?? 0,
+      fx: this.props.fx ?? 'none'
+    };
+  }
+}
+</script>
+</body>
+</html>

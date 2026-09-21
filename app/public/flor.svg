@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <g transform="translate(0,20)">
+    <path d="M60 78C46 60 43 30 60 20C77 30 74 60 60 78Z" fill="#eda428" transform="rotate(0 60 78)"/>
+    <path d="M60 78C46 60 43 30 60 20C77 30 74 60 60 78Z" fill="#eda428" transform="rotate(60 60 78)"/>
+    <path d="M60 78C46 60 43 30 60 20C77 30 74 60 60 78Z" fill="#eda428" transform="rotate(120 60 78)"/>
+    <path d="M60 78C46 60 43 30 60 20C77 30 74 60 60 78Z" fill="#eda428" transform="rotate(180 60 78)"/>
+    <path d="M60 78C46 60 43 30 60 20C77 30 74 60 60 78Z" fill="#eda428" transform="rotate(240 60 78)"/>
+    <path d="M60 78C46 60 43 30 60 20C77 30 74 60 60 78Z" fill="#eda428" transform="rotate(300 60 78)"/>
+    <path d="M60 78C49 63 46 38 60 28C74 38 71 63 60 78Z" fill="#ffc93c" transform="rotate(30 60 78)"/>
+    <path d="M60 78C49 63 46 38 60 28C74 38 71 63 60 78Z" fill="#ffc93c" transform="rotate(90 60 78)"/>
+    <path d="M60 78C49 63 46 38 60 28C74 38 71 63 60 78Z" fill="#ffc93c" transform="rotate(150 60 78)"/>
+    <path d="M60 78C49 63 46 38 60 28C74 38 71 63 60 78Z" fill="#ffc93c" transform="rotate(210 60 78)"/>
+    <path d="M60 78C49 63 46 38 60 28C74 38 71 63 60 78Z" fill="#ffc93c" transform="rotate(270 60 78)"/>
+    <path d="M60 78C49 63 46 38 60 28C74 38 71 63 60 78Z" fill="#ffc93c" transform="rotate(330 60 78)"/>
+    <circle cx="60" cy="78" r="23" fill="#543012"/>
+    <circle cx="59" cy="77" r="19" fill="#7a4a1f"/>
+  </g>
+</svg>

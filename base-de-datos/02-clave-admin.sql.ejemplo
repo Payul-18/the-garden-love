@@ -1,0 +1,14 @@
+-- ============================================================
+-- Clave del panel de administracion
+--
+-- Este archivo es solo la plantilla. Copialo como 02-clave-admin.sql
+-- (ese nombre esta en .gitignore y nunca se sube), pon tu clave real y
+-- ejecutalo en el SQL Editor de Supabase DESPUES de 01-esquema.sql.
+--
+-- La misma clave va en VITE_CLAVE_ADMIN dentro de app/.env
+-- y en las variables de entorno de Vercel.
+-- ============================================================
+
+update public.config
+set valor = 'PON-AQUI-TU-CLAVE'
+where clave = 'clave_admin';

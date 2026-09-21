@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Caveat:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap');
+
+/* ------------------------------------------------------------------
+   Base
+   El jardín ocupa la pantalla completa y nunca hace scroll de página:
+   el desplazamiento vive dentro del jardín, no en el body.
+------------------------------------------------------------------ */
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body, #root {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #0d1410;
+}
+
+body {
+  font-family: Nunito, system-ui, sans-serif;
+  /* Evita que iOS reescale el texto al girar el teléfono */
+  -webkit-text-size-adjust: 100%;
+}
+
+input { font-family: inherit; }
+input::placeholder { color: rgba(90, 58, 28, .35); }
+
+/* Oculta la barra de scroll de la fila de flores sin perder el gesto */
+.sin-barra { scrollbar-width: none; -ms-overflow-style: none; }
+.sin-barra::-webkit-scrollbar { display: none; }
+
+/* ------------------------------------------------------------------
+   Animaciones de la portada y del flujo principal
+------------------------------------------------------------------ */
+@keyframes letraPop { 0% { opacity:0; transform:translateY(26px) scale(.7) rotate(-8deg); } 60% { opacity:1; transform:translateY(-6px) scale(1.12) rotate(2deg); } 100% { opacity:1; transform:translateY(0) scale(1) rotate(0); } }
+@keyframes respira { 0%,100% { transform:translateY(0) } 50% { transform:translateY(-7px) } }
+@keyframes brilloTitulo { 0%,100% { opacity:.4; transform:scale(.94) } 50% { opacity:.85; transform:scale(1.06) } }
+@keyframes destello { 0%,100% { opacity:.2; transform:scale(.7) rotate(0deg) } 50% { opacity:1; transform:scale(1.15) rotate(25deg) } }
+@keyframes latido { 0%,100% { transform:scale(1); box-shadow:0 6px 0 #3f7a2e, 0 10px 22px rgba(0,0,0,.4), 0 0 0 rgba(255,231,160,0) } 50% { transform:scale(1.025); box-shadow:0 6px 0 #3f7a2e, 0 12px 26px rgba(0,0,0,.45), 0 0 26px rgba(255,231,160,.55) } }
+@keyframes toastIn { 0% { opacity:0; transform:translateY(14px) scale(.94) } 100% { opacity:1; transform:translateY(0) scale(1) } }
+@keyframes sheetUp { 0% { opacity:0; transform:translateY(60px) } 100% { opacity:1; transform:translateY(0) } }
+@keyframes tiembla { 0%,100% { transform:translateX(0) } 15% { transform:translateX(-9px) rotate(-2deg) } 35% { transform:translateX(8px) rotate(2deg) } 55% { transform:translateX(-6px) } 75% { transform:translateX(5px) } }
+@keyframes flotar { 0% { transform:translateY(0) scale(.8); opacity:0 } 20% { opacity:.9 } 100% { transform:translateY(-140px) scale(1.1); opacity:0 } }
+@keyframes apareceSuave { 0% { opacity:0; transform:scale(1.02) } 100% { opacity:1; transform:scale(1) } }
+@keyframes fadeUp { 0% { opacity:0; transform:translateY(14px) } 100% { opacity:1; transform:translateY(0) } }
+
+/* ------------------------------------------------------------------
+   Animaciones del florecimiento (pantalla 4)
+------------------------------------------------------------------ */
+@keyframes dibujarTallo { to { stroke-dashoffset:0 } }
+@keyframes hojaPop { 0% { opacity:0; transform:scale(0) } 70% { opacity:1; transform:scale(1.18) } 100% { opacity:1; transform:scale(1) } }
+@keyframes chispa { 0% { opacity:0; transform:rotate(var(--a,0deg)) translateY(-10px) scale(.2) } 40% { opacity:1 } 100% { opacity:0; transform:rotate(var(--a,0deg)) translateY(-96px) scale(1) } }
+@keyframes desvanecer { to { opacity:0; transform:scale(.55) } }
+@keyframes petalosAbren { 0% { opacity:.2; transform:scale(.08) rotate(-22deg) } 45% { opacity:1; transform:scale(.72) rotate(-6deg) } 78% { transform:scale(1.1) rotate(3deg) } 100% { opacity:1; transform:scale(1) rotate(0) } }
+@keyframes aureola { 0%,100% { opacity:.45; transform:scale(1) } 50% { opacity:.9; transform:scale(1.12) } }
+
+/* ------------------------------------------------------------------
+   Movimiento de las flores
+------------------------------------------------------------------ */
+@keyframes florSway { 0%,100% { transform: rotate(-2.2deg); } 50% { transform: rotate(2.4deg); } }
+@keyframes florHead { 0%,100% { transform: rotate(1.6deg) translateY(0px); } 50% { transform: rotate(-1.8deg) translateY(-2px); } }
+
+/* ------------------------------------------------------------------
+   Vida del jardín: nubes, sol, estrellas, luciérnagas, mariposas
+------------------------------------------------------------------ */
+@keyframes jNube { from { transform: translateX(-30%); } to { transform: translateX(130%); } }
+@keyframes jSol { 0%,100% { transform: scale(1); opacity: .92; } 50% { transform: scale(1.06); opacity: 1; } }
+@keyframes jTwinkle { 0%,100% { opacity: .25; transform: scale(.8); } 50% { opacity: 1; transform: scale(1.15); } }
+@keyframes jLuci { 0% { transform: translate(0,0); opacity: 0; } 15% { opacity: 1; } 50% { transform: translate(26px,-34px); opacity: .9; } 85% { opacity: .7; } 100% { transform: translate(-10px,-8px); opacity: 0; } }
+@keyframes jMariposa { 0% { transform: translate(-40px, 0) rotate(-6deg); } 50% { transform: translate(46vw, -26px) rotate(6deg); } 100% { transform: translate(110vw, 6px) rotate(-4deg); } }
+@keyframes jAla { 0%,100% { transform: scaleX(1); } 50% { transform: scaleX(.42); } }
+@keyframes jAve { 0% { transform:translate(-14%,0) } 50% { transform:translate(52%,-22px) } 100% { transform:translate(118%,4px) } }
+@keyframes jAleteo { 0%,100% { transform:scaleY(1) } 50% { transform:scaleY(.35) } }
+@keyframes jFugaz { 0% { opacity:0; transform:translate(0,0) scaleX(.4) } 4% { opacity:1 } 12% { opacity:1; transform:translate(-150px,110px) scaleX(1) } 16% { opacity:0; transform:translate(-190px,140px) scaleX(.6) } 100% { opacity:0; transform:translate(-190px,140px) scaleX(.6) } }
+@keyframes jPolen { 0% { transform:translate(0,0); opacity:0 } 15% { opacity:.85 } 100% { transform:translate(38px,-120px); opacity:0 } }
+@keyframes jBrillo { 0%,100% { opacity: .35; transform: scale(.9); } 50% { opacity: 1; transform: scale(1.1); } }
+
+/* ------------------------------------------------------------------
+   Respeto por quien prefiere menos movimiento (accesibilidad del sistema).
+   Las animaciones de entrada se conservan; las infinitas se detienen.
+------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* Latido que señala la flor cuando ella repite un código ya canjeado */
+@keyframes resalta {
+  0%, 100% { transform: translateY(0) scale(1); filter: none; }
+  50% { transform: translateY(-10px) scale(1.14); filter: drop-shadow(0 0 14px rgba(255,236,170,.95)); }
+}

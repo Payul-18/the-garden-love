@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Caveat:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; background:#0f1713; }
+  .sc-host[data-sc-name="Jardin"], .sc-host[data-sc-name="Flor"] { display:block; width:100%; height:100%; }
+  a { color:#ffd98a; text-decoration:none; }
+  a:hover { color:#fff0c4; }
+  input::placeholder { color:rgba(90,58,28,.35); }
+  @keyframes letraPop { 0% { opacity:0; transform:translateY(26px) scale(.7) rotate(-8deg); } 60% { opacity:1; transform:translateY(-6px) scale(1.12) rotate(2deg); } 100% { opacity:1; transform:translateY(0) scale(1) rotate(0); } }
+  @keyframes respira { 0%,100% { transform:translateY(0) } 50% { transform:translateY(-7px) } }
+  @keyframes brilloTitulo { 0%,100% { opacity:.4; transform:scale(.94) } 50% { opacity:.85; transform:scale(1.06) } }
+  @keyframes destello { 0%,100% { opacity:.2; transform:scale(.7) rotate(0deg) } 50% { opacity:1; transform:scale(1.15) rotate(25deg) } }
+  @keyframes latido { 0%,100% { transform:scale(1); box-shadow:0 6px 0 #3f7a2e, 0 10px 22px rgba(0,0,0,.4), 0 0 0 rgba(255,231,160,0) } 50% { transform:scale(1.025); box-shadow:0 6px 0 #3f7a2e, 0 12px 26px rgba(0,0,0,.45), 0 0 26px rgba(255,231,160,.55) } }
+  @keyframes toastIn { 0% { opacity:0; transform:translateY(14px) scale(.94) } 100% { opacity:1; transform:translateY(0) scale(1) } }
+  @keyframes sheetUp { 0% { opacity:0; transform:translateY(60px) } 100% { opacity:1; transform:translateY(0) } }
+  @keyframes tiembla { 0%,100% { transform:translateX(0) } 15% { transform:translateX(-9px) rotate(-2deg) } 35% { transform:translateX(8px) rotate(2deg) } 55% { transform:translateX(-6px) } 75% { transform:translateX(5px) } }
+  @keyframes flotar { 0% { transform:translateY(0) scale(.8); opacity:0 } 20% { opacity:.9 } 100% { transform:translateY(-140px) scale(1.1); opacity:0 } }
+  @keyframes apareceSuave { 0% { opacity:0; transform:scale(1.02) } 100% { opacity:1; transform:scale(1) } }
+  @keyframes dibujarTallo { to { stroke-dashoffset:0 } }
+  @keyframes hojaPop { 0% { opacity:0; transform:scale(0) } 70% { opacity:1; transform:scale(1.18) } 100% { opacity:1; transform:scale(1) } }
+  @keyframes florPop { 0% { opacity:0; transform:translateY(16px) scale(.1) rotate(-14deg) } 55% { opacity:1; transform:translateY(-6px) scale(1.14) rotate(4deg) } 100% { opacity:1; transform:translateY(0) scale(1) rotate(0) } }
+  @keyframes chispa { 0% { opacity:0; transform:rotate(var(--a,0deg)) translateY(-10px) scale(.2) } 40% { opacity:1 } 100% { opacity:0; transform:rotate(var(--a,0deg)) translateY(-96px) scale(1) } }
+  @keyframes fadeUp { 0% { opacity:0; transform:translateY(14px) } 100% { opacity:1; transform:translateY(0) } }
+  @keyframes desvanecer { to { opacity:0; transform:scale(.55) } }
+  @keyframes petalosAbren { 0% { opacity:.2; transform:scale(.08) rotate(-22deg) } 45% { opacity:1; transform:scale(.72) rotate(-6deg) } 78% { transform:scale(1.1) rotate(3deg) } 100% { opacity:1; transform:scale(1) rotate(0) } }
+  @keyframes aureola { 0%,100% { opacity:.45; transform:scale(1) } 50% { opacity:.9; transform:scale(1.12) } }
+</style>
+</helmet>
+
+<div style="font-family:Nunito,system-ui,sans-serif; color:#efe6d3; background:radial-gradient(120% 80% at 50% 0%,#1b2a20 0%,#0f1713 60%,#0b110e 100%); min-height:100vh; padding:40px 28px 90px">
+
+  <div style="max-width:1240px; margin:0 auto; display:flex; flex-direction:column; gap:14px">
+    <div style="font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:#8fae8f">Regalo personal · prototipo de interfaz</div>
+    <div style="font-family:'Berkshire Swash',serif; font-size:52px; line-height:1; color:#fff3d4; text-shadow:0 2px 0 #96632a, 0 4px 18px rgba(0,0,0,.5)">The Garden Love</div>
+    <div style="font-family:Caveat,cursive; font-size:24px; color:#cfe0c6; max-width:620px">Un jardín que florece con cada flor real que Jean le entrega a {{ nombreElla }}. Cinco pantallas, tres ambientes y el momento de florecer.</div>
+  </div>
+
+  <div style="max-width:1240px; margin:44px auto 0; display:flex; flex-wrap:wrap; gap:34px; align-items:flex-start">
+
+    <div style="flex:0 0 auto; padding:11px; background:linear-gradient(160deg,#4a3d31,#221b16); border-radius:54px; box-shadow:0 30px 60px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.12)">
+      <div style="position:relative; width:375px; height:812px; border-radius:44px; overflow:hidden; background:#0d1410">
+
+        <sc-if value="{{ enPortada }}" hint-placeholder-val="{{ true }}">
+          <div style="position:absolute; inset:0; animation:apareceSuave .6s ease both">
+            <div style="position:absolute; inset:-6%; filter:blur(6px) saturate(1.08)">
+              <dc-import name="Jardin" ambiente="{{ ambiente }}" flores="{{ floresFondo }}" hint-size="100%,100%" style="display:block; width:100%; height:100%"></dc-import>
+            </div>
+            <div style="position:absolute; inset:0; background:linear-gradient(180deg,rgba(10,20,14,.5) 0%,rgba(12,22,16,.22) 42%,rgba(8,16,12,.6) 100%)"></div>
+
+            <div style="position:absolute; top:12%; left:6%; width:7px; height:7px; border-radius:50%; background:#fff3c0; box-shadow:0 0 12px 4px rgba(255,236,170,.6); animation:flotar 9s ease-in-out infinite"></div>
+            <div style="position:absolute; top:34%; left:82%; width:5px; height:5px; border-radius:50%; background:#ffeab0; box-shadow:0 0 10px 3px rgba(255,236,170,.5); animation:flotar 11s ease-in-out infinite; animation-delay:-4s"></div>
+            <div style="position:absolute; top:52%; left:18%; width:6px; height:6px; border-radius:50%; background:#fff6d2; box-shadow:0 0 12px 4px rgba(255,236,170,.55); animation:flotar 13s ease-in-out infinite; animation-delay:-7s"></div>
+            <div style="position:absolute; top:66%; left:68%; width:5px; height:5px; border-radius:50%; background:#ffeab0; box-shadow:0 0 9px 3px rgba(255,236,170,.5); animation:flotar 10s ease-in-out infinite; animation-delay:-2s"></div>
+            <div style="position:absolute; top:78%; left:38%; width:4px; height:4px; border-radius:50%; background:#fff3c0; box-shadow:0 0 8px 3px rgba(255,236,170,.45); animation:flotar 12s ease-in-out infinite; animation-delay:-9s"></div>
+
+            <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:space-between; padding:74px 26px 46px">
+
+              <div style="position:relative; display:flex; flex-direction:column; align-items:center">
+                <div style="position:absolute; top:6px; left:50%; margin-left:-130px; width:260px; height:170px; border-radius:50%; background:radial-gradient(circle,rgba(255,226,150,.5) 0%,rgba(255,210,120,.14) 48%,rgba(255,210,120,0) 72%); animation:brilloTitulo 5s ease-in-out infinite; pointer-events:none"></div>
+                <div style="position:relative; animation:respira 6s ease-in-out infinite; text-align:center">
+                  <div style="font-family:'Berkshire Swash',serif; font-size:46px; line-height:1.05; color:#fff8e4; text-shadow:0 2px 0 #c07c2e, 0 4px 0 #8d5719, 0 8px 16px rgba(0,0,0,.55), 0 0 24px rgba(255,214,130,.45)">
+                    <span style="display:inline-block; animation:letraPop .75s cubic-bezier(.22,1.5,.4,1) both; animation-delay:.05s">T</span><span style="display:inline-block; animation:letraPop .75s cubic-bezier(.22,1.5,.4,1) both; animation-delay:.12s">h</span><span style="display:inline-block; animation:letraPop .75s cubic-bezier(.22,1.5,.4,1) both; animation-delay:.19s">e</span><span style="display:inline-block; width:16px"></span><span style="display:inline-block; animation:letraPop .75s cubic-bezier(.22,1.5,.4,1) both; animation-delay:.28s">G</span><span style="display:inline-block; animation:letraPop .75s cubic-bezier(.22,1.5,.4,1) both; animation-delay:.35s">a</span><span style="display:inline-block; animation:letraPop .75s cubic-bezier(.22,1.5,.4,1) both; animation-delay:.42s">r</span><span style="display:inline-block; animation:letraPop .75s cubic-bezier(.22,1.5,.4,1) both; animation-delay:.49s">d</span><span style="display:inline-block; animation:letraPop .75s cubic-bezier(.22,1.5,.4,1) both; animation-delay:.56s">e</span><span style="display:inline-block; animation:letraPop .75s cubic-bezier(.22,1.5,.4,1) both; animation-delay:.63s">n</span>
+                  </div>
+                  <div style="display:flex; align-items:center; justify-content:center; gap:10px; margin-top:-4px">
+                    <svg width="34" height="26" viewBox="0 0 34 26" style="flex:0 0 auto"><path d="M33 19C24 23 12 22 4 14" stroke="#7fc46a" stroke-width="2.4" fill="none" stroke-linecap="round"></path><path d="M20 19C17 13 11 11 6 12C8 18 14 21 20 19Z" fill="#8ad36f"></path><path d="M28 18C28 13 24 9 19 9C20 15 24 18 28 18Z" fill="#6fb85e"></path></svg>
+                    <div style="font-family:'Berkshire Swash',serif; font-size:64px; line-height:1; color:#fff8e4; text-shadow:0 3px 0 #c07c2e, 0 6px 0 #8d5719, 0 10px 20px rgba(0,0,0,.55), 0 0 30px rgba(255,214,130,.5)">
+                      <span style="display:inline-block; animation:letraPop .8s cubic-bezier(.22,1.5,.4,1) both; animation-delay:.76s">L</span><span style="display:inline-block; animation:letraPop .8s cubic-bezier(.22,1.5,.4,1) both; animation-delay:.84s">o</span><span style="display:inline-block; animation:letraPop .8s cubic-bezier(.22,1.5,.4,1) both; animation-delay:.92s">v</span><span style="display:inline-block; animation:letraPop .8s cubic-bezier(.22,1.5,.4,1) both; animation-delay:1s">e</span>
+                    </div>
+                    <svg width="34" height="26" viewBox="0 0 34 26" style="flex:0 0 auto; transform:scaleX(-1)"><path d="M33 19C24 23 12 22 4 14" stroke="#7fc46a" stroke-width="2.4" fill="none" stroke-linecap="round"></path><path d="M20 19C17 13 11 11 6 12C8 18 14 21 20 19Z" fill="#8ad36f"></path><path d="M28 18C28 13 24 9 19 9C20 15 24 18 28 18Z" fill="#6fb85e"></path></svg>
+                  </div>
+                  <svg width="16" height="16" viewBox="0 0 16 16" style="position:absolute; top:-6px; right:-6px; animation:destello 3.4s ease-in-out infinite"><path d="M8 0L9.6 6.4L16 8L9.6 9.6L8 16L6.4 9.6L0 8L6.4 6.4Z" fill="#fff3c0"></path></svg>
+                  <svg width="12" height="12" viewBox="0 0 16 16" style="position:absolute; bottom:6px; left:-10px; animation:destello 4.2s ease-in-out infinite; animation-delay:-1.6s"><path d="M8 0L9.6 6.4L16 8L9.6 9.6L8 16L6.4 9.6L0 8L6.4 6.4Z" fill="#ffe6a8"></path></svg>
+                </div>
+                <div style="font-family:Caveat,cursive; font-size:25px; color:#ffeec9; margin-top:10px; text-shadow:0 2px 8px rgba(0,0,0,.6); animation:fadeUp 1s ease 1.2s both">para {{ nombreElla }}, de {{ firmante }}</div>
+              </div>
+
+              <div style="width:100%; display:flex; flex-direction:column; align-items:center; gap:18px">
+                <sc-if value="{{ hayMsg }}">
+                  <div style="display:flex; align-items:center; gap:10px; max-width:344px; padding:12px 18px; border-radius:22px 22px 24px 20px; background:linear-gradient(180deg,#fff6e6,#ffe9cf); box-shadow:0 8px 22px rgba(0,0,0,.35); animation:toastIn .45s cubic-bezier(.2,1.3,.4,1) both">
+                    <div style="font-family:Caveat,cursive; font-size:22px; line-height:1.25; color:#7a4520; text-align:center; text-wrap:balance">{{ msg }}</div>
+                  </div>
+                </sc-if>
+
+                <div style="font-family:Caveat,cursive; font-size:24px; color:#fff3dc; text-shadow:0 2px 8px rgba(0,0,0,.65)">Escribe tu llave de 4 dígitos</div>
+
+                <div style="display:flex; gap:14px; animation:{{ shakeAnim }}">
+                  <input maxlength="1" inputmode="numeric" value="{{ d0 }}" onChange="{{ onD0 }}" onKeyDown="{{ onK0 }}" ref="{{ r0 }}" style="width:66px; height:72px; border:none; outline:none; text-align:center; font-family:Nunito,sans-serif; font-weight:800; font-size:32px; color:#5a3a1c; background:radial-gradient(120% 130% at 32% 24%,#f8e6c2 0%,#e6c490 52%,#c79a61 100%); border-radius:48% 52% 46% 54% / 56% 44% 58% 42%; box-shadow:inset 0 -7px 12px rgba(120,76,32,.35), inset 0 7px 10px rgba(255,255,255,.6), 0 7px 16px rgba(0,0,0,.4); transition:transform .18s, box-shadow .18s" style-focus="transform:translateY(-3px); box-shadow:inset 0 -7px 12px rgba(120,76,32,.3), inset 0 7px 10px rgba(255,255,255,.7), 0 8px 18px rgba(0,0,0,.4), 0 0 0 3px rgba(255,226,150,.75), 0 0 26px rgba(255,220,140,.8)"></input>
+                  <input maxlength="1" inputmode="numeric" value="{{ d1 }}" onChange="{{ onD1 }}" onKeyDown="{{ onK1 }}" ref="{{ r1 }}" style="width:66px; height:72px; border:none; outline:none; text-align:center; font-family:Nunito,sans-serif; font-weight:800; font-size:32px; color:#5a3a1c; background:radial-gradient(120% 130% at 32% 24%,#f8e6c2 0%,#e6c490 52%,#c79a61 100%); border-radius:52% 48% 54% 46% / 44% 58% 42% 56%; box-shadow:inset 0 -7px 12px rgba(120,76,32,.35), inset 0 7px 10px rgba(255,255,255,.6), 0 7px 16px rgba(0,0,0,.4); transition:transform .18s, box-shadow .18s" style-focus="transform:translateY(-3px); box-shadow:inset 0 -7px 12px rgba(120,76,32,.3), inset 0 7px 10px rgba(255,255,255,.7), 0 8px 18px rgba(0,0,0,.4), 0 0 0 3px rgba(255,226,150,.75), 0 0 26px rgba(255,220,140,.8)"></input>
+                  <input maxlength="1" inputmode="numeric" value="{{ d2 }}" onChange="{{ onD2 }}" onKeyDown="{{ onK2 }}" ref="{{ r2 }}" style="width:66px; height:72px; border:none; outline:none; text-align:center; font-family:Nunito,sans-serif; font-weight:800; font-size:32px; color:#5a3a1c; background:radial-gradient(120% 130% at 32% 24%,#f8e6c2 0%,#e6c490 52%,#c79a61 100%); border-radius:46% 54% 50% 50% / 58% 42% 56% 44%; box-shadow:inset 0 -7px 12px rgba(120,76,32,.35), inset 0 7px 10px rgba(255,255,255,.6), 0 7px 16px rgba(0,0,0,.4); transition:transform .18s, box-shadow .18s" style-focus="transform:translateY(-3px); box-shadow:inset 0 -7px 12px rgba(120,76,32,.3), inset 0 7px 10px rgba(255,255,255,.7), 0 8px 18px rgba(0,0,0,.4), 0 0 0 3px rgba(255,226,150,.75), 0 0 26px rgba(255,220,140,.8)"></input>
+                  <input maxlength="1" inputmode="numeric" value="{{ d3 }}" onChange="{{ onD3 }}" onKeyDown="{{ onK3 }}" ref="{{ r3 }}" style="width:66px; height:72px; border:none; outline:none; text-align:center; font-family:Nunito,sans-serif; font-weight:800; font-size:32px; color:#5a3a1c; background:radial-gradient(120% 130% at 32% 24%,#f8e6c2 0%,#e6c490 52%,#c79a61 100%); border-radius:54% 46% 48% 52% / 46% 56% 44% 54%; box-shadow:inset 0 -7px 12px rgba(120,76,32,.35), inset 0 7px 10px rgba(255,255,255,.6), 0 7px 16px rgba(0,0,0,.4); transition:transform .18s, box-shadow .18s" style-focus="transform:translateY(-3px); box-shadow:inset 0 -7px 12px rgba(120,76,32,.3), inset 0 7px 10px rgba(255,255,255,.7), 0 8px 18px rgba(0,0,0,.4), 0 0 0 3px rgba(255,226,150,.75), 0 0 26px rgba(255,220,140,.8)"></input>
+                </div>
+
+                <sc-if value="{{ listo }}">
+                  <button onClick="{{ entrar }}" style="width:100%; max-width:304px; padding:18px 20px; border:none; border-radius:30px; cursor:pointer; font-family:Nunito,sans-serif; font-weight:800; font-size:19px; letter-spacing:.02em; color:#fffaea; background:linear-gradient(180deg,#8ed167 0%,#5fa244 60%,#528f3b 100%); text-shadow:0 2px 4px rgba(40,70,30,.6); box-shadow:0 6px 0 #3f7a2e, 0 10px 22px rgba(0,0,0,.4); animation:latido 2.2s ease-in-out infinite">Entrar a tu jardín</button>
+                </sc-if>
+                <sc-if value="{{ noListo }}">
+                  <div style="width:100%; max-width:304px; padding:18px 20px; border-radius:30px; text-align:center; font-family:Nunito,sans-serif; font-weight:800; font-size:19px; color:rgba(255,250,234,.5); background:linear-gradient(180deg,rgba(150,160,140,.45),rgba(96,106,88,.45)); box-shadow:inset 0 2px 0 rgba(255,255,255,.12), 0 4px 0 rgba(60,70,55,.4)">Entrar a tu jardín</div>
+                </sc-if>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ enJardin }}">
+          <div style="position:absolute; inset:0; animation:apareceSuave .6s ease both">
+            <dc-import name="Jardin" ambiente="{{ ambiente }}" flores="{{ flores }}" zocalo="{{ zocaloJardin }}" hint-size="100%,100%" style="display:block; width:100%; height:100%"></dc-import>
+
+            <div style="position:absolute; top:0; left:0; right:0; padding:22px 22px 30px; display:flex; align-items:flex-start; justify-content:space-between; background:linear-gradient(180deg,rgba(10,18,14,.42),rgba(10,18,14,0)); pointer-events:none">
+              <div>
+                <div style="font-family:'Berkshire Swash',serif; font-size:23px; color:#fff6e0; text-shadow:0 2px 8px rgba(0,0,0,.55)">El jardín de {{ nombreElla }}</div>
+                <div style="font-family:Caveat,cursive; font-size:19px; color:#ffeec9; opacity:.92">{{ conteoTxt }}</div>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px">
+                <div style="font-family:Nunito,sans-serif; font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#fff3dc; background:rgba(20,30,22,.4); border:1px solid rgba(255,240,200,.28); padding:6px 10px; border-radius:999px">{{ ambienteTxt }}</div>
+                <div style="font-family:Nunito,sans-serif; font-size:12px; font-weight:800; letter-spacing:.08em; color:#fff1d4; background:linear-gradient(180deg,#a9763f,#7d5227); padding:4px 10px; border-radius:6px; transform:rotate(3deg); box-shadow:0 3px 0 rgba(60,36,14,.55), 0 6px 12px rgba(0,0,0,.28); border:1px solid rgba(255,224,170,.35)">{{ anioActual }}</div>
+              </div>
+            </div>
+
+            <sc-if value="{{ hayMsg }}">
+              <div style="position:absolute; left:20px; right:20px; bottom:212px; display:flex; justify-content:center">
+                <div style="padding:12px 18px; border-radius:22px 22px 24px 20px; background:linear-gradient(180deg,#fff6e6,#ffe9cf); box-shadow:0 8px 22px rgba(0,0,0,.35); animation:toastIn .45s cubic-bezier(.2,1.3,.4,1) both">
+                  <div style="font-family:Caveat,cursive; font-size:22px; line-height:1.25; color:#7a4520; text-align:center; text-wrap:balance">{{ msg }}</div>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ panelCerrado }}" hint-placeholder-val="{{ true }}">
+              <div style="position:absolute; left:0; right:0; bottom:0; padding:0 20px 34px; display:flex; justify-content:center; background:linear-gradient(180deg,rgba(40,28,16,0) 0%,rgba(40,28,16,.45) 70%)">
+                <button onClick="{{ abrirPanel }}" style="display:flex; align-items:center; gap:10px; padding:16px 26px; border:none; border-radius:30px; cursor:pointer; font-family:Nunito,sans-serif; font-weight:800; font-size:18px; color:#fffaea; background:linear-gradient(180deg,#8ed167 0%,#5fa244 60%,#528f3b 100%); text-shadow:0 2px 4px rgba(40,70,30,.6); box-shadow:0 6px 0 #3f7a2e, 0 10px 22px rgba(0,0,0,.4); animation:latido 2.6s ease-in-out infinite">
+                  <svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 3V17M3 10H17" stroke="#fffaea" stroke-width="2.6" stroke-linecap="round"></path></svg>
+                  Agregar flor
+                </button>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ panelAbierto }}">
+            <div style="position:absolute; left:0; right:0; bottom:0; padding:14px 20px 26px; background:linear-gradient(180deg,rgba(74,50,28,.0) 0%,rgba(74,50,28,.72) 22%,rgba(56,37,20,.92) 100%); border-radius:30px 30px 0 0; box-shadow:0 -10px 30px rgba(0,0,0,.35); animation:sheetUp .42s cubic-bezier(.2,1.2,.4,1) both">
+              <div style="display:flex; justify-content:flex-end">
+                <button onClick="{{ cerrarPanel }}" style="border:none; background:rgba(255,240,210,.16); width:34px; height:34px; border-radius:50%; cursor:pointer; color:#ffeec9; font-family:Nunito,sans-serif; font-size:18px; font-weight:700; line-height:1">×</button>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:12px">
+                <sc-if value="{{ hayFlores }}" hint-placeholder-val="{{ true }}">
+                  <div style="font-family:Caveat,cursive; font-size:23px; color:#ffeec9">¿Llegó una flor nueva? Escribe sus 6 dígitos</div>
+                </sc-if>
+                <sc-if value="{{ sinFlores }}">
+                  <div style="font-family:Caveat,cursive; font-size:23px; color:#ffeec9">Escribe los 6 dígitos de tu primera flor</div>
+                </sc-if>
+                <div style="display:flex; gap:7px; animation:{{ shakeAnim }}">
+                  <input maxlength="1" inputmode="numeric" value="{{ e0 }}" onChange="{{ onE0 }}" onKeyDown="{{ onEK0 }}" ref="{{ q0 }}" style="width:46px; height:54px; border:none; outline:none; text-align:center; font-family:Nunito,sans-serif; font-weight:800; font-size:24px; color:#5a3a1c; background:radial-gradient(120% 130% at 32% 24%,#f8e6c2 0%,#e6c490 52%,#c79a61 100%); border-radius:48% 52% 46% 54% / 56% 44% 58% 42%; box-shadow:inset 0 -6px 10px rgba(120,76,32,.35), inset 0 6px 9px rgba(255,255,255,.6), 0 5px 12px rgba(0,0,0,.35)" style-focus="box-shadow:inset 0 -6px 10px rgba(120,76,32,.3), inset 0 6px 9px rgba(255,255,255,.7), 0 0 0 3px rgba(255,226,150,.75), 0 0 20px rgba(255,220,140,.75)"></input>
+                  <input maxlength="1" inputmode="numeric" value="{{ e1 }}" onChange="{{ onE1 }}" onKeyDown="{{ onEK1 }}" ref="{{ q1 }}" style="width:46px; height:54px; border:none; outline:none; text-align:center; font-family:Nunito,sans-serif; font-weight:800; font-size:24px; color:#5a3a1c; background:radial-gradient(120% 130% at 32% 24%,#f8e6c2 0%,#e6c490 52%,#c79a61 100%); border-radius:52% 48% 54% 46% / 44% 58% 42% 56%; box-shadow:inset 0 -6px 10px rgba(120,76,32,.35), inset 0 6px 9px rgba(255,255,255,.6), 0 5px 12px rgba(0,0,0,.35)" style-focus="box-shadow:inset 0 -6px 10px rgba(120,76,32,.3), inset 0 6px 9px rgba(255,255,255,.7), 0 0 0 3px rgba(255,226,150,.75), 0 0 20px rgba(255,220,140,.75)"></input>
+                  <input maxlength="1" inputmode="numeric" value="{{ e2 }}" onChange="{{ onE2 }}" onKeyDown="{{ onEK2 }}" ref="{{ q2 }}" style="width:46px; height:54px; border:none; outline:none; text-align:center; font-family:Nunito,sans-serif; font-weight:800; font-size:24px; color:#5a3a1c; background:radial-gradient(120% 130% at 32% 24%,#f8e6c2 0%,#e6c490 52%,#c79a61 100%); border-radius:46% 54% 50% 50% / 58% 42% 56% 44%; box-shadow:inset 0 -6px 10px rgba(120,76,32,.35), inset 0 6px 9px rgba(255,255,255,.6), 0 5px 12px rgba(0,0,0,.35)" style-focus="box-shadow:inset 0 -6px 10px rgba(120,76,32,.3), inset 0 6px 9px rgba(255,255,255,.7), 0 0 0 3px rgba(255,226,150,.75), 0 0 20px rgba(255,220,140,.75)"></input>
+                  <input maxlength="1" inputmode="numeric" value="{{ e3 }}" onChange="{{ onE3 }}" onKeyDown="{{ onEK3 }}" ref="{{ q3 }}" style="width:46px; height:54px; border:none; outline:none; text-align:center; font-family:Nunito,sans-serif; font-weight:800; font-size:24px; color:#5a3a1c; background:radial-gradient(120% 130% at 32% 24%,#f8e6c2 0%,#e6c490 52%,#c79a61 100%); border-radius:54% 46% 48% 52% / 46% 56% 44% 54%; box-shadow:inset 0 -6px 10px rgba(120,76,32,.35), inset 0 6px 9px rgba(255,255,255,.6), 0 5px 12px rgba(0,0,0,.35)" style-focus="box-shadow:inset 0 -6px 10px rgba(120,76,32,.3), inset 0 6px 9px rgba(255,255,255,.7), 0 0 0 3px rgba(255,226,150,.75), 0 0 20px rgba(255,220,140,.75)"></input>
+                  <input maxlength="1" inputmode="numeric" value="{{ e4 }}" onChange="{{ onE4 }}" onKeyDown="{{ onEK4 }}" ref="{{ q4 }}" style="width:46px; height:54px; border:none; outline:none; text-align:center; font-family:Nunito,sans-serif; font-weight:800; font-size:24px; color:#5a3a1c; background:radial-gradient(120% 130% at 32% 24%,#f8e6c2 0%,#e6c490 52%,#c79a61 100%); border-radius:50% 50% 44% 56% / 54% 46% 56% 44%; box-shadow:inset 0 -6px 10px rgba(120,76,32,.35), inset 0 6px 9px rgba(255,255,255,.6), 0 5px 12px rgba(0,0,0,.35)" style-focus="box-shadow:inset 0 -6px 10px rgba(120,76,32,.3), inset 0 6px 9px rgba(255,255,255,.7), 0 0 0 3px rgba(255,226,150,.75), 0 0 20px rgba(255,220,140,.75)"></input>
+                  <input maxlength="1" inputmode="numeric" value="{{ e5 }}" onChange="{{ onE5 }}" onKeyDown="{{ onEK5 }}" ref="{{ q5 }}" style="width:46px; height:54px; border:none; outline:none; text-align:center; font-family:Nunito,sans-serif; font-weight:800; font-size:24px; color:#5a3a1c; background:radial-gradient(120% 130% at 32% 24%,#f8e6c2 0%,#e6c490 52%,#c79a61 100%); border-radius:44% 56% 52% 48% / 58% 42% 54% 46%; box-shadow:inset 0 -6px 10px rgba(120,76,32,.35), inset 0 6px 9px rgba(255,255,255,.6), 0 5px 12px rgba(0,0,0,.35)" style-focus="box-shadow:inset 0 -6px 10px rgba(120,76,32,.3), inset 0 6px 9px rgba(255,255,255,.7), 0 0 0 3px rgba(255,226,150,.75), 0 0 20px rgba(255,220,140,.75)"></input>
+                </div>
+                <sc-if value="{{ listoCod }}">
+                  <button onClick="{{ sembrar }}" style="width:100%; max-width:300px; padding:15px 20px; border:none; border-radius:26px; cursor:pointer; font-family:Nunito,sans-serif; font-weight:800; font-size:18px; color:#fffaea; background:linear-gradient(180deg,#8ed167 0%,#5fa244 60%,#528f3b 100%); text-shadow:0 2px 4px rgba(40,70,30,.6); box-shadow:0 6px 0 #3f7a2e, 0 10px 22px rgba(0,0,0,.4); animation:latido 2.2s ease-in-out infinite">Sembrar esta flor</button>
+                </sc-if>
+                <sc-if value="{{ noListoCod }}">
+                  <div style="width:100%; max-width:300px; padding:15px 20px; border-radius:26px; text-align:center; font-family:Nunito,sans-serif; font-weight:800; font-size:18px; color:rgba(255,250,234,.45); background:linear-gradient(180deg,rgba(150,160,140,.35),rgba(96,106,88,.35)); box-shadow:inset 0 2px 0 rgba(255,255,255,.1)">Sembrar esta flor</div>
+                </sc-if>
+              </div>
+            </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ enBloom }}">
+          <div style="position:absolute; inset:0; animation:apareceSuave .6s ease both">
+            <div style="position:absolute; inset:0"><dc-import name="Jardin" ambiente="{{ ambiente }}" flores="{{ ninguna }}" hint-size="100%,100%" style="display:block; width:100%; height:100%"></dc-import></div>
+            <div style="position:absolute; inset:0; background:radial-gradient(58% 34% at 50% 66%,rgba(255,240,196,.28) 0%,rgba(10,18,14,.35) 58%,rgba(8,14,11,.7) 100%)"></div>
+
+            <div style="position:absolute; left:0; right:0; bottom:150px; height:420px; display:flex; align-items:flex-end; justify-content:center">
+              <div style="position:relative; width:250px; height:420px">
+                <svg viewBox="0 0 250 420" style="position:absolute; inset:0; width:100%; height:100%; overflow:visible">
+                  <ellipse cx="125" cy="404" rx="74" ry="17" fill="#5f3d27" opacity=".95"></ellipse>
+                  <ellipse cx="125" cy="399" rx="62" ry="13" fill="#85583a"></ellipse>
+                  <circle cx="96" cy="398" r="2" fill="#5a3823"></circle>
+                  <circle cx="148" cy="402" r="1.8" fill="#5a3823"></circle>
+                  <path d="M125 398C120 340 132 290 125 236" fill="none" stroke="#4e9a4a" stroke-width="9" stroke-linecap="round" stroke-dasharray="180" stroke-dashoffset="180" style="animation:dibujarTallo 1.5s ease-out .4s forwards"></path>
+                  <g style="animation:hojaPop .6s cubic-bezier(.2,1.4,.4,1) 1.35s both; transform-origin:124px 336px; transform-box:view-box">
+                    <path d="M124 336C100 322 72 328 62 346C82 362 112 358 124 336Z" fill="#59ad53"></path>
+                    <path d="M120 338C104 341 84 345 68 350" stroke="#3c8038" stroke-width="2" fill="none" stroke-linecap="round" opacity=".7"></path>
+                  </g>
+                  <g style="animation:hojaPop .6s cubic-bezier(.2,1.4,.4,1) 1.75s both; transform-origin:127px 292px; transform-box:view-box">
+                    <path d="M127 292C151 276 182 282 192 300C170 318 140 314 127 292Z" fill="#59ad53"></path>
+                    <path d="M131 294C148 296 168 300 186 305" stroke="#3c8038" stroke-width="2" fill="none" stroke-linecap="round" opacity=".7"></path>
+                  </g>
+                  <g style="animation:hojaPop .55s cubic-bezier(.2,1.4,.4,1) 2.05s both, desvanecer .45s ease 2.6s forwards; transform-origin:125px 236px; transform-box:view-box">
+                    <path d="M125 236C112 226 110 204 125 192C140 204 138 226 125 236Z" fill="#6fb85e"></path>
+                    <path d="M118 230C116 216 119 204 125 196" stroke="#3c8038" stroke-width="1.8" fill="none" stroke-linecap="round" opacity=".6"></path>
+                  </g>
+                </svg>
+
+                <div style="position:absolute; left:33px; top:116px; width:184px; height:307px; transform-origin:50% 39%; animation:petalosAbren 1.2s cubic-bezier(.2,1.45,.35,1) 2.45s both">
+                  <div style="position:absolute; left:50%; top:39%; margin-left:-80px; margin-top:-80px; width:160px; height:160px; border-radius:50%; background:radial-gradient(circle,rgba(255,238,180,.4) 0%,rgba(255,226,140,.14) 46%,rgba(255,226,140,0) 72%); animation:aureola 3.4s ease-in-out infinite"></div>
+                  <dc-import name="Flor" tipo="{{ nuevaTipo }}" soloCabeza="{{ true }}" p="{{ nuevaP }}" pd="{{ nuevaPd }}" pl="{{ nuevaPl }}" c="{{ nuevaC }}" cd="{{ nuevaCd }}" tallo="#4e9a4a" hoja="#59ad53" hojaD="#3c8038" dur="{{ 4 }}" hint-size="100%,100%" style="display:block; width:100%; height:100%"></dc-import>
+                </div>
+
+                <div style="position:absolute; left:50%; top:110px; width:0; height:0">
+                  <div style="position:absolute; width:8px; height:8px; margin:-4px; border-radius:50%; background:#fff6cc; box-shadow:0 0 10px 3px rgba(255,235,160,.8); --a:0deg; animation:chispa 1.4s ease-out 2.9s both"></div>
+                  <div style="position:absolute; width:6px; height:6px; margin:-3px; border-radius:50%; background:#ffe9a3; box-shadow:0 0 9px 3px rgba(255,235,160,.7); --a:45deg; animation:chispa 1.5s ease-out 3s both"></div>
+                  <div style="position:absolute; width:7px; height:7px; margin:-3px; border-radius:50%; background:#fff6cc; box-shadow:0 0 10px 3px rgba(255,235,160,.7); --a:90deg; animation:chispa 1.3s ease-out 2.95s both"></div>
+                  <div style="position:absolute; width:5px; height:5px; margin:-2px; border-radius:50%; background:#ffeab0; box-shadow:0 0 8px 3px rgba(255,235,160,.6); --a:135deg; animation:chispa 1.6s ease-out 3.05s both"></div>
+                  <div style="position:absolute; width:8px; height:8px; margin:-4px; border-radius:50%; background:#fff6cc; box-shadow:0 0 10px 3px rgba(255,235,160,.75); --a:180deg; animation:chispa 1.4s ease-out 2.92s both"></div>
+                  <div style="position:absolute; width:6px; height:6px; margin:-3px; border-radius:50%; background:#ffe9a3; box-shadow:0 0 9px 3px rgba(255,235,160,.65); --a:225deg; animation:chispa 1.5s ease-out 3.1s both"></div>
+                  <div style="position:absolute; width:7px; height:7px; margin:-3px; border-radius:50%; background:#fff6cc; box-shadow:0 0 10px 3px rgba(255,235,160,.7); --a:270deg; animation:chispa 1.35s ease-out 2.98s both"></div>
+                  <div style="position:absolute; width:5px; height:5px; margin:-2px; border-radius:50%; background:#ffeab0; box-shadow:0 0 8px 3px rgba(255,235,160,.6); --a:315deg; animation:chispa 1.55s ease-out 3.02s both"></div>
+                </div>
+              </div>
+            </div>
+
+            <div style="position:absolute; left:0; right:0; bottom:66px; display:flex; flex-direction:column; align-items:center; gap:6px; animation:fadeUp 1s ease 3.4s both">
+              <div style="font-family:'Berkshire Swash',serif; font-size:27px; color:#fff6e0; text-shadow:0 2px 10px rgba(0,0,0,.6)">{{ nuevaNombre }}</div>
+              <div style="font-family:Caveat,cursive; font-size:23px; color:#ffeec9; text-shadow:0 2px 8px rgba(0,0,0,.6)">acaba de florecer en tu jardín</div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ hayFicha }}">
+          <div style="position:absolute; inset:0; background:rgba(16,12,8,.5); backdrop-filter:blur(3px); display:flex; align-items:flex-end; animation:apareceSuave .35s ease both">
+            <div onClick="{{ cerrarFicha }}" style="position:absolute; inset:0; cursor:pointer"></div>
+            <div style="position:relative; width:100%; max-height:92%; overflow:auto; padding:26px 26px 34px; border-radius:32px 32px 0 0; background:#fdf4e0; background-image:linear-gradient(180deg,#fdf6e8,#f7ead0); box-shadow:0 -14px 40px rgba(0,0,0,.45); animation:sheetUp .5s cubic-bezier(.2,1.2,.4,1) both">
+              <div style="width:46px; height:5px; border-radius:99px; background:rgba(122,84,44,.28); margin:0 auto 14px"></div>
+              <div style="display:flex; align-items:center; gap:16px">
+                <div style="position:relative; flex:0 0 auto; width:86px; height:132px">
+                  <div style="position:absolute; inset:-10px; border-radius:50%; background:radial-gradient(circle,rgba(255,226,150,.5),rgba(255,226,150,0) 70%)"></div>
+                  <dc-import name="Flor" tipo="{{ selTipo }}" p="{{ selP }}" pd="{{ selPd }}" pl="{{ selPl }}" c="{{ selC }}" cd="{{ selCd }}" tallo="#4e9a4a" hoja="#59ad53" hojaD="#3c8038" dur="{{ 5 }}" hint-size="100%,100%" style="display:block; width:100%; height:100%"></dc-import>
+                </div>
+                <div style="flex:1 1 auto; min-width:0">
+                  <div style="font-family:'Berkshire Swash',serif; font-size:28px; line-height:1.15; color:#6b4220">{{ selNombre }}</div>
+                  <div style="display:inline-flex; align-items:center; gap:7px; margin-top:8px; padding:5px 12px; border-radius:999px; background:rgba(122,84,44,.1); border:1px solid rgba(122,84,44,.18); font-family:Nunito,sans-serif; font-size:12px; font-weight:700; letter-spacing:.06em; color:#8a5a2c">{{ selTipoTxt }}</div>
+                </div>
+              </div>
+
+              <div style="margin:22px 0 6px; display:flex; align-items:center; gap:10px">
+                <div style="flex:1 1 auto; height:1px; background:repeating-linear-gradient(90deg,rgba(122,84,44,.3) 0 6px,transparent 6px 12px)"></div>
+                <svg width="14" height="14" viewBox="0 0 16 16"><path d="M8 14C4 11 1 8.6 1 5.8C1 3.7 2.6 2.2 4.6 2.2C5.9 2.2 7.2 2.9 8 4C8.8 2.9 10.1 2.2 11.4 2.2C13.4 2.2 15 3.7 15 5.8C15 8.6 12 11 8 14Z" fill="#d98a8a"></path></svg>
+                <div style="flex:1 1 auto; height:1px; background:repeating-linear-gradient(90deg,rgba(122,84,44,.3) 0 6px,transparent 6px 12px)"></div>
+              </div>
+
+              <div style="font-family:Caveat,cursive; font-size:25px; line-height:1.85; color:#5c4327; padding:10px 2px 4px; text-wrap:pretty">{{ selDedic }}</div>
+
+              <div style="margin-top:20px; display:flex; align-items:flex-end; justify-content:space-between; gap:14px">
+                <div style="font-family:Nunito,sans-serif; font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#8a5a2c">{{ selFecha }}</div>
+                <div style="font-family:Caveat,cursive; font-size:27px; color:#8a5a2c">{{ selDe }}</div>
+              </div>
+
+              <button onClick="{{ cerrarFicha }}" style="margin-top:22px; width:100%; padding:14px; border:none; border-radius:24px; cursor:pointer; font-family:Nunito,sans-serif; font-weight:800; font-size:16px; color:#6b4220; background:linear-gradient(180deg,#ffe6b8,#f2cf95); box-shadow:0 4px 0 rgba(160,110,54,.5)">Volver al jardín</button>
+            </div>
+          </div>
+        </sc-if>
+
+      </div>
+    </div>
+
+    <div style="flex:1 1 320px; min-width:280px; display:flex; flex-direction:column; gap:22px">
+      <div>
+        <div style="font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:#8fae8f; margin-bottom:8px">Pruébalo</div>
+        <div style="font-family:Caveat,cursive; font-size:24px; color:#f0e7d3; line-height:1.35">Escribe un código en las piedritas y toca «Entrar a tu jardín». Luego toca cualquier flor para leer su carta.</div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <div style="font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:#8fae8f">Llave del jardín · 4 dígitos</div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px">
+          <div style="padding:8px 12px; border-radius:12px; background:rgba(255,246,222,.07); border:1px solid rgba(255,246,222,.16); font-size:13px"><b style="color:#ffd98a">1406</b> · abre la portada</div>
+        </div>
+        <div style="font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:#8fae8f; margin-top:6px">Códigos de las tarjetitas · 6 dígitos</div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px">
+          <div style="padding:8px 12px; border-radius:12px; background:rgba(255,246,222,.07); border:1px solid rgba(255,246,222,.16); font-size:13px"><b style="color:#ffd98a">071126</b> · girasol</div>
+          <div style="padding:8px 12px; border-radius:12px; background:rgba(255,246,222,.07); border:1px solid rgba(255,246,222,.16); font-size:13px"><b style="color:#ffd98a">140226</b> · rosa</div>
+          <div style="padding:8px 12px; border-radius:12px; background:rgba(255,246,222,.07); border:1px solid rgba(255,246,222,.16); font-size:13px"><b style="color:#ffd98a">230526</b> · tulipán</div>
+          <div style="padding:8px 12px; border-radius:12px; background:rgba(255,246,222,.07); border:1px solid rgba(255,246,222,.16); font-size:13px"><b style="color:#ffd98a">090926</b> · margarita</div>
+          <div style="padding:8px 12px; border-radius:12px; background:rgba(255,246,222,.07); border:1px solid rgba(255,246,222,.16); font-size:13px"><b style="color:#ffd98a">121226</b> · clavel</div>
+          <div style="padding:8px 12px; border-radius:12px; background:rgba(255,246,222,.07); border:1px solid rgba(255,246,222,.16); font-size:13px"><b style="color:#ffd98a">030326</b> · girasol naranja</div>
+          <div style="padding:8px 12px; border-radius:12px; background:rgba(180,120,120,.12); border:1px solid rgba(255,200,200,.2); font-size:13px">444444 · inválido</div>
+        </div>
+        <div style="font-family:Nunito,sans-serif; font-size:12px; color:#9fb79f; line-height:1.6">Los dos últimos dígitos son el año: todas las flores de hoy son <b>26</b>. Cuando llegue 2027 el jardín crea el año nuevo solo, y siempre se ve un año a la vez.</div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <div style="font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:#8fae8f">Ambiente</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap">
+          <button onClick="{{ setAuto }}" style="{{ btnAuto }}">Auto (hora real)</button>
+          <button onClick="{{ setDia }}" style="{{ btnDia }}">Día</button>
+          <button onClick="{{ setTarde }}" style="{{ btnTarde }}">Atardecer</button>
+          <button onClick="{{ setNoche }}" style="{{ btnNoche }}">Noche</button>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <div style="font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:#8fae8f">Saltar a pantalla</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap">
+          <button onClick="{{ irPortada }}" style="padding:10px 14px; border-radius:14px; cursor:pointer; font-family:Nunito,sans-serif; font-weight:700; font-size:13px; color:#12201a; background:#dfe8d4; border:none">1 · Portada</button>
+          <button onClick="{{ irVacio }}" style="padding:10px 14px; border-radius:14px; cursor:pointer; font-family:Nunito,sans-serif; font-weight:700; font-size:13px; color:#12201a; background:#dfe8d4; border:none">2 · Jardín vacío</button>
+          <button onClick="{{ irLleno }}" style="padding:10px 14px; border-radius:14px; cursor:pointer; font-family:Nunito,sans-serif; font-weight:700; font-size:13px; color:#12201a; background:#dfe8d4; border:none">3 · Jardín con flores</button>
+          <button onClick="{{ irBloom }}" style="padding:10px 14px; border-radius:14px; cursor:pointer; font-family:Nunito,sans-serif; font-weight:700; font-size:13px; color:#12201a; background:#dfe8d4; border:none">4 · Florecimiento</button>
+          <button onClick="{{ irFicha }}" style="padding:10px 14px; border-radius:14px; cursor:pointer; font-family:Nunito,sans-serif; font-weight:700; font-size:13px; color:#12201a; background:#dfe8d4; border:none">5 · Ficha de la flor</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width:1240px; margin:76px auto 0">
+    <div style="font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:#8fae8f">Los tres ambientes · pantalla 3</div>
+    <div style="font-family:'Berkshire Swash',serif; font-size:32px; color:#fff3d4; margin:8px 0 22px">El jardín cambia con la hora real</div>
+    <div style="display:flex; flex-wrap:wrap; gap:26px">
+      <div style="flex:0 0 auto">
+        <div style="position:relative; width:300px; height:600px; border-radius:34px; overflow:hidden; box-shadow:0 20px 40px rgba(0,0,0,.45); border:6px solid #2b241d">
+          <dc-import name="Jardin" ambiente="dia" flores="{{ floresDemo }}" hint-size="100%,100%" style="display:block; width:100%; height:100%"></dc-import>
+        </div>
+        <div style="margin-top:10px; font-family:Caveat,cursive; font-size:22px; color:#e9e0cc">Día · 00:00–15:00 · mariposas y nubes</div>
+      </div>
+      <div style="flex:0 0 auto">
+        <div style="position:relative; width:300px; height:600px; border-radius:34px; overflow:hidden; box-shadow:0 20px 40px rgba(0,0,0,.45); border:6px solid #2b241d">
+          <dc-import name="Jardin" ambiente="atardecer" flores="{{ floresDemo }}" hint-size="100%,100%" style="display:block; width:100%; height:100%"></dc-import>
+        </div>
+        <div style="margin-top:10px; font-family:Caveat,cursive; font-size:22px; color:#e9e0cc">Atardecer · 15:00–18:00 · luz larga y dorada</div>
+      </div>
+      <div style="flex:0 0 auto">
+        <div style="position:relative; width:300px; height:600px; border-radius:34px; overflow:hidden; box-shadow:0 20px 40px rgba(0,0,0,.45); border:6px solid #2b241d">
+          <dc-import name="Jardin" ambiente="noche" flores="{{ floresDemoNoche }}" hint-size="100%,100%" style="display:block; width:100%; height:100%"></dc-import>
+        </div>
+        <div style="margin-top:10px; font-family:Caveat,cursive; font-size:22px; color:#e9e0cc">Noche · 18:00–00:00 · luciérnagas y flores con brillo propio</div>
+      </div>
+      <div style="flex:1 1 240px; min-width:220px; font-family:Caveat,cursive; font-size:23px; line-height:1.5; color:#cfe0c6">La portada también respeta el ambiente: el mismo jardín se ve detrás, desenfocado, con el color de la hora. Cambia el ambiente arriba y vuelve a la portada para verlo.</div>
+    </div>
+  </div>
+
+  <div style="max-width:1240px; margin:76px auto 0">
+    <div style="font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:#8fae8f">Pantalla 4 · secuencia de florecimiento</div>
+    <div style="font-family:'Berkshire Swash',serif; font-size:32px; color:#fff3d4; margin:8px 0 22px">Tierra → brote → tallo → capullo → flor</div>
+    <div style="display:flex; flex-wrap:wrap; gap:16px">
+      <div style="flex:0 0 auto; width:184px">
+        <div style="height:250px; border-radius:22px; overflow:hidden; background:linear-gradient(180deg,#8fd8f7,#c9edf6 60%,#7fc46a 60%,#4f9c49); position:relative; box-shadow:0 12px 26px rgba(0,0,0,.35)">
+          <svg viewBox="0 0 184 250" style="position:absolute; inset:0"><ellipse cx="92" cy="218" rx="54" ry="14" fill="#5f3d27"></ellipse><ellipse cx="92" cy="214" rx="44" ry="10" fill="#85583a"></ellipse><circle cx="70" cy="213" r="2" fill="#5a3823"></circle><circle cx="108" cy="216" r="1.8" fill="#5a3823"></circle></svg>
+        </div>
+        <div style="margin-top:8px; font-family:Nunito,sans-serif; font-size:12px; font-weight:700; color:#9fc09f">1 · La tierra se abre</div>
+      </div>
+      <div style="flex:0 0 auto; width:184px">
+        <div style="height:250px; border-radius:22px; overflow:hidden; background:linear-gradient(180deg,#8fd8f7,#c9edf6 60%,#7fc46a 60%,#4f9c49); position:relative; box-shadow:0 12px 26px rgba(0,0,0,.35)">
+          <svg viewBox="0 0 184 250" style="position:absolute; inset:0"><ellipse cx="92" cy="218" rx="54" ry="14" fill="#5f3d27"></ellipse><ellipse cx="92" cy="214" rx="44" ry="10" fill="#85583a"></ellipse><path d="M92 212C90 200 92 192 96 186C98 194 96 206 92 212Z" fill="#6fc05e"></path><path d="M92 212C92 204 88 198 82 196C82 204 87 210 92 212Z" fill="#8ad36f"></path><path d="M86 176L87.4 180.6L92 182L87.4 183.4L86 188L84.6 183.4L80 182L84.6 180.6Z" fill="#fff3c0"></path></svg>
+        </div>
+        <div style="margin-top:8px; font-family:Nunito,sans-serif; font-size:12px; font-weight:700; color:#9fc09f">2 · Brote</div>
+      </div>
+      <div style="flex:0 0 auto; width:184px">
+        <div style="height:250px; border-radius:22px; overflow:hidden; background:linear-gradient(180deg,#8fd8f7,#c9edf6 60%,#7fc46a 60%,#4f9c49); position:relative; box-shadow:0 12px 26px rgba(0,0,0,.35)">
+          <svg viewBox="0 0 184 250" style="position:absolute; inset:0"><ellipse cx="92" cy="218" rx="54" ry="14" fill="#5f3d27"></ellipse><ellipse cx="92" cy="214" rx="44" ry="10" fill="#85583a"></ellipse><path d="M92 214C88 188 96 164 92 140" fill="none" stroke="#4e9a4a" stroke-width="7" stroke-linecap="round"></path><path d="M91 176C76 166 60 170 54 182C68 194 84 190 91 176Z" fill="#59ad53"></path><path d="M93 154C108 144 124 148 130 160C116 172 100 168 93 154Z" fill="#59ad53"></path></svg>
+        </div>
+        <div style="margin-top:8px; font-family:Nunito,sans-serif; font-size:12px; font-weight:700; color:#9fc09f">3 · El tallo crece</div>
+      </div>
+      <div style="flex:0 0 auto; width:184px">
+        <div style="height:250px; border-radius:22px; overflow:hidden; background:linear-gradient(180deg,#8fd8f7,#c9edf6 60%,#7fc46a 60%,#4f9c49); position:relative; box-shadow:0 12px 26px rgba(0,0,0,.35)">
+          <svg viewBox="0 0 184 250" style="position:absolute; inset:0"><ellipse cx="92" cy="218" rx="54" ry="14" fill="#5f3d27"></ellipse><ellipse cx="92" cy="214" rx="44" ry="10" fill="#85583a"></ellipse><path d="M92 214C88 188 96 160 92 120" fill="none" stroke="#4e9a4a" stroke-width="7" stroke-linecap="round"></path><path d="M91 176C76 166 60 170 54 182C68 194 84 190 91 176Z" fill="#59ad53"></path><path d="M93 154C108 144 124 148 130 160C116 172 100 168 93 154Z" fill="#59ad53"></path><path d="M92 124C78 112 76 88 92 76C108 88 106 112 92 124Z" fill="#6fb85e"></path><path d="M92 122C86 110 86 90 92 80C92 96 92 110 92 122Z" fill="#8ad36f" opacity=".8"></path><path d="M99 92C104 86 106 80 105 74" stroke="#ffc93c" stroke-width="4" stroke-linecap="round" fill="none"></path></svg>
+        </div>
+        <div style="margin-top:8px; font-family:Nunito,sans-serif; font-size:12px; font-weight:700; color:#9fc09f">4 · Capullo a punto</div>
+      </div>
+      <div style="flex:0 0 auto; width:184px">
+        <div style="height:250px; border-radius:22px; overflow:hidden; background:linear-gradient(180deg,#8fd8f7,#c9edf6 60%,#7fc46a 60%,#4f9c49); position:relative; box-shadow:0 12px 26px rgba(0,0,0,.35)">
+          <svg viewBox="0 0 184 250" style="position:absolute; inset:0"><ellipse cx="92" cy="218" rx="54" ry="14" fill="#5f3d27"></ellipse><ellipse cx="92" cy="214" rx="44" ry="10" fill="#85583a"></ellipse></svg>
+          <div style="position:absolute; left:50%; top:30px; margin-left:-46px; width:92px; height:92px; border-radius:50%; background:radial-gradient(circle,rgba(255,238,180,.42),rgba(255,226,140,0) 72%); animation:aureola 3.4s ease-in-out infinite"></div>
+          <div style="position:absolute; left:50%; margin-left:-64px; bottom:32px; width:128px; height:214px">
+            <dc-import name="Flor" tipo="girasol" p="#ffc93c" pd="#eda428" pl="#ffe6a3" c="#7a4a1f" cd="#543012" tallo="#4e9a4a" hoja="#59ad53" hojaD="#3c8038" dur="{{ 4.2 }}" hint-size="100%,100%" style="display:block; width:100%; height:100%"></dc-import>
+          </div>
+          <svg viewBox="0 0 184 250" style="position:absolute; inset:0"><path d="M52 60L53.6 66.4L60 68L53.6 69.6L52 76L50.4 69.6L44 68L50.4 66.4Z" fill="#fff6d2" opacity=".9"></path><path d="M136 92L137.2 96.8L142 98L137.2 99.2L136 104L134.8 99.2L130 98L134.8 96.8Z" fill="#ffe9a3" opacity=".85"></path><path d="M124 46L125 50L129 51L125 52L124 56L123 52L119 51L123 50Z" fill="#fff6d2" opacity=".8"></path></svg>
+        </div>
+        <div style="margin-top:8px; font-family:Nunito,sans-serif; font-size:12px; font-weight:700; color:#9fc09f">5 · Florece con destello</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width:1240px; margin:76px auto 0">
+    <div style="font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:#8fae8f">Las flores</div>
+    <div style="font-family:'Berkshire Swash',serif; font-size:32px; color:#fff3d4; margin:8px 0 6px">Dibujo e ilustración, aparte del color</div>
+    <div style="font-family:Caveat,cursive; font-size:23px; color:#cfe0c6; margin-bottom:22px; max-width:640px">Cada flor es un mismo dibujo con variables de color: pétalo, pétalo oscuro, pétalo claro, centro, tallo y hoja.</div>
+    <div style="display:flex; flex-wrap:wrap; gap:26px; align-items:flex-end">
+      <div style="width:210px; height:330px; border-radius:26px; background:linear-gradient(180deg,#22332a,#16241d); padding:14px; box-shadow:inset 0 1px 0 rgba(255,255,255,.08)">
+        <dc-import name="Flor" tipo="girasol" p="#ffc93c" pd="#eda428" pl="#ffe6a3" c="#7a4a1f" cd="#543012" tallo="#4e9a4a" hoja="#59ad53" hojaD="#3c8038" dur="{{ 4.6 }}" hint-size="100%,100%" style="display:block; width:100%; height:100%"></dc-import>
+      </div>
+      <div style="width:150px; height:230px; border-radius:22px; background:linear-gradient(180deg,#22332a,#16241d); padding:10px">
+        <dc-import name="Flor" tipo="rosa" p="#e2455c" pd="#b32a45" pl="#f78a9b" c="#ffd9df" cd="#a52440" tallo="#4e9a4a" hoja="#59ad53" hojaD="#3c8038" dur="{{ 5 }}" hint-size="100%,100%" style="display:block; width:100%; height:100%"></dc-import>
+      </div>
+      <div style="width:150px; height:230px; border-radius:22px; background:linear-gradient(180deg,#22332a,#16241d); padding:10px">
+        <dc-import name="Flor" tipo="tulipan" p="#f27aa8" pd="#cf4c86" pl="#ffb7d2" c="#ffffff" cd="#cf4c86" tallo="#4e9a4a" hoja="#59ad53" hojaD="#3c8038" dur="{{ 4.2 }}" hint-size="100%,100%" style="display:block; width:100%; height:100%"></dc-import>
+      </div>
+      <div style="width:150px; height:230px; border-radius:22px; background:linear-gradient(180deg,#22332a,#16241d); padding:10px">
+        <dc-import name="Flor" tipo="margarita" p="#fffaf0" pd="#e9dcc4" pl="#ffffff" c="#ffd24a" cd="#e8a72c" tallo="#4e9a4a" hoja="#59ad53" hojaD="#3c8038" dur="{{ 5.4 }}" hint-size="100%,100%" style="display:block; width:100%; height:100%"></dc-import>
+      </div>
+      <div style="width:150px; height:230px; border-radius:22px; background:linear-gradient(180deg,#22332a,#16241d); padding:10px">
+        <dc-import name="Flor" tipo="clavel" p="#e1546a" pd="#b23450" pl="#ff96a8" c="#ffffff" cd="#b23450" tallo="#4e9a4a" hoja="#59ad53" hojaD="#3c8038" dur="{{ 4.8 }}" hint-size="100%,100%" style="display:block; width:100%; height:100%"></dc-import>
+      </div>
+    </div>
+    <div style="margin-top:26px; font-family:Caveat,cursive; font-size:23px; color:#cfe0c6">La misma rosa, cuatro colores — sólo cambian las variables:</div>
+    <div style="display:flex; flex-wrap:wrap; gap:14px; margin-top:12px">
+      <div style="width:120px; height:180px; border-radius:18px; background:#1a2a22; padding:8px"><dc-import name="Flor" tipo="rosa" p="#e2455c" pd="#b32a45" pl="#f78a9b" c="#ffd9df" cd="#a52440" tallo="#4e9a4a" hoja="#59ad53" hojaD="#3c8038" dur="{{ 4.4 }}" hint-size="100%,100%" style="display:block; width:100%; height:100%"></dc-import></div>
+      <div style="width:120px; height:180px; border-radius:18px; background:#1a2a22; padding:8px"><dc-import name="Flor" tipo="rosa" p="#fff6ec" pd="#e4d6c4" pl="#ffffff" c="#fff" cd="#d9c7b0" tallo="#4e9a4a" hoja="#59ad53" hojaD="#3c8038" dur="{{ 4.9 }}" hint-size="100%,100%" style="display:block; width:100%; height:100%"></dc-import></div>
+      <div style="width:120px; height:180px; border-radius:18px; background:#1a2a22; padding:8px"><dc-import name="Flor" tipo="rosa" p="#f490b4" pd="#d1618e" pl="#ffc5da" c="#fff" cd="#d1618e" tallo="#4e9a4a" hoja="#59ad53" hojaD="#3c8038" dur="{{ 5.2 }}" hint-size="100%,100%" style="display:block; width:100%; height:100%"></dc-import></div>
+      <div style="width:120px; height:180px; border-radius:18px; background:#1a2a22; padding:8px"><dc-import name="Flor" tipo="rosa" p="#ffce4f" pd="#e2a527" pl="#ffe8a8" c="#fff4cf" cd="#d99a20" tallo="#4e9a4a" hoja="#59ad53" hojaD="#3c8038" dur="{{ 4.6 }}" hint-size="100%,100%" style="display:block; width:100%; height:100%"></dc-import></div>
+    </div>
+  </div>
+
+  <div style="max-width:1240px; margin:76px auto 0; display:flex; flex-wrap:wrap; gap:40px">
+    <div style="flex:1 1 380px; min-width:300px">
+      <div style="font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:#8fae8f">Mensajes</div>
+      <div style="font-family:'Berkshire Swash',serif; font-size:32px; color:#fff3d4; margin:8px 0 20px">Nunca un error, siempre un cariño</div>
+      <div style="display:flex; flex-direction:column; gap:14px; align-items:flex-start">
+        <div style="padding:13px 20px; border-radius:22px 22px 24px 20px; background:linear-gradient(180deg,#fff6e6,#ffe9cf); box-shadow:0 8px 22px rgba(0,0,0,.35); font-family:Caveat,cursive; font-size:23px; color:#7a4520">Esta flor ya está en tu jardín 🌷</div>
+        <div style="padding:13px 20px; border-radius:22px 22px 20px 24px; background:linear-gradient(180deg,#fff1ec,#ffdfd2); box-shadow:0 8px 22px rgba(0,0,0,.35); font-family:Caveat,cursive; font-size:23px; color:#8a4a34">Esa semilla no germinó… ¿revisas el código?</div>
+        <div style="padding:13px 20px; border-radius:22px 22px 24px 20px; background:linear-gradient(180deg,#f3ffe6,#dcf5c8); box-shadow:0 8px 22px rgba(0,0,0,.35); font-family:Caveat,cursive; font-size:23px; color:#3f6b2c">Tu jardín tiene una flor nueva 🌻</div>
+      </div>
+      <div style="margin-top:14px; font-family:Nunito,sans-serif; font-size:13px; color:#9fb79f; line-height:1.6; max-width:420px">Al fallar, las cuatro piedritas se sacuden suavemente (0.5 s) y el mensaje aparece flotando sobre el botón. Nunca hay bordes rojos ni códigos de error.</div>
+    </div>
+
+    <div style="flex:1 1 380px; min-width:300px">
+      <div style="font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:#8fae8f">Tipografías</div>
+      <div style="font-family:'Berkshire Swash',serif; font-size:32px; color:#fff3d4; margin:8px 0 20px">Tres voces</div>
+      <div style="display:flex; flex-direction:column; gap:16px">
+        <div style="padding:16px 18px; border-radius:18px; background:rgba(255,246,222,.06); border:1px solid rgba(255,246,222,.14)">
+          <div style="font-family:'Berkshire Swash',serif; font-size:30px; color:#fff3d4">Berkshire Swash</div>
+          <div style="font-family:Nunito,sans-serif; font-size:12px; color:#9fb79f; margin-top:4px">Título, nombres de las flores. Serif con florituras, aire de cuento.</div>
+        </div>
+        <div style="padding:16px 18px; border-radius:18px; background:rgba(255,246,222,.06); border:1px solid rgba(255,246,222,.14)">
+          <div style="font-family:Caveat,cursive; font-size:30px; color:#fff3d4">Caveat — la dedicatoria</div>
+          <div style="font-family:Nunito,sans-serif; font-size:12px; color:#9fb79f; margin-top:4px">Todo lo emocional: dedicatorias, mensajes, invitaciones. Manuscrita cálida.</div>
+        </div>
+        <div style="padding:16px 18px; border-radius:18px; background:rgba(255,246,222,.06); border:1px solid rgba(255,246,222,.14)">
+          <div style="font-family:Nunito,sans-serif; font-weight:800; font-size:26px; color:#fff3d4">Nunito</div>
+          <div style="font-family:Nunito,sans-serif; font-size:12px; color:#9fb79f; margin-top:4px">Lo funcional: dígitos, botones, fechas y etiquetas. Redonda y legible, nunca corporativa.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width:1240px; margin:76px auto 0">
+    <div style="font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:#8fae8f">Paleta</div>
+    <div style="font-family:'Berkshire Swash',serif; font-size:32px; color:#fff3d4; margin:8px 0 22px">Un color por hora del día</div>
+    <div style="display:flex; flex-wrap:wrap; gap:26px">
+
+      <div style="flex:1 1 300px; min-width:280px">
+        <div style="font-family:Nunito,sans-serif; font-weight:800; font-size:14px; letter-spacing:.1em; color:#cfe0c6; margin-bottom:10px">DÍA</div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px">
+          <div style="width:88px"><div style="height:52px; border-radius:12px; background:#5fc0f0"></div><div style="font-size:11px; color:#9fb79f; margin-top:5px">#5FC0F0</div></div>
+          <div style="width:88px"><div style="height:52px; border-radius:12px; background:#c4ecfb"></div><div style="font-size:11px; color:#9fb79f; margin-top:5px">#C4ECFB</div></div>
+          <div style="width:88px"><div style="height:52px; border-radius:12px; background:#ffe9a0"></div><div style="font-size:11px; color:#9fb79f; margin-top:5px">#FFE9A0</div></div>
+          <div style="width:88px"><div style="height:52px; border-radius:12px; background:#7fc46a"></div><div style="font-size:11px; color:#9fb79f; margin-top:5px">#7FC46A</div></div>
+          <div style="width:88px"><div style="height:52px; border-radius:12px; background:#4f9c49"></div><div style="font-size:11px; color:#9fb79f; margin-top:5px">#4F9C49</div></div>
+          <div style="width:88px"><div style="height:52px; border-radius:12px; background:#3a7c35"></div><div style="font-size:11px; color:#9fb79f; margin-top:5px">#3A7C35</div></div>
+        </div>
+      </div>
+
+      <div style="flex:1 1 300px; min-width:280px">
+        <div style="font-family:Nunito,sans-serif; font-weight:800; font-size:14px; letter-spacing:.1em; color:#ffc9a0; margin-bottom:10px">ATARDECER</div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px">
+          <div style="width:88px"><div style="height:52px; border-radius:12px; background:#4b2f6e"></div><div style="font-size:11px; color:#9fb79f; margin-top:5px">#4B2F6E</div></div>
+          <div style="width:88px"><div style="height:52px; border-radius:12px; background:#e0697a"></div><div style="font-size:11px; color:#9fb79f; margin-top:5px">#E0697A</div></div>
+          <div style="width:88px"><div style="height:52px; border-radius:12px; background:#ff9c63"></div><div style="font-size:11px; color:#9fb79f; margin-top:5px">#FF9C63</div></div>
+          <div style="width:88px"><div style="height:52px; border-radius:12px; background:#ffc98c"></div><div style="font-size:11px; color:#9fb79f; margin-top:5px">#FFC98C</div></div>
+          <div style="width:88px"><div style="height:52px; border-radius:12px; background:#6c7a4e"></div><div style="font-size:11px; color:#9fb79f; margin-top:5px">#6C7A4E</div></div>
+          <div style="width:88px"><div style="height:52px; border-radius:12px; background:#3d4f2e"></div><div style="font-size:11px; color:#9fb79f; margin-top:5px">#3D4F2E</div></div>
+        </div>
+      </div>
+
+      <div style="flex:1 1 300px; min-width:280px">
+        <div style="font-family:Nunito,sans-serif; font-weight:800; font-size:14px; letter-spacing:.1em; color:#b9b6ff; margin-bottom:10px">NOCHE</div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px">
+          <div style="width:88px"><div style="height:52px; border-radius:12px; background:#0a1130"></div><div style="font-size:11px; color:#9fb79f; margin-top:5px">#0A1130</div></div>
+          <div style="width:88px"><div style="height:52px; border-radius:12px; background:#1b1a4a"></div><div style="font-size:11px; color:#9fb79f; margin-top:5px">#1B1A4A</div></div>
+          <div style="width:88px"><div style="height:52px; border-radius:12px; background:#38265f"></div><div style="font-size:11px; color:#9fb79f; margin-top:5px">#38265F</div></div>
+          <div style="width:88px"><div style="height:52px; border-radius:12px; background:#5b3b6e"></div><div style="font-size:11px; color:#9fb79f; margin-top:5px">#5B3B6E</div></div>
+          <div style="width:88px"><div style="height:52px; border-radius:12px; background:#1a4440"></div><div style="font-size:11px; color:#9fb79f; margin-top:5px">#1A4440</div></div>
+          <div style="width:88px"><div style="height:52px; border-radius:12px; background:#ffe9a3"></div><div style="font-size:11px; color:#9fb79f; margin-top:5px">#FFE9A3</div></div>
+        </div>
+      </div>
+
+      <div style="flex:1 1 300px; min-width:280px">
+        <div style="font-family:Nunito,sans-serif; font-weight:800; font-size:14px; letter-spacing:.1em; color:#f0d9b5; margin-bottom:10px">MADERA, PIEDRA Y PAPEL (los tres ambientes)</div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px">
+          <div style="width:88px"><div style="height:52px; border-radius:12px; background:#e6c490"></div><div style="font-size:11px; color:#9fb79f; margin-top:5px">#E6C490</div></div>
+          <div style="width:88px"><div style="height:52px; border-radius:12px; background:#c79a61"></div><div style="font-size:11px; color:#9fb79f; margin-top:5px">#C79A61</div></div>
+          <div style="width:88px"><div style="height:52px; border-radius:12px; background:#7d5227"></div><div style="font-size:11px; color:#9fb79f; margin-top:5px">#7D5227</div></div>
+          <div style="width:88px"><div style="height:52px; border-radius:12px; background:#fdf4e0"></div><div style="font-size:11px; color:#9fb79f; margin-top:5px">#FDF4E0</div></div>
+          <div style="width:88px"><div style="height:52px; border-radius:12px; background:#5fa244"></div><div style="font-size:11px; color:#9fb79f; margin-top:5px">#5FA244</div></div>
+          <div style="width:88px"><div style="height:52px; border-radius:12px; background:#6b4220"></div><div style="font-size:11px; color:#9fb79f; margin-top:5px">#6B4220</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;nombreElla&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Gabichi&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;firmante&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Jean&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;llave&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;1406&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;ambienteForzado&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;dia&quot;,&quot;atardecer&quot;,&quot;noche&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const VERDE = { tallo: '#4e9a4a', hoja: '#59ad53', hojaD: '#3c8038' };
+const COL = {
+  amarillo: { p:'#ffc93c', pd:'#eda428', pl:'#ffe6a3', c:'#7a4a1f', cd:'#543012' },
+  naranja:  { p:'#ff9a3c', pd:'#e0742a', pl:'#ffd39a', c:'#6b3a18', cd:'#4a2610' },
+  rojo:     { p:'#e2455c', pd:'#b32a45', pl:'#f78a9b', c:'#ffd9df', cd:'#a52440' },
+  rosado:   { p:'#f27aa8', pd:'#cf4c86', pl:'#ffb7d2', c:'#ffffff', cd:'#cf4c86' },
+  blanco:   { p:'#fffaf0', pd:'#e9dcc4', pl:'#ffffff', c:'#ffd24a', cd:'#e8a72c' },
+  carmin:   { p:'#e1546a', pd:'#b23450', pl:'#ff96a8', c:'#ffffff', cd:'#b23450' }
+};
+const CAT = {
+  '071126': { tipo:'girasol', color:'amarillo', nombre:'Nuestra primera flor', tipoTxt:'Girasol amarillo', anio:2026, fecha:'7 de noviembre de 2026',
+    dedic:'Gabichi: este girasol es el primero, y como los girasoles, yo también giro hacia donde estás tú. Guárdalo aquí, que de este lado nunca se va a marchitar.' },
+  '140226': { tipo:'rosa', color:'rojo', nombre:'Nuestra fecha especial', tipoTxt:'Rosa roja', anio:2026, fecha:'14 de febrero de 2026',
+    dedic:'Una rosa por cada vez que me hiciste reír sin proponértelo. Me faltaron rosas, así que te dejo esta y la promesa de seguir contando.' },
+  '230526': { tipo:'tulipan', color:'rosado', nombre:'Por tus mañanas', tipoTxt:'Tulipán rosado', anio:2026, fecha:'23 de mayo de 2026',
+    dedic:'Te vi despertar con el pelo hecho un jardín y pensé que así se ve la felicidad. Este tulipán es para esas mañanas tranquilas contigo.' },
+  '090926': { tipo:'margarita', color:'blanco', nombre:'Nuestro día tranquilo', tipoTxt:'Margarita blanca', anio:2026, fecha:'9 de septiembre de 2026',
+    dedic:'Sin planes, sin apuro, sólo nosotros y una tarde larga. Esa margarita ya no tiene que deshojarse: yo te quiero, siempre, y no depende del pétalo.' },
+  '121226': { tipo:'clavel', color:'carmin', nombre:'Diciembre contigo', tipoTxt:'Clavel rojo', anio:2026, fecha:'12 de diciembre de 2026',
+    dedic:'Cerramos el año y sigo eligiéndote. Este clavel es el brindis: por lo que vivimos y por todo el jardín que nos falta plantar.' },
+  '030326': { tipo:'girasol', color:'naranja', nombre:'Porque me haces reír', tipoTxt:'Girasol naranja', anio:2026, fecha:'3 de marzo de 2026',
+    dedic:'Te reíste tan fuerte que se te salieron las lágrimas y yo me quedé mirándote como un tonto. Este girasol naranja es esa risa, guardada.' }
+};
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.r = [React.createRef(), React.createRef(), React.createRef(), React.createRef()];
+    this.q = [React.createRef(), React.createRef(), React.createRef(), React.createRef(), React.createRef(), React.createRef()];
+    this.state = { pantalla:'portada', dig:['','','',''], cod:['','','','','',''], flores:[], sel:null, msg:'', shake:0, amb:'auto', nueva:null, panel:false };
+  }
+  componentDidMount() { this.tick = setInterval(() => this.forceUpdate(), 60000); }
+  componentWillUnmount() { clearInterval(this.tick); clearTimeout(this.tMsg); clearTimeout(this.tBloom); }
+
+  ambienteAuto() {
+    const h = new Date().getHours();
+    if (h >= 18) return 'noche';
+    if (h >= 15) return 'atardecer';
+    return 'dia';
+  }
+  ambiente() {
+    const f = this.props.ambienteForzado;
+    if (f && f !== 'auto') return f;
+    return this.state.amb === 'auto' ? this.ambienteAuto() : this.state.amb;
+  }
+  decir(msg) {
+    clearTimeout(this.tMsg);
+    this.setState({ msg });
+    this.tMsg = setTimeout(() => this.setState({ msg: '' }), 4200);
+  }
+  setDig(i, v) {
+    const val = (v || '').replace(/[^0-9]/g, '').slice(-1);
+    const dig = this.state.dig.slice();
+    dig[i] = val;
+    this.setState({ dig });
+    if (val && i < 3 && this.r[i + 1].current) this.r[i + 1].current.focus();
+  }
+  onKey(i, e) {
+    if (e.key === 'Backspace' && !this.state.dig[i] && i > 0 && this.r[i - 1].current) this.r[i - 1].current.focus();
+    if (e.key === 'Enter') this.entrar();
+  }
+  setCod(i, v) {
+    const val = (v || '').replace(/[^0-9]/g, '').slice(-1);
+    const cod = this.state.cod.slice();
+    cod[i] = val;
+    this.setState({ cod });
+    if (val && i < 5 && this.q[i + 1].current) this.q[i + 1].current.focus();
+  }
+  onKeyCod(i, e) {
+    if (e.key === 'Backspace' && !this.state.cod[i] && i > 0 && this.q[i - 1].current) this.q[i - 1].current.focus();
+    if (e.key === 'Enter') this.sembrar();
+  }
+  entrar() {
+    if (this.state.dig.join('').length < 4) return;
+    if (this.state.dig.join('') !== (this.props.llave ?? '1406')) {
+      this.setState({ shake: this.state.shake + 1, dig:['','','',''] });
+      this.decir('Esa llave todavía no abre… ¿revisas tu tarjetita?');
+      if (this.r[0].current) this.r[0].current.focus();
+      return;
+    }
+    this.setState({ pantalla:'jardin', msg:'', dig:['','','',''] });
+  }
+  florDe(code, idx) {
+    const f = CAT[code];
+    const c = COL[f.color];
+    return Object.assign({ code:code, tipo:f.tipo, nombre:f.nombre, tipoTxt:f.tipoTxt, anio:f.anio, fecha:f.fecha, dedic:f.dedic,
+      dur: 3.8 + (idx % 4) * 0.5, delay: (idx % 5) * 0.35 }, c, VERDE);
+  }
+  sembrar() {
+    const code = this.state.cod.join('');
+    if (code.length < 6) return;
+    if (!CAT[code]) { this.setState({ shake: this.state.shake + 1 }); this.decir('Esa semilla no germinó… ¿revisas el código?'); return; }
+    if (this.state.flores.some(f => f.code === code)) { this.setState({ shake: this.state.shake + 1, cod:['','','','','',''] }); this.decir('Esta flor ya está en tu jardín\u00a0🌷'); return; }
+    const nueva = this.florDe(code, this.state.flores.length);
+    this.setState({ pantalla:'bloom', nueva, cod:['','','','','',''], msg:'', sel:null, panel:false });
+    clearTimeout(this.tBloom);
+    this.tBloom = setTimeout(() => {
+      this.setState(s => ({ pantalla:'jardin', flores: s.flores.concat([nueva]) }));
+      this.decir('Tu jardín tiene una flor\u00a0nueva\u00a0🌻');
+    }, 5200);
+  }
+  agrupar(flores, conTap) {
+    const amb = this.ambiente();
+    const fx = amb === 'noche' ? 'drop-shadow(0 0 8px rgba(255,236,170,.9))' : 'none';
+    return flores.map(f => Object.assign({}, f, {
+      fx: fx,
+      onTap: conTap ? (() => this.setState({ sel: f })) : (() => {})
+    }));
+  }
+  demo() { return ['071126','140226','230526','090926','121226','030326'].map((c, i) => this.florDe(c, i)); }
+
+  renderVals() {
+    const s = this.state;
+    const amb = this.ambiente();
+    const listo = s.dig.every(d => d !== '');
+    const sel = s.sel;
+    const nueva = s.nueva || this.florDe('071126', 0);
+    const demoF = this.demo();
+    const btn = (on) => ({ padding:'10px 14px', borderRadius:'14px', cursor:'pointer', fontFamily:'Nunito,sans-serif', fontWeight:700, fontSize:'13px', border:'1px solid ' + (on ? 'rgba(255,217,138,.9)' : 'rgba(255,246,222,.2)'), color: on ? '#2a1d0c' : '#e6dcc6', background: on ? 'linear-gradient(180deg,#ffdf9c,#f0c169)' : 'rgba(255,246,222,.07)' });
+    const demoNoche = demoF.map(f => Object.assign({}, f, { fx:'drop-shadow(0 0 8px rgba(255,236,170,.9))' }));
+    return {
+      nombreElla: this.props.nombreElla ?? 'Gabichi',
+      firmante: this.props.firmante ?? 'Jean',
+      ambiente: amb,
+      ambienteTxt: amb === 'dia' ? 'Día' : amb === 'atardecer' ? 'Atardecer' : 'Noche',
+      enPortada: s.pantalla === 'portada',
+      enJardin: s.pantalla === 'jardin',
+      enBloom: s.pantalla === 'bloom',
+      hayFicha: !!sel && s.pantalla === 'jardin',
+      hayFlores: s.flores.length > 0,
+      sinFlores: s.flores.length === 0,
+      panelAbierto: s.panel,
+      panelCerrado: !s.panel,
+      zocaloJardin: s.panel ? '244px' : '112px',
+      abrirPanel: () => { this.setState({ panel:true }); setTimeout(() => { if (this.q[0].current) this.q[0].current.focus(); }, 120); },
+      cerrarPanel: () => this.setState({ panel:false, cod:['','','','','',''] }),
+      flores: this.agrupar(s.flores, true),
+      ninguna: [],
+      floresFondo: this.agrupar(demoF.slice(0, 4), false),
+      floresDemo: demoF,
+      floresDemoNoche: demoNoche,
+      anioActual: 2026,
+      conteoTxt: s.flores.length === 0 ? 'todavía sin flores' : s.flores.length === 1 ? '1 flor guardada' : s.flores.length + ' flores guardadas',
+      d0: s.dig[0], d1: s.dig[1], d2: s.dig[2], d3: s.dig[3],
+      r0: this.r[0], r1: this.r[1], r2: this.r[2], r3: this.r[3],
+      onD0: e => this.setDig(0, e.target.value), onD1: e => this.setDig(1, e.target.value),
+      onD2: e => this.setDig(2, e.target.value), onD3: e => this.setDig(3, e.target.value),
+      onK0: e => this.onKey(0, e), onK1: e => this.onKey(1, e), onK2: e => this.onKey(2, e), onK3: e => this.onKey(3, e),
+      e0: s.cod[0], e1: s.cod[1], e2: s.cod[2], e3: s.cod[3], e4: s.cod[4], e5: s.cod[5],
+      q0: this.q[0], q1: this.q[1], q2: this.q[2], q3: this.q[3], q4: this.q[4], q5: this.q[5],
+      onE0: e => this.setCod(0, e.target.value), onE1: e => this.setCod(1, e.target.value), onE2: e => this.setCod(2, e.target.value),
+      onE3: e => this.setCod(3, e.target.value), onE4: e => this.setCod(4, e.target.value), onE5: e => this.setCod(5, e.target.value),
+      onEK0: e => this.onKeyCod(0, e), onEK1: e => this.onKeyCod(1, e), onEK2: e => this.onKeyCod(2, e),
+      onEK3: e => this.onKeyCod(3, e), onEK4: e => this.onKeyCod(4, e), onEK5: e => this.onKeyCod(5, e),
+      listo, noListo: !listo,
+      listoCod: s.cod.every(d => d !== ''), noListoCod: !s.cod.every(d => d !== ''),
+      entrar: () => this.entrar(),
+      sembrar: () => this.sembrar(),
+      shakeAnim: s.shake ? 'tiembla .5s ease ' + s.shake : 'none',
+      hayMsg: !!s.msg, msg: s.msg,
+      nuevaTipo: nueva.tipo, nuevaP: nueva.p, nuevaPd: nueva.pd, nuevaPl: nueva.pl, nuevaC: nueva.c, nuevaCd: nueva.cd, nuevaNombre: nueva.nombre,
+      selTipo: sel && sel.tipo, selP: sel && sel.p, selPd: sel && sel.pd, selPl: sel && sel.pl, selC: sel && sel.c, selCd: sel && sel.cd,
+      selNombre: sel && sel.nombre, selTipoTxt: sel && sel.tipoTxt, selDedic: sel && sel.dedic, selFecha: sel && sel.fecha,
+      selDe: sel ? 'De ' + (this.props.firmante ?? 'Jean') + ', con cariño' : '',
+      cerrarFicha: () => this.setState({ sel: null }),
+      setAuto: () => this.setState({ amb:'auto' }), setDia: () => this.setState({ amb:'dia' }),
+      setTarde: () => this.setState({ amb:'atardecer' }), setNoche: () => this.setState({ amb:'noche' }),
+      btnAuto: btn(s.amb === 'auto'), btnDia: btn(s.amb === 'dia'), btnTarde: btn(s.amb === 'atardecer'), btnNoche: btn(s.amb === 'noche'),
+      irPortada: () => this.setState({ pantalla:'portada', sel:null, msg:'', dig:['','','',''] }),
+      irVacio: () => this.setState({ pantalla:'jardin', flores:[], sel:null, msg:'', cod:['','','','','',''], panel:false }),
+      irLleno: () => this.setState({ pantalla:'jardin', flores:this.demo(), sel:null, msg:'', panel:false }),
+      irBloom: () => { this.setState({ pantalla:'bloom', nueva:this.florDe('071126',0), panel:false }); clearTimeout(this.tBloom); this.tBloom = setTimeout(() => this.setState(s2 => ({ pantalla:'jardin', flores: s2.flores.length ? s2.flores : [this.florDe('071126',0)] })), 5200); },
+      irFicha: () => { const fs = this.state.flores.length ? this.state.flores : this.demo(); this.setState({ pantalla:'jardin', flores:fs, sel:fs[0] }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

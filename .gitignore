@@ -1,0 +1,21 @@
+# Dependencias
+node_modules/
+
+# Compilados
+dist/
+build/
+
+# Variables de entorno con credenciales reales
+.env
+.env.local
+.env.*.local
+
+# Exportaciones pesadas del diseño: los archivos sueltos sí se versionan,
+# el ZIP original no aporta nada y pesa casi 1 MB.
+diseño/*.zip
+
+# macOS
+.DS_Store
+
+# Clave real del panel: solo local, nunca al repositorio
+base-de-datos/02-clave-admin.sql
