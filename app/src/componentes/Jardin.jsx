@@ -14,6 +14,8 @@ import Flor from './Flor'
  *   zocalo      espacio que hay que dejar libre abajo para el panel del código
  *   resaltada   id de la flor a la que hay que ir (código ya canjeado)
  *   onTocarFlor qué hacer al tocar una flor
+ *   textoVacio  qué decir cuando no hay flores. En null no dice nada: sirve
+ *               para cuando el jardín es solo el fondo de otra escena.
  */
 export default function Jardin({
   ambiente = 'dia',
@@ -21,9 +23,10 @@ export default function Jardin({
   zocalo = '0px',
   resaltada = null,
   onTocarFlor = () => {},
+  textoVacio = null,
 }) {
   const fila = useRef(null)
-  const vacio = flores.length === 0
+  const vacio = flores.length === 0 && textoVacio
 
   // Cuando ella escribe un código que ya canjeó, el jardín va hasta esa flor
   // en lugar de darle un error. Es la regla "esta flor ya está en tu jardín".
@@ -46,7 +49,7 @@ export default function Jardin({
         gap: 4, padding: '0 12px 14px',
       }}>
 
-        {vacio && <TierraVacia />}
+        {vacio && <TierraVacia texto={textoVacio} />}
 
         <div ref={fila} className="sin-barra" style={{
           display: 'flex', alignItems: 'flex-end', gap: 6,
@@ -85,7 +88,7 @@ export default function Jardin({
 /* ------------------------------------------------------------------
    El estado vacío. No es un error ni una carencia: es tierra preparada.
 ------------------------------------------------------------------ */
-function TierraVacia() {
+function TierraVacia({ texto }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, paddingBottom: 16 }}>
       <svg width="190" height="64" viewBox="0 0 190 64" style={{ overflow: 'visible' }}>
@@ -108,9 +111,8 @@ function TierraVacia() {
       <div style={{
         fontFamily: 'Caveat,cursive', fontSize: 25, lineHeight: 1.25, color: '#fff8e8',
         textAlign: 'center', textShadow: '0 2px 8px rgba(30,40,25,.55)', maxWidth: 280,
-      }}>
-        La tierra está lista y esperando.<br />Siembra aquí tu primera flor 🌱
-      </div>
+        whiteSpace: 'pre-line',
+      }}>{texto}</div>
     </div>
   )
 }

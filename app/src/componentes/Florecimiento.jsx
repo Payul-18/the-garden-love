@@ -28,7 +28,8 @@ export default function Florecimiento({ flor, ambiente }) {
 
       {/* El jardín de fondo, sin flores: toda la atención va al brote. */}
       <div style={{ position: 'absolute', inset: 0 }}>
-        <Jardin ambiente={ambiente} flores={[]} zocalo="0px" />
+        {/* Solo decorado: sin texto de jardín vacío, que chocaría con el nombre. */}
+        <Jardin ambiente={ambiente} flores={[]} zocalo="0px" textoVacio={null} />
       </div>
       <div style={{
         position: 'absolute', inset: 0,
@@ -101,17 +102,22 @@ export default function Florecimiento({ flor, ambiente }) {
         </div>
       </div>
 
+      {/* El nombre va arriba: la flor crece desde abajo y ocupa el centro,
+          así los dos textos nunca se cruzan. */}
       <div style={{
-        position: 'absolute', left: 0, right: 0, bottom: 66,
-        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
-        animation: 'fadeUp 1s ease 3.4s both', padding: '0 24px', textAlign: 'center',
+        position: 'absolute', left: 0, right: 0, top: 74,
+        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
+        animation: 'fadeUp 1s ease 3.4s both', padding: '0 26px', textAlign: 'center',
+        zIndex: 5, pointerEvents: 'none',
       }}>
-        <div style={{ fontFamily: "'Berkshire Swash',serif", fontSize: 27, color: '#fff6e0', textShadow: '0 2px 10px rgba(0,0,0,.6)' }}>
-          {flor.nombre}
-        </div>
-        <div style={{ fontFamily: 'Caveat,cursive', fontSize: 23, color: '#ffeec9', textShadow: '0 2px 8px rgba(0,0,0,.6)' }}>
-          acaba de florecer en tu jardín
-        </div>
+        <div style={{
+          fontFamily: 'Caveat,cursive', fontSize: 22, color: '#ffeec9',
+          textShadow: '0 2px 8px rgba(0,0,0,.75)', opacity: .95,
+        }}>acaba de florecer en tu jardín</div>
+        <div style={{
+          fontFamily: "'Berkshire Swash',serif", fontSize: 30, lineHeight: 1.2, color: '#fff6e0',
+          textShadow: '0 2px 10px rgba(0,0,0,.8), 0 0 26px rgba(255,214,130,.35)',
+        }}>{flor.nombre}</div>
       </div>
     </div>
   )

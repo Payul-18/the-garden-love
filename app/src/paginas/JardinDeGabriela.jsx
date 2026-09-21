@@ -138,6 +138,12 @@ export default function JardinDeGabriela() {
       .map((f) => ({ ...f, fx: brillo }))
   }, [flores, anioVisible, ambiente])
 
+  // El jardín vacío no dice siempre lo mismo. "Tu primera flor" solo es
+  // verdad una vez; después, un año recién empezado necesita otra frase.
+  const textoVacio = flores.length === 0
+    ? 'La tierra está lista y esperando.\nSiembra aquí tu primera flor 🌱'
+    : `Todavía no hay nada plantado en ${anioVisible}.\nEste año también va a florecer 🌱`
+
   const conteo = flores.length === 0
     ? 'todavía sin flores'
     : flores.length === 1 ? '1 flor guardada' : `${flores.length} flores guardadas`
@@ -166,6 +172,7 @@ export default function JardinDeGabriela() {
             zocalo={panel ? '244px' : '112px'}
             resaltada={resaltada}
             onTocarFlor={setSel}
+            textoVacio={textoVacio}
           />
 
           <Encabezado
